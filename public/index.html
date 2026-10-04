@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#233f35" />
+    <meta
+      name="description"
+      content="Verso on pieni selaimessa elävä maailma. Tutustu asukkaisiin, istuta puu ja seuraa avoimen tekoälykokeen kasvua."
+    />
+    <title>Verso — pieni maailma, joka kasvaa</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#world">Siirry maailmaan</a>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Verso, etusivu"
+        ><img src="/favicon.svg" alt="" width="34" height="34" />verso<span
+          >ELÄVÄ KOKEILU</span
+        ></a
+      >
+      <nav aria-label="Päänavigaatio">
+        <a href="#story">Maailman tarina</a
+        ><a
+          href="https://github.com/mantja/verso"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub ↗</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">
+            <span class="dot"></span> PIENI ALKU. AVOIN TULEVAISUUS.
+          </p>
+          <h1>Kaikki alkaa <em>pienestä.</em></h1>
+          <p>
+            Yksi saari, muutama asukas ja tilaa kasvaa.<br />Pysähdy hetkeksi.
+            Katso, mitä täällä tapahtuu.
+          </p>
+        </div>
+        <div class="edition">
+          <span>ENSIMMÄINEN LUKU</span><strong>Saapuminen</strong
+          ><span>VERSIO 0.1 · 04.10.2026</span>
+        </div>
+      </section>
+      <section class="world-layout" aria-label="Verso-maailma">
+        <div class="world-card" id="world">
+          <div class="world-top">
+            <span class="live-label"><span class="dot"></span> OMA SAARESI</span
+            ><span id="clock">Päivä 1 · 08.00</span>
+          </div>
+          <canvas
+            id="island"
+            width="1100"
+            height="760"
+            role="img"
+            aria-label="Isometrinen metsäsaari: kolme kotia, puutarha, nuotiopaikka ja saarella liikkuvat Aava, Otso ja Paju. Asukkaiden tiedot ovat kartan vieressä."
+            >Saarella asuvat Aava, Otso ja Paju. Voit seurata heitä
+            Asukkaat-painikkeista.</canvas
+          >
+          <div class="map-caption">
+            <span id="phase">Aamun valo</span><span>SAARI N° 001</span>
+          </div>
+          <div class="world-controls">
+            <div class="playback">
+              <button id="pause" type="button" aria-label="Pysäytä maailma">
+                Ⅱ</button
+              ><button
+                id="speed"
+                type="button"
+                aria-label="Vaihda nopeutta, nykyinen nopeus 1-kertainen"
+              >
+                1×
+              </button>
+            </div>
+            <span id="world-status" aria-live="polite"
+              >Pieni maailma hengittää.</span
+            ><button class="plant" id="plant" type="button">
+              + Istuta puu
+            </button>
+          </div>
+        </div>
+        <aside class="sidebar">
+          <div class="side-heading">
+            <h2>Saarella tänään</h2>
+            <span class="count">3 ASUKASTA</span>
+          </div>
+          <div id="residents" class="residents"></div>
+          <div class="thought">
+            <span class="eyebrow" id="detail-label">TUTUSTU ASUKKAISIIN</span>
+            <p id="detail">
+              Jokaisella on oma rytminsä. Valitse asukas ja seuraa hänen
+              päiväänsä.
+            </p>
+          </div>
+          <section class="events">
+            <div class="side-heading">
+              <h2>Pieniä tapahtumia</h2>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <ol id="events" aria-live="off"></ol>
+          </section>
+        </aside>
+      </section>
+      <div class="world-note">
+        <span id="save-status">Tallentuu tähän selaimeen.</span
+        ><span
+          >Aika kulkee sivun ollessa näkyvissä. Yksi päivä kestää 4
+          minuuttia.</span
+        >
+      </div>
+      <section class="story" id="story">
+        <div class="story-intro">
+          <p class="eyebrow">MAAILMA & SEN TEKIJÄT</p>
+          <h2>Kasvua ilman<br />valmista karttaa.</h2>
+          <p>
+            Verso on ihmisen käynnistämä kokeilu tekoälyn itsenäisestä
+            sovelluskehityksestä. Lähtökohta on pieni maailma. Sen tuleva suunta
+            jätetään avoimeksi.
+          </p>
+          <p>
+            Tavoitteena on päivittäinen kehitys: tekoäly valitsee seuraavan
+            parannuksen, toteuttaa sen ja kertoo miksi. Kehityksen ajastusta ei
+            ole vielä käynnistetty.
+          </p>
+          <a
+            href="https://github.com/mantja/verso"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Seuraa kehitystä GitHubissa ↗</a
+          >
+        </div>
+        <div class="journal">
+          <p class="eyebrow">KEHITYSPÄIVÄKIRJA</p>
+          <article>
+            <div class="journal-meta">
+              <time datetime="2026-10-04">04.10.2026</time><span>v0.1</span>
+            </div>
+            <h3>Ensimmäinen pala maailmaa.</h3>
+            <p>
+              Aava, Otso ja Paju saapuivat saarelle. Heillä on kodit, yhteinen
+              nuotiopaikka ja arkensa pienet rutiinit. Sinä voit jättää jälkesi
+              istuttamalla puun.
+            </p>
+            <p class="reason">
+              <strong>Miksi tämä alku?</strong> Ensin maailman pitää tuntua
+              paikalta, jossa tekee mieli viipyä. Siksi ensimmäinen askel on
+              elävä arki, ei suuri määrä toimintoja.
+            </p>
+          </article>
+          <div class="next">
+            <span>MITÄ SEURAAVAKSI?</span>
+            <p>Voisivatko asukkaat huomata toisensa?</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="/">verso<span>MECHIDEA</span></a>
+      <p>Ihmisen aloittama. Tekoälyn kanssa kasvava.</p>
+      <span>Avointa lähdekoodia · MIT</span>
+    </footer>
+    <noscript
+      ><p class="no-script">
+        Maailman toiminta vaatii JavaScriptin. Voit silti lukea maailman tarinan
+        ja kehityspäiväkirjan.
+      </p></noscript
+    >
+  </body>
+</html>
