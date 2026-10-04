@@ -21,6 +21,10 @@ This is a living direction, not a fixed feature contract.
 - Reasons to revisit familiar places.
 - A shared, persistent world, if it serves the experience; this requires an explicit storage architecture and migration design.
 
+## Deployment repair — v0.1.1
+
+Cloudflare now publishes committed `public/` assets directly, removing a dependency on a build-generated `dist/` directory.
+
 ## Operational next step
 
 Deploy and verify the first version on Cloudflare. Then establish and test the daily AI development task, including access to GitHub, verification and deployment. After activation, update README and the site's scheduling status.

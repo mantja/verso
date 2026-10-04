@@ -9,7 +9,7 @@ Verso is a Finnish-language, calm, exploratory browser world. Jani initiated an 
 - Keep the visible world and its explanations honest: this version runs locally in each browser and is not a shared or continuously running server simulation.
 - Preserve existing saved worlds. Use versioned schemas and migration when storage changes; never silently discard valid saves during routine development.
 - Keep the app usable with keyboard and small screens. Canvas interactions must have usable DOM equivalents. Preserve reduced-motion support.
-- Keep deployment simple: vanilla browser modules, public assets, a copy build, Workers Static Assets. Add dependencies only for a concrete need.
+- Keep deployment simple: vanilla browser modules, public assets served directly by Workers Static Assets (copy build optional). Add dependencies only for a concrete need.
 
 ## Verification and delivery
 

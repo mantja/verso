@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.1.1 · 2026-10-04 · Deployment repair
+
+The first Cloudflare deployment failed because `dist/` did not exist at deploy time. Publish the already committed `public/` assets directly instead: this vanilla application does not require compilation. Existing Cloudflare build commands can remain, but `npm test` is sufficient.
+
+Validation: deployment dry-run with `dist/` absent, existing simulation tests and optional build.
+
 ## 0.1.0 · 2026-10-04 · Saapuminen
 
 **Choice:** start with a world that feels like a place worth visiting. Prefer a small, observable daily rhythm over many disconnected features.

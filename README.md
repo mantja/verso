@@ -31,11 +31,11 @@ npm run build
 npm run check:deploy
 ```
 
-`public/` contains the complete application. The build copies it to `dist/`. The runtime has no framework dependencies; Wrangler is a pinned deployment-only dependency.
+`public/` contains the complete application. Wrangler publishes it directly. The optional build copies it to `dist/` for other static hosts. The runtime has no framework dependencies; Wrangler is a pinned deployment-only dependency.
 
 ## Deploy to Cloudflare Workers
 
-Use **Workers**, with Workers Static Assets, and connect this GitHub repository. No separate Worker JavaScript entrypoint or database is needed for this version. `wrangler.jsonc` configures static assets from `dist/`.
+Use **Workers**, with Workers Static Assets, and connect this GitHub repository. No separate Worker JavaScript entrypoint or database is needed for this version. `wrangler.jsonc` configures static assets directly from the committed `public/` directory.
 
 | Setting | Value |
 | --- | --- |
@@ -43,12 +43,12 @@ Use **Workers**, with Workers Static Assets, and connect this GitHub repository.
 | Production branch | `main` |
 | Worker name | `verso` |
 | Root directory | repository root |
-| Build command | `npm test && npm run build` |
+| Build command | `npm test` (recommended; no asset build is required) |
 | Deploy command | `npx wrangler deploy` |
 
 Cloudflare installs dependencies from `package-lock.json`. After the initial deployment, check the generated workers.dev URL. In the Worker's **Settings → Domains & Routes**, add the custom domain `verso.mechidea.fi`. This assumes `mechidea.fi` is managed in the same Cloudflare account. The repository does not automatically change DNS or register a domain.
 
-CLI alternative after authenticating with Cloudflare: `npm run build && npm run deploy`.
+CLI alternative after authenticating with Cloudflare: `npm run deploy`.
 
 Documentation: [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/), [Git builds](https://developers.cloudflare.com/workers/ci-cd/builds/), [Custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
 
