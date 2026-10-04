@@ -54,7 +54,9 @@ Documentation: [Workers Static Assets](https://developers.cloudflare.com/workers
 
 ## The development experiment
 
-The intended cadence is one independently chosen improvement per day. **The scheduled development task has not yet been activated.** Configure and verify the development/publishing loop after the first deployment; publishing a website does not itself schedule AI development.
+The ChatGPT task **Verson yöllinen kehitys** is enabled, starting 2026-10-05 around 03:00 Europe/Helsinki daily. Each run chooses, implements and checks one coherent improvement, then publishes tested changes to main through the existing Cloudflare Git integration. Target: the new version visible by 06:00 Finnish time, with an honest report if development or publishing fails. Completion by the target time is not guaranteed.
+
+Jani confirmed on 2026-10-04 that **each visitor keeps a personal island**; a shared world is outside the chosen direction. The initial deployment works according to the user; the first unattended scheduled run remains to be verified.
 
 Each development session should read `AGENTS.md`, `ROADMAP.md` and `CHANGELOG.md`, inspect the current source, choose one coherent improvement, verify it and document the reason for the choice. Repairs and refinement count as progress. The website's development diary should describe actual changes, not promises.
 

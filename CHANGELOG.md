@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.1.2 · 2026-10-04 · Nightly development enabled
+
+Created the ChatGPT nightly development task, beginning 2026-10-05 around 03:00 Europe/Helsinki. The goal is a tested improvement published before 06:00. Recorded standing authorization to publish tested changes to main, the requirement to verify deployment, and Jani's decision to keep the islands personal. Updated the visible schedule status. The first unattended run is still pending.
+
+Validation: automation creation confirmed enabled, GitHub read access verified, repository tests/build/deployment dry-run. Public-domain verification from the setup environment returned HTTP 403; initial site operation is user-confirmed.
+
 ## 0.1.1 · 2026-10-04 · Deployment repair
 
 The first Cloudflare deployment failed because `dist/` did not exist at deploy time. Publish the already committed `public/` assets directly instead: this vanilla application does not require compilation. Existing Cloudflare build commands can remain, but `npm test` is sufficient.

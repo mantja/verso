@@ -19,7 +19,7 @@ This is a living direction, not a fixed feature contract.
 - Individual memories and gentle differences in behavior.
 - Weather with visible consequences for the garden.
 - Reasons to revisit familiar places.
-- A shared, persistent world, if it serves the experience; this requires an explicit storage architecture and migration design.
+- Richer personal worlds while preserving each visitor's local save. Shared world state was declined by Jani on 2026-10-04.
 
 ## Deployment repair — v0.1.1
 
@@ -27,4 +27,4 @@ Cloudflare now publishes committed `public/` assets directly, removing a depende
 
 ## Operational next step
 
-Deploy and verify the first version on Cloudflare. Then establish and test the daily AI development task, including access to GitHub, verification and deployment. After activation, update README and the site's scheduling status.
+The user confirmed the initial Cloudflare deployment works. The daily ChatGPT development task is now enabled, starting 2026-10-05 around 03:00 Europe/Helsinki with a 06:00 publication target. Review the first unattended run and verify the complete commit-to-deployment path. The canonical domain could not be checked from the setup environment (HTTP 403); do not treat this alone as a site outage.
