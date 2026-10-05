@@ -7,6 +7,7 @@ import {
   forest,
   clock,
   DAY,
+  activeEncounter,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -420,6 +421,16 @@ export function createRenderer(canvas) {
         );
       }
     }
+    // Draw quiet speech marks above the scenery so the meeting stays visible.
+    // The same information is available in the resident buttons and event log.
+    world.people.forEach((p, id) => {
+      if (!activeEncounter(world, id)) return;
+      const [x, ground] = project(p.x, p.y);
+      const y = ground - height(p.x, p.y) - 57;
+      oval(ctx, x, y, 15, 10, "#fff6d9");
+      polygon(ctx, [[x - 4, y + 7], [x - 5, y + 15], [x + 4, y + 7]], "#fff6d9");
+      for (const offset of [-6, 0, 6]) oval(ctx, x + offset, y, 1.5, 1.5, "#47634a");
+    });
     // Subtle day/night light keeps the island readable at every hour.
     const h = clock(world.elapsed).hour;
     const darkness =

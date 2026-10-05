@@ -1,6 +1,13 @@
 export const SIZE = 25;
 export const DAY = 240;
 export const STORAGE_KEY = "verso.world.v1";
+export const ENCOUNTER_DURATION = 10;
+const EVENING_PAIRS = [[0, 1], [1, 2], [0, 2]];
+const CONVERSATIONS = [
+  "Aava ja Otso vaihtoivat kuulumisia puutarhasta ja meren rannalta.",
+  "Otso ja Paju vertailivat päivän löytöjä rannalta ja metsäpolulta.",
+  "Aava ja Paju pohtivat, mitä kaikkea pienestä siemenestä voi kasvaa.",
+];
 export const PEOPLE = [
   {
     name: "Aava",
@@ -141,8 +148,9 @@ export function routine(id, elapsed) {
 }
 export function newWorld() {
   return {
-    version: 1,
+    version: 2,
     elapsed: 0,
+    lastEncounter: null,
     planted: [],
     people: PEOPLE.map((p) => ({
       x: p.home[0],
@@ -157,6 +165,27 @@ export function newWorld() {
 export function addEvent(world, text) {
   world.events.unshift({ at: world.elapsed, text });
   world.events.length = Math.min(world.events.length, 12);
+}
+export function encounterText(encounter) {
+  return CONVERSATIONS[encounter.pair];
+}
+export function activeEncounter(world, id) {
+  const meeting = world.lastEncounter;
+  if (!meeting || phase(world.elapsed) !== "evening" ||
+      world.elapsed - meeting.at >= ENCOUNTER_DURATION) return null;
+  return EVENING_PAIRS[meeting.pair].includes(id) ? meeting : null;
+}
+function meetAtFire(world) {
+  if (phase(world.elapsed) !== "evening") return;
+  const day = clock(world.elapsed).day;
+  if (world.lastEncounter && clock(world.lastEncounter.at).day === day) return;
+  // Wait for everyone: which pair meets rotates predictably each world day.
+  if (!world.people.every((p, id) => {
+    const target = routine(id, world.elapsed).target;
+    return !p.route.length && Math.hypot(p.x - target[0], p.y - target[1]) < 0.01;
+  })) return;
+  world.lastEncounter = { at: world.elapsed, pair: (day - 1) % EVENING_PAIRS.length };
+  addEvent(world, encounterText(world.lastEncounter));
 }
 export function step(world, dt) {
   if (!Number.isFinite(dt) || dt <= 0) return;
@@ -200,6 +229,14 @@ export function step(world, dt) {
     }
     if (!p.route.length) p.action = plan.action;
   });
+  meetAtFire(world);
+  world.people.forEach((p, id) => {
+    const meeting = activeEncounter(world, id);
+    if (meeting) {
+      const other = EVENING_PAIRS[meeting.pair].find((member) => member !== id);
+      p.action = `Juttelee: ${PEOPLE[other].name}`;
+    }
+  });
 }
 export function plantTree(world) {
   if (world.planted.length >= 24)
@@ -228,8 +265,9 @@ export function plantTree(world) {
 }
 export function serialize(world) {
   return JSON.stringify({
-    version: 1,
+    version: 2,
     elapsed: world.elapsed,
+    lastEncounter: world.lastEncounter,
     planted: world.planted,
     events: world.events,
     people: world.people.map(({ x, y }) => ({ x, y })),
@@ -241,13 +279,21 @@ export function restore(raw) {
   try {
     const w = JSON.parse(raw);
     if (
-      w.version !== 1 ||
+      ![1, 2].includes(w.version) ||
       !Number.isFinite(w.elapsed) ||
       w.elapsed < 0 ||
       w.elapsed > 1e10
     )
       return fresh;
     fresh.elapsed = w.elapsed;
+    // v1 islands keep their time, trees, residents and events under the same key.
+    const meeting = w.lastEncounter;
+    if (w.version === 2 && meeting && Number.isFinite(meeting.at) &&
+        meeting.at >= 0 && meeting.at <= w.elapsed &&
+        phase(meeting.at) === "evening" && Number.isInteger(meeting.pair) &&
+        meeting.pair === (clock(meeting.at).day - 1) % EVENING_PAIRS.length) {
+      fresh.lastEncounter = { at: meeting.at, pair: meeting.pair };
+    }
     if (Array.isArray(w.planted)) {
       const seen = new Set();
       fresh.planted = w.planted

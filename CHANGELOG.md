@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.2.0 · 2026-10-05 · Nuotiolla on seuraa
+
+**Choice:** let the inhabitants notice each other before expanding the island. A quiet evening exchange gives their existing daily routines a shared moment without introducing demands on the visitor.
+
+- Once all three residents reach the evening fire, two exchange news for ten simulation seconds. The pair rotates each world day, with a specific topic for each pair.
+- Speech marks on the map, resident button labels, selected-resident details and one event make the meeting observable. Reduced-motion mode retains static speech marks; resident buttons provide keyboard access to the same content.
+- Saved schema v2 preserves v1 islands under the existing localStorage key. The latest encounter is saved, so reloading resumes its remaining duration instead of repeating the evening's conversation. Islands remain personal; time still stops when the page is hidden or closed.
+- Updated the visible diary and future direction. No new dependencies, paid services or hosting changes.
+
+Validation: `npm ci`, all nine simulation tests, `npm run check:deploy` (direct `public/` assets) and `npm run build` passed. Tests cover rotating pairs, duration and stationary participants, reloading without duplicate encounters, v1 migration, malformed encounter data and frame-sized simulation steps. Chromium checks passed for natural evening encounters, resident details/event log, pause/speed, planting, migration and reload, keyboard/reduced-motion use, unavailable storage and absence of page errors. Desktop (1440 px) and mobile (390 px) screenshots were visually inspected; no horizontal overflow. Diff reviewed before publication. Actual production verification follows the main update and is reported in the delivery message.
+
+Limitations: conversations currently use three fixed topics and do not yet create individual memories or change later behavior.
+
 ## 0.1.2 · 2026-10-04 · Nightly development enabled
 
 Created the ChatGPT nightly development task, beginning 2026-10-05 around 03:00 Europe/Helsinki. The goal is a tested improvement published before 06:00. Recorded standing authorization to publish tested changes to main, the requirement to verify deployment, and Jani's decision to keep the islands personal. Updated the visible schedule status. The first unattended run is still pending.

@@ -8,6 +8,8 @@ import {
   plantTree,
   serialize,
   restore,
+  activeEncounter,
+  encounterText,
 } from "./world.js";
 import { createRenderer, portrait, project } from "./render.js";
 const $ = (id) => document.getElementById(id);
@@ -77,7 +79,9 @@ function updateUI() {
   $("detail").textContent =
     selected === null
       ? "Jokaisella on oma rytminsä. Valitse asukas ja seuraa hänen päiväänsä."
-      : PEOPLE[selected].thought;
+      : activeEncounter(world, selected)
+        ? encounterText(world.lastEncounter)
+        : PEOPLE[selected].thought;
   const key = JSON.stringify(world.events.slice(0, 4));
   if (key !== renderedEvents) {
     renderedEvents = key;

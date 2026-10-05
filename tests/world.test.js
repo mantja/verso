@@ -12,6 +12,8 @@ import {
   pathTo,
   clock,
   DAY,
+  STORAGE_KEY,
+  encounterText,
 } from "../public/world.js";
 
 test("every home and activity location is connected by land", () => {
@@ -75,4 +77,92 @@ test("corrupt or incompatible saved data recovers safely", () => {
   assert.equal(w.events.length, 0);
   assert.equal(w.people.length, 3);
   for (const p of w.people) assert.ok(terrain(p.x, p.y));
+});
+
+function firstMeeting(world, dt = 1) {
+  const previous = world.lastEncounter?.at;
+  for (let i = 0; i < DAY * 2 / dt; i++) {
+    step(world, dt);
+    if (world.lastEncounter && world.lastEncounter.at !== previous) return;
+  }
+  assert.fail('The evening passed without a meeting');
+}
+
+test('evening encounters are visible, stationary, bounded and rotate between all pairs', () => {
+  const w = newWorld();
+  for (const expectedPair of [0, 1, 2, 0]) {
+    firstMeeting(w);
+    assert.equal(w.lastEncounter.pair, expectedPair);
+    assert.equal(w.people.filter(p => p.action.startsWith('Juttelee:')).length, 2);
+    assert.ok(w.people.every(p => p.route.length === 0));
+    const positions = w.people.map(({x, y}) => [x, y]);
+    for (let i = 0; i < 9; i++) step(w, 1);
+    assert.deepEqual(w.people.map(({x, y}) => [x, y]), positions);
+    assert.equal(w.people.filter(p => p.action.startsWith('Juttelee:')).length, 2);
+    step(w, 1);
+    assert.ok(w.people.every(p => p.action === 'Viipyy nuotiolla'));
+    assert.equal(w.events.filter(e => e.text === encounterText(w.lastEncounter)).length, 1);
+  }
+});
+
+test('reloading an encounter preserves its remaining duration and does not replay it', () => {
+  const original = newWorld();
+  firstMeeting(original);
+  for (let i = 0; i < 4; i++) step(original, 1);
+  const loaded = restore(serialize(original));
+  assert.deepEqual(loaded.lastEncounter, original.lastEncounter);
+  assert.deepEqual(loaded.events, original.events);
+  const at = loaded.lastEncounter.at;
+  step(loaded, 1);
+  assert.equal(loaded.people.filter(p => p.action.startsWith('Juttelee:')).length, 2);
+  for (let i = 0; i < 5; i++) step(loaded, 1);
+  assert.ok(loaded.people.every(p => p.action === 'Viipyy nuotiolla'));
+  for (let i = 0; i < 70; i++) step(loaded, 1);
+  assert.equal(loaded.lastEncounter.at, at);
+  assert.equal(loaded.events.filter(e => e.at === at && e.text === encounterText(loaded.lastEncounter)).length, 1);
+});
+
+test('v1 saves migrate without losing the personal island or replacing the storage key', () => {
+  const w = newWorld();
+  plantTree(w);
+  for (let i = 0; i < 20; i++) step(w, 1);
+  const legacy = JSON.parse(serialize(w));
+  legacy.version = 1;
+  delete legacy.lastEncounter;
+  const loaded = restore(JSON.stringify(legacy));
+  assert.equal(loaded.version, 2);
+  assert.equal(loaded.elapsed, legacy.elapsed);
+  assert.deepEqual(loaded.planted, legacy.planted);
+  assert.deepEqual(loaded.events, legacy.events);
+  assert.deepEqual(loaded.people.map(({x, y}) => ({x, y})), legacy.people);
+  assert.equal(loaded.lastEncounter, null);
+  assert.equal(STORAGE_KEY, 'verso.world.v1');
+  firstMeeting(loaded);
+  assert.ok(loaded.lastEncounter);
+});
+
+test('invalid encounter data is ignored without discarding a valid saved island', () => {
+  const w = newWorld();
+  plantTree(w);
+  firstMeeting(w);
+  for (const lastEncounter of [null, {}, {at: -1, pair: 0}, {at: 0, pair: 0},
+    {at: w.elapsed + 1, pair: 0}, {at: w.elapsed, pair: 9}, {at: w.elapsed, pair: -1}]) {
+    const saved = {...JSON.parse(serialize(w)), lastEncounter};
+    const loaded = restore(JSON.stringify(saved));
+    assert.equal(loaded.lastEncounter, null);
+    assert.deepEqual(loaded.planted, w.planted);
+    assert.equal(loaded.elapsed, w.elapsed);
+  }
+});
+
+test('frame-sized time steps produce one meeting per evening and pause does not advance it', () => {
+  const w = newWorld();
+  firstMeeting(w, 1 / 60);
+  const saved = serialize(w);
+  step(w, 0);
+  assert.equal(serialize(w), saved);
+  const meeting = {...w.lastEncounter};
+  for (let i = 0; i < 35 * 60; i++) step(w, 1 / 60);
+  assert.deepEqual(w.lastEncounter, meeting);
+  assert.equal(w.events.filter(e => e.at === meeting.at && e.text === encounterText(meeting)).length, 1);
 });
