@@ -10,6 +10,7 @@ import {
   restore,
   activeEncounter,
   encounterText,
+  memoryText,
 } from "./world.js";
 import { createRenderer, portrait, project } from "./render.js";
 const $ = (id) => document.getElementById(id);
@@ -38,7 +39,7 @@ const cards = PEOPLE.map((p, id) => {
   b.type = "button";
   b.className = "resident";
   b.setAttribute("aria-pressed", "false");
-  b.innerHTML = `<span class="avatar">${portrait(p)}</span><span><strong>${p.name}</strong><small>${p.trait}</small></span><span class="arrow" aria-hidden="true">↗</span>`;
+  b.innerHTML = `<span class="avatar">${portrait(p)}</span><span><strong>${p.name}</strong><small>${p.trait}</small><span class="memory-mark">MUISTO</span></span><span class="arrow" aria-hidden="true">↗</span>`;
   b.addEventListener("click", () => select(id));
   $("residents").append(b);
   return b;
@@ -70,18 +71,25 @@ function updateUI() {
   }[phase(world.elapsed)];
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;
+    b.classList.toggle("has-memory", Boolean(world.memories[id]));
     b.setAttribute("aria-pressed", String(selected === id));
   });
+  const meeting = selected === null ? null : activeEncounter(world, selected),
+    memory = selected === null ? null : world.memories[selected];
   $("detail-label").textContent =
     selected === null
       ? "TUTUSTU ASUKKAISIIN"
-      : `${PEOPLE[selected].name} · ${PEOPLE[selected].trait}`;
+      : meeting
+        ? `${PEOPLE[selected].name} · KESKUSTELU`
+        : memory
+          ? `${PEOPLE[selected].name} · MUISTO PÄIVÄLTÄ ${clock(memory.at).day}`
+          : `${PEOPLE[selected].name} · ${PEOPLE[selected].trait}`;
   $("detail").textContent =
     selected === null
       ? "Jokaisella on oma rytminsä. Valitse asukas ja seuraa hänen päiväänsä."
-      : activeEncounter(world, selected)
+      : meeting
         ? encounterText(world.lastEncounter)
-        : PEOPLE[selected].thought;
+        : memoryText(selected, memory) || PEOPLE[selected].thought;
   const key = JSON.stringify(world.events.slice(0, 4));
   if (key !== renderedEvents) {
     renderedEvents = key;

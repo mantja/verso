@@ -14,6 +14,7 @@ import {
   DAY,
   STORAGE_KEY,
   encounterText,
+  memoryText,
 } from "../public/world.js";
 
 test("every home and activity location is connected by land", () => {
@@ -130,7 +131,7 @@ test('v1 saves migrate without losing the personal island or replacing the stora
   legacy.version = 1;
   delete legacy.lastEncounter;
   const loaded = restore(JSON.stringify(legacy));
-  assert.equal(loaded.version, 2);
+  assert.equal(loaded.version, 3);
   assert.equal(loaded.elapsed, legacy.elapsed);
   assert.deepEqual(loaded.planted, legacy.planted);
   assert.deepEqual(loaded.events, legacy.events);
@@ -139,6 +140,66 @@ test('v1 saves migrate without losing the personal island or replacing the stora
   assert.equal(STORAGE_KEY, 'verso.world.v1');
   firstMeeting(loaded);
   assert.ok(loaded.lastEncounter);
+});
+
+test("a conversation leaves a different persistent memory for both participants", () => {
+  const w = newWorld();
+  firstMeeting(w);
+  assert.deepEqual(w.memories, [
+    { at: w.lastEncounter.at, pair: 0 },
+    { at: w.lastEncounter.at, pair: 0 },
+    null,
+  ]);
+  assert.match(memoryText(0, w.memories[0]), /Otso/);
+  assert.match(memoryText(1, w.memories[1]), /Aavan/);
+  assert.notEqual(memoryText(0, w.memories[0]), memoryText(1, w.memories[1]));
+  assert.equal(memoryText(2, w.memories[0]), "");
+  const loaded = restore(serialize(w));
+  assert.deepEqual(loaded.memories, w.memories);
+  assert.equal(memoryText(0, loaded.memories[0]), memoryText(0, w.memories[0]));
+});
+
+test("later meetings refresh only the participants' latest memories", () => {
+  const w = newWorld();
+  firstMeeting(w);
+  const aava = { ...w.memories[0] };
+  firstMeeting(w);
+  assert.deepEqual(w.memories[0], aava);
+  assert.equal(w.memories[1].pair, 1);
+  assert.equal(w.memories[2].pair, 1);
+  assert.match(memoryText(1, w.memories[1]), /Pajun/);
+  assert.match(memoryText(2, w.memories[2]), /Otso/);
+});
+
+test("v2 saves gain memories from their latest valid conversation", () => {
+  const w = newWorld();
+  firstMeeting(w);
+  const legacy = JSON.parse(serialize(w));
+  legacy.version = 2;
+  delete legacy.memories;
+  const loaded = restore(JSON.stringify(legacy));
+  assert.equal(loaded.version, 3);
+  assert.deepEqual(loaded.memories, [
+    { ...loaded.lastEncounter },
+    { ...loaded.lastEncounter },
+    null,
+  ]);
+});
+
+test("invalid memories are ignored without losing other saved state", () => {
+  const w = newWorld();
+  plantTree(w);
+  firstMeeting(w);
+  const saved = JSON.parse(serialize(w));
+  saved.memories = [
+    { at: -1, pair: 0 },
+    { at: w.elapsed, pair: 2 },
+    { at: w.elapsed + 1, pair: 0 },
+  ];
+  const loaded = restore(JSON.stringify(saved));
+  assert.deepEqual(loaded.memories, [null, null, null]);
+  assert.deepEqual(loaded.planted, w.planted);
+  assert.deepEqual(loaded.lastEncounter, w.lastEncounter);
 });
 
 test('invalid encounter data is ignored without discarding a valid saved island', () => {

@@ -306,6 +306,20 @@ canvas {
   font-size: 10px;
   color: var(--muted);
 }
+.memory-mark {
+  display: none;
+  margin-top: 7px;
+  width: fit-content;
+  border-radius: 10px;
+  background: #dce6cb;
+  color: #586d4d;
+  padding: 3px 7px;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+.resident.has-memory .memory-mark {
+  display: block;
+}
 .resident .arrow {
   margin-left: auto;
   color: #859479;

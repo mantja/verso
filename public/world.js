@@ -8,6 +8,20 @@ const CONVERSATIONS = [
   "Otso ja Paju vertailivat päivän löytöjä rannalta ja metsäpolulta.",
   "Aava ja Paju pohtivat, mitä kaikkea pienestä siemenestä voi kasvaa.",
 ];
+const MEMORY_TEXTS = [
+  [
+    "Muistaa, kuinka Otso kertoi meren olleen tänään aivan tyyni.",
+    "Muistaa Aavan ajatuksen pienestä alusta ja kasvavasta metsästä.",
+  ],
+  [
+    "Muistaa Pajun löytäneen metsäpolulta uuden, hiljaisen mutkan.",
+    "Muistaa, kuinka Otso kuvaili rantaan jääneitä pieniä jälkiä.",
+  ],
+  [
+    "Muistaa Pajun kysymyksen siitä, millainen saari vielä voisi olla.",
+    "Muistaa Aavan kertoneen, että jokainen metsä alkaa yhdestä taimesta.",
+  ],
+];
 export const PEOPLE = [
   {
     name: "Aava",
@@ -148,9 +162,10 @@ export function routine(id, elapsed) {
 }
 export function newWorld() {
   return {
-    version: 2,
+    version: 3,
     elapsed: 0,
     lastEncounter: null,
+    memories: PEOPLE.map(() => null),
     planted: [],
     people: PEOPLE.map((p) => ({
       x: p.home[0],
@@ -169,6 +184,11 @@ export function addEvent(world, text) {
 export function encounterText(encounter) {
   return CONVERSATIONS[encounter.pair];
 }
+export function memoryText(id, memory) {
+  if (!memory) return "";
+  const member = EVENING_PAIRS[memory.pair].indexOf(id);
+  return member < 0 ? "" : MEMORY_TEXTS[memory.pair][member];
+}
 export function activeEncounter(world, id) {
   const meeting = world.lastEncounter;
   if (!meeting || phase(world.elapsed) !== "evening" ||
@@ -185,6 +205,9 @@ function meetAtFire(world) {
     return !p.route.length && Math.hypot(p.x - target[0], p.y - target[1]) < 0.01;
   })) return;
   world.lastEncounter = { at: world.elapsed, pair: (day - 1) % EVENING_PAIRS.length };
+  EVENING_PAIRS[world.lastEncounter.pair].forEach((id) => {
+    world.memories[id] = { ...world.lastEncounter };
+  });
   addEvent(world, encounterText(world.lastEncounter));
 }
 export function step(world, dt) {
@@ -265,9 +288,10 @@ export function plantTree(world) {
 }
 export function serialize(world) {
   return JSON.stringify({
-    version: 2,
+    version: 3,
     elapsed: world.elapsed,
     lastEncounter: world.lastEncounter,
+    memories: world.memories,
     planted: world.planted,
     events: world.events,
     people: world.people.map(({ x, y }) => ({ x, y })),
@@ -279,7 +303,7 @@ export function restore(raw) {
   try {
     const w = JSON.parse(raw);
     if (
-      ![1, 2].includes(w.version) ||
+      ![1, 2, 3].includes(w.version) ||
       !Number.isFinite(w.elapsed) ||
       w.elapsed < 0 ||
       w.elapsed > 1e10
@@ -287,13 +311,25 @@ export function restore(raw) {
       return fresh;
     fresh.elapsed = w.elapsed;
     // v1 islands keep their time, trees, residents and events under the same key.
-    const meeting = w.lastEncounter;
-    if (w.version === 2 && meeting && Number.isFinite(meeting.at) &&
+    const validEncounter = (meeting) =>
+      meeting && Number.isFinite(meeting.at) &&
         meeting.at >= 0 && meeting.at <= w.elapsed &&
         phase(meeting.at) === "evening" && Number.isInteger(meeting.pair) &&
-        meeting.pair === (clock(meeting.at).day - 1) % EVENING_PAIRS.length) {
+        meeting.pair === (clock(meeting.at).day - 1) % EVENING_PAIRS.length;
+    const meeting = w.lastEncounter;
+    if (w.version >= 2 && validEncounter(meeting)) {
       fresh.lastEncounter = { at: meeting.at, pair: meeting.pair };
+      // A v2 island gains perspectives on its latest saved conversation.
+      if (w.version === 2)
+        EVENING_PAIRS[meeting.pair].forEach((id) => {
+          fresh.memories[id] = { ...fresh.lastEncounter };
+        });
     }
+    if (w.version === 3 && Array.isArray(w.memories))
+      w.memories.slice(0, PEOPLE.length).forEach((memory, id) => {
+        if (validEncounter(memory) && EVENING_PAIRS[memory.pair].includes(id))
+          fresh.memories[id] = { at: memory.at, pair: memory.pair };
+      });
     if (Array.isArray(w.planted)) {
       const seen = new Set();
       fresh.planted = w.planted

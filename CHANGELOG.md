@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.3.0 · 2026-10-06 · Jokin jää mieleen
+
+**Choice:** give yesterday's encounters a quiet consequence before adding another visible system. A conversation now becomes part of each participant's personal history instead of disappearing when the speech marks fade.
+
+- Both participants receive a distinct, pair-specific perspective on their latest evening conversation. Their resident cards show a small memory mark; selecting them reveals the memory and its world day.
+- A later meeting refreshes memories only for its participants. Someone who was not part of that conversation keeps their earlier memory.
+- Save schema v3 persists the three personal memories under the existing localStorage key. Valid v2 islands derive memories from their latest saved encounter; v1 islands, trees, time, events and residents remain compatible.
+- Updated the visible development diary and next direction. No new dependencies, paid services, shared state or hosting changes.
+
+Validation: all thirteen simulation tests cover memory creation, distinct perspectives, selective refresh, serialization, v1/v2 migration and malformed memory recovery in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy` and `npm run build` passed. Chromium checks passed for v2 migration, distinct memories and labels, keyboard selection, planting, v3 reload, reduced-motion use, unavailable storage and absence of page errors. Desktop (1440 px) and mobile (390 px) screenshots were visually inspected with no horizontal overflow. Actual production verification follows the main update and is reported in the delivery message.
+
+Limitations: memories can be read, but they do not yet influence a later routine. Each resident keeps only the latest conversation in which they participated.
+
 ## 0.2.0 · 2026-10-05 · Nuotiolla on seuraa
 
 **Choice:** let the inhabitants notice each other before expanding the island. A quiet evening exchange gives their existing daily routines a shared moment without introducing demands on the visitor.

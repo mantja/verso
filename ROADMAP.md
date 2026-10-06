@@ -14,9 +14,13 @@ This is a living direction, not a fixed feature contract.
 
 Two residents exchange news once everyone has arrived at the evening fire. The pair rotates each world day. For ten simulation seconds, speech marks and resident details show the conversation; one event records it. Reloading preserves the remaining time and does not repeat the same evening's meeting. Save schema v2 migrates v1 under the existing storage key, preserving personal islands.
 
+## Something remembered — v0.3.0
+
+Both participants now keep their own perspective on the latest conversation. A small memory mark appears on their resident cards; selecting either resident reveals what stayed with them after the speech marks disappeared. Memories persist with the personal island and older v2 saves derive them from their latest valid encounter. Save schema v3 continues to use the original storage key.
+
 ## Next question
 
-**What stays with someone after a shared moment?** Explore a small personal memory or a later observable response to a meeting. Keep the island calm: no relationship scores, obligations or new controls are needed yet. Conversations currently follow three fixed pair-specific topics; choose any future variation deliberately rather than adding random chatter.
+**Could a memory gently shape tomorrow?** Explore one small, observable effect on a later routine, such as revisiting a place mentioned by a friend. Keep it deterministic and legible; a memory should create continuity, not scores, obligations or random chatter.
 
 ## Later possibilities
 
