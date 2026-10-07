@@ -22,6 +22,16 @@ const MEMORY_TEXTS = [
     "Muistaa Aavan kertoneen, että jokainen metsä alkaa yhdestä taimesta.",
   ],
 ];
+const MEMORY_VISITS = [
+  ["shore", "garden"],
+  ["lookout", "shore"],
+  ["lookout", "garden"],
+];
+const PLACE_DESTINATIONS = {
+  garden: "puutarhaan",
+  shore: "rannalle",
+  lookout: "metsäpolulle",
+};
 export const PEOPLE = [
   {
     name: "Aava",
@@ -127,7 +137,22 @@ export function phase(elapsed) {
         ? "day"
         : "evening";
 }
-export function routine(id, elapsed) {
+export function memoryVisit(id, elapsed, memory) {
+  if (!memory || phase(elapsed) !== "morning") return null;
+  if (clock(elapsed).day !== clock(memory.at).day + 1) return null;
+  const pair = EVENING_PAIRS[memory.pair],
+    member = pair?.indexOf(id) ?? -1;
+  if (member < 0) return null;
+  const place = MEMORY_VISITS[memory.pair][member],
+    other = pair.find((resident) => resident !== id),
+    destination = PLACE_DESTINATIONS[place];
+  return {
+    target: PLACES[place],
+    action: `Muisto vie ${destination}`,
+    event: `seurasi muistoaan ${destination} ${PEOPLE[other].name}n kertomuksen innoittamana.`,
+  };
+}
+export function routine(id, elapsed, memory = null) {
   const p = phase(elapsed);
   if (p === "night")
     return {
@@ -141,6 +166,8 @@ export function routine(id, elapsed) {
       action: "Viipyy nuotiolla",
       event: "asettui nuotion ääreen.",
     };
+  const remembered = memoryVisit(id, elapsed, memory);
+  if (remembered) return remembered;
   const stops =
     p === "morning"
       ? ["garden", "shore", "lookout"]
@@ -217,7 +244,7 @@ export function step(world, dt) {
   if (clock(world.elapsed).day !== before)
     addEvent(world, "Uusi päivä heräsi saaren yllä.");
   world.people.forEach((p, id) => {
-    const plan = routine(id, world.elapsed),
+    const plan = routine(id, world.elapsed, world.memories[id]),
       goal = plan.target.join(",");
     if (p.goal !== goal) {
       // Finish the current tile before taking a new route: no shortcuts over water.

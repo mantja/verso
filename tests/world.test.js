@@ -15,6 +15,8 @@ import {
   STORAGE_KEY,
   encounterText,
   memoryText,
+  memoryVisit,
+  phase,
 } from "../public/world.js";
 
 test("every home and activity location is connected by land", () => {
@@ -169,6 +171,41 @@ test("later meetings refresh only the participants' latest memories", () => {
   assert.equal(w.memories[2].pair, 1);
   assert.match(memoryText(1, w.memories[1]), /Pajun/);
   assert.match(memoryText(2, w.memories[2]), /Otso/);
+});
+
+test("a memory changes both participants' route on the following morning", () => {
+  const w = newWorld();
+  firstMeeting(w);
+  while (!(clock(w.elapsed).day === 2 && phase(w.elapsed) === "morning"))
+    step(w, 1);
+  assert.deepEqual(memoryVisit(0, w.elapsed, w.memories[0]), {
+    target: PLACES.shore,
+    action: "Muisto vie rannalle",
+    event: "seurasi muistoaan rannalle Otson kertomuksen innoittamana.",
+  });
+  assert.deepEqual(memoryVisit(1, w.elapsed, w.memories[1]), {
+    target: PLACES.garden,
+    action: "Muisto vie puutarhaan",
+    event: "seurasi muistoaan puutarhaan Aavan kertomuksen innoittamana.",
+  });
+  assert.equal(memoryVisit(2, w.elapsed, w.memories[2]), null);
+  for (let i = 0; i < 45; i++) step(w, 1);
+  assert.deepEqual([w.people[0].x, w.people[0].y], PLACES.shore);
+  assert.deepEqual([w.people[1].x, w.people[1].y], PLACES.garden);
+  assert.deepEqual([w.people[2].x, w.people[2].y], PLACES.lookout);
+  assert.equal(w.people[0].action, "Muisto vie rannalle");
+  assert.equal(w.people[1].action, "Muisto vie puutarhaan");
+  assert.equal(w.events.filter((event) => event.text.includes("seurasi muistoaan")).length, 2);
+});
+
+test("a remembered visit happens only on the morning immediately after a meeting", () => {
+  const w = newWorld();
+  firstMeeting(w);
+  const aavaMemory = { ...w.memories[0] };
+  while (clock(w.elapsed).day < 3) step(w, 1);
+  assert.equal(memoryVisit(0, w.elapsed, aavaMemory), null);
+  while (phase(w.elapsed) !== "morning") step(w, 1);
+  assert.equal(memoryVisit(0, w.elapsed, aavaMemory), null);
 });
 
 test("v2 saves gain memories from their latest valid conversation", () => {

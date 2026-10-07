@@ -18,15 +18,17 @@ Two residents exchange news once everyone has arrived at the evening fire. The p
 
 Both participants now keep their own perspective on the latest conversation. A small memory mark appears on their resident cards; selecting either resident reveals what stayed with them after the speech marks disappeared. Memories persist with the personal island and older v2 saves derive them from their latest valid encounter. Save schema v3 continues to use the original storage key.
 
+## Following a thought — v0.4.0
+
+On the morning after a conversation, each participant visits a place connected to what the other said. The memory changes the existing route, action label and event log for that morning only. All six perspectives map deterministically to the garden, shore or forest path, so the effect is explainable and does not add random behavior or new controls. Save schema remains v3.
+
 ## Next question
 
-**Could a memory gently shape tomorrow?** Explore one small, observable effect on a later routine, such as revisiting a place mentioned by a friend. Keep it deterministic and legible; a memory should create continuity, not scores, obligations or random chatter.
+**What would make the island itself feel alive?** Explore a restrained weather cycle with a visible effect on the existing scenery or routines. Preserve readability and the calm pace; weather should create atmosphere before it creates mechanics.
 
 ## Later possibilities
 
-- Individual memories and gentle differences in behavior.
 - Weather with visible consequences for the garden.
-- Reasons to revisit familiar places.
 - Richer personal worlds while preserving each visitor's local save. Shared world state was declined by Jani on 2026-10-04.
 
 ## Deployment repair — v0.1.1

@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.4.0 · 2026-10-07 · Muisto näyttää tietä
+
+**Choice:** complete the first small memory arc before opening another system. A resident's recollection now has one observable consequence on the following day instead of remaining only descriptive text.
+
+- On the morning immediately after a conversation, both participants deviate from their ordinary routine to visit a place connected to what the other said. All six perspectives have a deterministic destination among the garden, shore and forest path.
+- The changed route is visible on the map, the resident card explains where the memory leads, and arrival creates a specific event naming the earlier conversation partner.
+- The visit occurs only on the next morning and does not repeat on later days. Residents who did not join the conversation keep their normal routine.
+- Existing v1–v3 saves and personal islands remain compatible; no save-schema change, dependency, shared state, paid service or hosting change was needed.
+
+Validation: all fifteen simulation tests cover the following-morning route, destination, action, event and one-morning boundary in addition to the existing world, encounter, memory and migration behavior. `npm ci`, `npm test`, `npm run check:deploy` and `npm run build` passed. Chromium checks passed for memory-guided routes, action labels and events, saved trees and memories, keyboard selection, reload, reduced-motion use, unavailable storage and absence of page errors. Desktop (1440 px) and mobile (390 px) screenshots were visually inspected with no horizontal overflow. Actual production verification follows the main update and is reported in the delivery message.
+
+Limitations: a remembered visit currently changes one morning destination but does not create another memory or alter later conversations.
+
 ## 0.3.0 · 2026-10-06 · Jokin jää mieleen
 
 **Choice:** give yesterday's encounters a quiet consequence before adding another visible system. A conversation now becomes part of each participant's personal history instead of disappearing when the speech marks fade.
