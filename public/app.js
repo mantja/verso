@@ -3,6 +3,7 @@ import {
   STORAGE_KEY,
   clock,
   phase,
+  weather,
   newWorld,
   step,
   plantTree,
@@ -69,6 +70,9 @@ function updateUI() {
     day: "Päivän pienet puuhat",
     evening: "Ilta saapuu",
   }[phase(world.elapsed)];
+  const currentWeather = weather(world.elapsed);
+  $("weather").textContent = currentWeather.label;
+  $("weather").title = currentWeather.description;
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;
     b.classList.toggle("has-memory", Boolean(world.memories[id]));

@@ -22,13 +22,17 @@ Both participants now keep their own perspective on the latest conversation. A s
 
 On the morning after a conversation, each participant visits a place connected to what the other said. The memory changes the existing route, action label and event log for that morning only. All six perspectives map deterministically to the garden, shore or forest path, so the effect is explainable and does not add random behavior or new controls. Save schema remains v3.
 
+## The island breathes — v0.5.0
+
+The island now moves through a deterministic four-day weather cycle: calm clear weather, drifting mist, quiet rain and clearing light. Each mood has a restrained canvas treatment, a readable weather label and its own new-day event. Reduced-motion visitors get the same atmosphere without moving weather effects. Weather is derived from existing world time, so save schema remains v3 and every visitor's personal history stays intact.
+
 ## Next question
 
-**What would make the island itself feel alive?** Explore a restrained weather cycle with a visible effect on the existing scenery or routines. Preserve readability and the calm pace; weather should create atmosphere before it creates mechanics.
+**What could quiet rain leave behind?** Consider one small, observable consequence for the garden or planted saplings. Keep it legible and gentle: weather should deepen the existing world instead of becoming a management system.
 
 ## Later possibilities
 
-- Weather with visible consequences for the garden.
+- Small weather consequences for the garden or planted trees.
 - Richer personal worlds while preserving each visitor's local save. Shared world state was declined by Jani on 2026-10-04.
 
 ## Deployment repair — v0.1.1

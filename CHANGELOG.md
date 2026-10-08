@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.5.0 · 2026-10-08 · Saari saa oman sään
+
+**Choice:** make the island itself feel alive before adding more resident behavior. A restrained weather cycle changes the atmosphere without introducing tasks, resource management or new controls.
+
+- The island now follows a deterministic four-day cycle through calm clear weather, drifting mist, quiet rain and clearing light. Weather is visible on the canvas and named beside the world clock.
+- Mist drifts slowly, rain crosses the scenery and clearing weather adds a soft glow. Reduced-motion mode keeps every mood visible while making its weather marks static.
+- Each new world day records its weather in the event log. Weather is derived from existing elapsed time, so the personal save schema remains v3 and all existing trees, memories and resident history remain compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all sixteen simulation tests cover the four-day weather sequence and new-day weather event in addition to the existing world, encounter, memory, route and migration behavior. `npm ci`, `npm test`, `npm run check:deploy` and `npm run build` passed. Chromium checks passed for all four weather labels and renderings, new-day events, existing trees and memories, keyboard selection, reload, reduced motion, unavailable storage and absence of page errors. Desktop (1440 px) and mobile (390 px) screenshots were visually inspected with no horizontal overflow. Actual production verification follows the main update and is reported in the delivery message.
+
+Limitations: weather currently changes atmosphere and the event log, but does not yet affect the garden, planted trees or resident routines.
+
 ## 0.4.0 · 2026-10-07 · Muisto näyttää tietä
 
 **Choice:** complete the first small memory arc before opening another system. A resident's recollection now has one observable consequence on the following day instead of remaining only descriptive text.

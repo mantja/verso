@@ -8,7 +8,7 @@ Intended address: **https://verso.mechidea.fi** (domain setup is separate from t
 
 ## The first chapter: Saapuminen
 
-An original, procedurally drawn isometric island with three inhabitants: Aava, Otso and Paju. They visit the garden, shore and forest, gather at the fire in the evening, and rest at home. Plant up to 24 trees and watch the saplings grow. Select residents, pause time, or speed it up. Two residents exchange news at the evening fire, with speech marks on the map and a conversation in the resident details and event log. The pair rotates each world day. Both participants keep their own perspective on the latest conversation as a persistent memory. On the following morning, that memory briefly guides each participant to a place mentioned by the other.
+An original, procedurally drawn isometric island with three inhabitants: Aava, Otso and Paju. They visit the garden, shore and forest, gather at the fire in the evening, and rest at home. Plant up to 24 trees and watch the saplings grow. Select residents, pause time, or speed it up. Two residents exchange news at the evening fire, with speech marks on the map and a conversation in the resident details and event log. The pair rotates each world day. Both participants keep their own perspective on the latest conversation as a persistent memory. On the following morning, that memory briefly guides each participant to a place mentioned by the other. A calm four-day weather cycle now gives the island clear skies, drifting mist, quiet rain and clearing light.
 
 The interface is in Finnish and adapts to mobile screens. All artwork is drawn in code; no external fonts, image services, runtime AI calls or API keys are needed.
 
@@ -56,7 +56,7 @@ Documentation: [Workers Static Assets](https://developers.cloudflare.com/workers
 
 The ChatGPT task **Verson yöllinen kehitys** is enabled, starting 2026-10-05 around 03:00 Europe/Helsinki daily. Each run chooses, implements and checks one coherent improvement, then publishes tested changes to main through the existing Cloudflare Git integration. Target: the new version visible by 06:00 Finnish time, with an honest report if development or publishing fails. Completion by the target time is not guaranteed.
 
-Jani confirmed on 2026-10-04 that **each visitor keeps a personal island**; a shared world is outside the chosen direction. The initial deployment works. Nightly sessions have added evening encounters, personal memories and memory-guided morning visits while preserving existing browser saves.
+Jani confirmed on 2026-10-04 that **each visitor keeps a personal island**; a shared world is outside the chosen direction. The initial deployment works. Nightly sessions have added evening encounters, personal memories, memory-guided morning visits and an atmospheric weather cycle while preserving existing browser saves.
 
 Each development session should read `AGENTS.md`, `ROADMAP.md` and `CHANGELOG.md`, inspect the current source, choose one coherent improvement, verify it and document the reason for the choice. Repairs and refinement count as progress. The website's development diary should describe actual changes, not promises.
 

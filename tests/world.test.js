@@ -17,6 +17,7 @@ import {
   memoryText,
   memoryVisit,
   phase,
+  weather,
 } from "../public/world.js";
 
 test("every home and activity location is connected by land", () => {
@@ -46,6 +47,23 @@ test("residents complete routines across several day/night cycles without leavin
   assert.ok(actions.has("Hoitaa puutarhaa"));
   assert.equal(clock(w.elapsed).day, 5);
   assert.ok(w.events.length <= 12);
+});
+test("weather follows a calm four-day cycle and announces each new day", () => {
+  assert.deepEqual(
+    [0, 1, 2, 3, 4].map((day) => weather(day * DAY).key),
+    ["clear", "mist", "rain", "clearing", "clear"],
+  );
+  assert.deepEqual(
+    [0, 1, 2, 3].map((day) => weather(day * DAY).label),
+    ["Tyyni pouta", "Leijuva utu", "Hiljainen sade", "Kirkastuva sää"],
+  );
+  const w = newWorld();
+  while (clock(w.elapsed).day === 1) step(w, 1);
+  assert.equal(weather(w.elapsed).key, "mist");
+  assert.equal(
+    w.events[0].text,
+    "Uuden päivän mukana saaren ylle nousi hento utu.",
+  );
 });
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();

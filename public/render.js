@@ -8,6 +8,7 @@ import {
   clock,
   DAY,
   activeEncounter,
+  weather,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -193,6 +194,47 @@ function person(c, x, y, id, moving, t, selected) {
     oval(c, x, y - 48, 3, 3, "#f7eac1");
   }
 }
+function weatherLight(c, kind) {
+  const color = {
+    mist: "rgba(232,239,230,0.18)",
+    rain: "rgba(63,83,85,0.13)",
+    clearing: "rgba(246,224,159,0.09)",
+  }[kind];
+  if (!color) return;
+  c.fillStyle = color;
+  c.fillRect(0, 0, W, H);
+}
+function weatherDetails(c, kind, t) {
+  if (kind === "mist") {
+    for (let i = 0; i < 7; i++) {
+      const drift = Math.sin(t * 0.08 + i * 1.7) * 18,
+        x = noise(i, 31) * W + drift,
+        y = 150 + noise(i, 32) * 450;
+      oval(c, x, y, 120 + noise(i, 33) * 130, 18, "#f3f5ed35");
+    }
+  }
+  if (kind === "rain") {
+    c.strokeStyle = "#edf3ef9e";
+    c.lineWidth = 1.2;
+    for (let i = 0; i < 72; i++) {
+      const x = noise(i, 41) * (W + 80) - 40,
+        start = noise(i, 42) * H,
+        y = (start + t * 34 + i * 17) % (H + 40) - 20;
+      c.beginPath();
+      c.moveTo(x, y);
+      c.lineTo(x - 6, y + 14);
+      c.stroke();
+    }
+  }
+  if (kind === "clearing") {
+    const glow = c.createRadialGradient(820, 90, 10, 820, 90, 410);
+    glow.addColorStop(0, "rgba(255,239,181,0.24)");
+    glow.addColorStop(0.55, "rgba(255,239,181,0.08)");
+    glow.addColorStop(1, "rgba(255,239,181,0)");
+    c.fillStyle = glow;
+    c.fillRect(410, 0, 690, 500);
+  }
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -323,7 +365,9 @@ export function createRenderer(canvas) {
     }
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
     ctx.drawImage(base, 0, 0);
-    const t = reducedMotion ? 0 : world.elapsed;
+    const t = reducedMotion ? 0 : world.elapsed,
+      currentWeather = weather(world.elapsed);
+    weatherLight(ctx, currentWeather.key);
     ctx.strokeStyle = "#e8f1e28c";
     ctx.lineWidth = 1.5;
     for (let i = 0; i < 34; i++) {
@@ -449,6 +493,7 @@ export function createRenderer(canvas) {
       ctx.fillStyle = "rgba(219,167,103,0.09)";
       ctx.fillRect(0, 0, W, H);
     }
+    weatherDetails(ctx, currentWeather.key, t);
     // A quiet compass, drawn as part of the map.
     ctx.save();
     ctx.translate(1000, 110);

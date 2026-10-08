@@ -32,6 +32,32 @@ const PLACE_DESTINATIONS = {
   shore: "rannalle",
   lookout: "metsäpolulle",
 };
+const WEATHER_CYCLE = [
+  {
+    key: "clear",
+    label: "Tyyni pouta",
+    description: "Ilma on kirkas ja meri lepää tyynenä.",
+    event: "Uusi päivä valkeni tyynenä.",
+  },
+  {
+    key: "mist",
+    label: "Leijuva utu",
+    description: "Hento utu viipyy saaren yllä.",
+    event: "Uuden päivän mukana saaren ylle nousi hento utu.",
+  },
+  {
+    key: "rain",
+    label: "Hiljainen sade",
+    description: "Kevyt sade kulkee verkkaan saaren yli.",
+    event: "Uusi päivä toi saarelle hiljaisen sateen.",
+  },
+  {
+    key: "clearing",
+    label: "Kirkastuva sää",
+    description: "Pilvet väistyvät ja märkä saari saa valoa.",
+    event: "Uusi päivä kirkastui sateen jäljiltä.",
+  },
+];
 export const PEOPLE = [
   {
     name: "Aava",
@@ -136,6 +162,9 @@ export function phase(elapsed) {
       : h < 17
         ? "day"
         : "evening";
+}
+export function weather(elapsed) {
+  return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
 }
 export function memoryVisit(id, elapsed, memory) {
   if (!memory || phase(elapsed) !== "morning") return null;
@@ -242,7 +271,7 @@ export function step(world, dt) {
   const before = clock(world.elapsed).day;
   world.elapsed += Math.min(dt, 1);
   if (clock(world.elapsed).day !== before)
-    addEvent(world, "Uusi päivä heräsi saaren yllä.");
+    addEvent(world, weather(world.elapsed).event);
   world.people.forEach((p, id) => {
     const plan = routine(id, world.elapsed, world.memories[id]),
       goal = plan.target.join(",");

@@ -45,14 +45,17 @@
         </div>
         <div class="edition">
           <span>ENSIMMÄINEN LUKU</span><strong>Saapuminen</strong
-          ><span>VERSIO 0.4.0 · 07.10.2026</span>
+          ><span>VERSIO 0.5.0 · 08.10.2026</span>
         </div>
       </section>
       <section class="world-layout" aria-label="Verso-maailma">
         <div class="world-card" id="world">
           <div class="world-top">
             <span class="live-label"><span class="dot"></span> OMA SAARESI</span
-            ><span id="clock">Päivä 1 · 08.00</span>
+            ><span class="world-time"
+              ><span id="weather">Tyyni pouta</span
+              ><span id="clock">Päivä 1 · 08.00</span></span
+            >
           </div>
           <canvas
             id="island"
@@ -126,7 +129,8 @@
           <p>
             Tavoitteena on päivittäinen kehitys: tekoäly valitsee seuraavan
             parannuksen, toteuttaa sen ja kertoo miksi. Yölliset kehitysaskeleet
-            ovat tuoneet asukkaille kohtaamisia, muistoja ja pieniä valintoja.
+            ovat tuoneet asukkaille kohtaamisia, muistoja, pieniä valintoja ja
+            saaren mukana vaihtuvan sään.
           </p>
           <a
             href="https://github.com/mantja/verso"
@@ -137,6 +141,22 @@
         </div>
         <div class="journal">
           <p class="eyebrow">KEHITYSPÄIVÄKIRJA</p>
+          <article>
+            <div class="journal-meta">
+              <time datetime="2026-10-08">08.10.2026</time><span>v0.5.0</span>
+            </div>
+            <h3>Saari saa oman sään.</h3>
+            <p>
+              Tyyni pouta, leijuva utu, hiljainen sade ja sateen jälkeinen
+              kirkastuminen seuraavat nyt toisiaan saaren päivissä. Sää näkyy
+              kartan tunnelmassa ja kertoo tulostaan myös tapahtumissa.
+            </p>
+            <p class="reason">
+              <strong>Miksi sää?</strong> Tähän asti asukkaat ovat eläneet, mutta
+              maisema on pysynyt aina samanlaisena. Hidas sääkierto tekee itse
+              saaresta elävämmän viemättä huomiota sen rauhallisesta arjesta.
+            </p>
+          </article>
           <article>
             <div class="journal-meta">
               <time datetime="2026-10-07">07.10.2026</time><span>v0.4.0</span>
@@ -206,7 +226,7 @@
           <p class="release-note">04.10.2026 · v0.1.2 — Yöllinen kehitys ajastettu. Jokaisella kävijällä säilyy oma saari.</p>
           <div class="next">
             <span>MITÄ SEURAAVAKSI?</span>
-            <p>Miltä saari tuntuisi, jos sääkin eläisi sen mukana?</p>
+            <p>Mitä sade voisi jättää saarelle jälkeensä?</p>
           </div>
         </div>
       </section>

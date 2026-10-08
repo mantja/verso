@@ -180,6 +180,19 @@ h1 em {
   gap: 7px;
   align-items: center;
 }
+.world-time {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+#weather {
+  border: 1px solid #769a8d80;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #edf4ed8f;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+}
 canvas {
   display: block;
   width: 100%;
@@ -578,6 +591,13 @@ footer > span {
     font-size: 10px;
   }
   .live-label {
+    font-size: 8px;
+  }
+  .world-time {
+    gap: 7px;
+  }
+  #weather {
+    padding: 4px 7px;
     font-size: 8px;
   }
   .world-controls {
