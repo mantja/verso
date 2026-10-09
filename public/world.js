@@ -48,8 +48,8 @@ const WEATHER_CYCLE = [
   {
     key: "rain",
     label: "Hiljainen sade",
-    description: "Kevyt sade kulkee verkkaan saaren yli.",
-    event: "Uusi päivä toi saarelle hiljaisen sateen.",
+    description: "Kevyt sade kulkee saaren yli ja auttaa taimia kasvamaan.",
+    event: "Uusi päivä toi hiljaisen sateen, joka ravitsee saaren taimia.",
   },
   {
     key: "clearing",
@@ -165,6 +165,25 @@ export function phase(elapsed) {
 }
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
+}
+function rainDuration(start, end) {
+  let total = 0;
+  const firstDay = clock(start).day,
+    lastDay = clock(end).day;
+  for (let day = firstDay; day <= lastDay; day++) {
+    if (WEATHER_CYCLE[(day - 1) % WEATHER_CYCLE.length].key !== "rain")
+      continue;
+    const dayStart = (day - 1) * DAY - DAY / 3,
+      dayEnd = dayStart + DAY;
+    total += Math.max(0, Math.min(end, dayEnd) - Math.max(start, dayStart));
+  }
+  return total;
+}
+export function treeGrowth(tree, elapsed) {
+  const age = Math.max(0, elapsed - tree.at);
+  if (age >= DAY) return 1;
+  const nourishedAge = age + rainDuration(tree.at, elapsed) * 0.5;
+  return 0.23 + Math.min(1, nourishedAge / DAY) * 0.77;
 }
 export function memoryVisit(id, elapsed, memory) {
   if (!memory || phase(elapsed) !== "morning") return null;
@@ -336,10 +355,18 @@ export function plantTree(world) {
   if (!tile)
     return { ok: false, message: "Saarella ei ole vapaata istutuspaikkaa." };
   world.planted.push({ x: tile[0], y: tile[1], at: world.elapsed });
-  addEvent(world, "Istutit saarelle uuden puun. Pieni alku tarvitsee aikaa.");
+  const raining = weather(world.elapsed).key === "rain";
+  addEvent(
+    world,
+    raining
+      ? "Istutit saarelle uuden puun. Hiljainen sade ravitsi taimea."
+      : "Istutit saarelle uuden puun. Pieni alku tarvitsee aikaa.",
+  );
   return {
     ok: true,
-    message: "Uusi taimi juurtui. Se kasvaa yhden päivän aikana.",
+    message: raining
+      ? "Uusi taimi sai heti vettä. Sade auttaa sitä kasvamaan."
+      : "Uusi taimi juurtui. Se kasvaa yhden päivän aikana.",
   };
 }
 export function serialize(world) {

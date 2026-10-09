@@ -26,13 +26,17 @@ On the morning after a conversation, each participant visits a place connected t
 
 The island now moves through a deterministic four-day weather cycle: calm clear weather, drifting mist, quiet rain and clearing light. Each mood has a restrained canvas treatment, a readable weather label and its own new-day event. Reduced-motion visitors get the same atmosphere without moving weather effects. Weather is derived from existing world time, so save schema remains v3 and every visitor's personal history stays intact.
 
+## Rain nourishes — v0.6.0
+
+Quiet rain now helps visitor-planted saplings mature sooner. Damp soil remains visible at their roots through the rain and the following clearing day, while planting during rain gets its own event and status message. The growth bonus is calculated from existing world time and planting time, so old trees need no migration and save schema remains v3.
+
 ## Next question
 
-**What could quiet rain leave behind?** Consider one small, observable consequence for the garden or planted saplings. Keep it legible and gentle: weather should deepen the existing world instead of becoming a management system.
+**What else could passing days leave behind?** Explore one rare, deterministic detail that rewards revisiting a familiar place. Keep it discoverable without adding collectibles, scores or obligations.
 
 ## Later possibilities
 
-- Small weather consequences for the garden or planted trees.
+- Small traces of time in familiar places.
 - Richer personal worlds while preserving each visitor's local save. Shared world state was declined by Jani on 2026-10-04.
 
 ## Deployment repair — v0.1.1

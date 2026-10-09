@@ -6,9 +6,9 @@ import {
   noise,
   forest,
   clock,
-  DAY,
   activeEncounter,
   weather,
+  treeGrowth,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -395,7 +395,9 @@ export function createRenderer(canvas) {
       y -= height(o.x, o.y);
       if (o.kind === "tree") tree(ctx, x, y, o.seed);
       if (o.kind === "planted") {
-        const growth = 0.23 + Math.min(1, (world.elapsed - o.at) / DAY) * 0.77;
+        const growth = treeGrowth(o, world.elapsed);
+        if (["rain", "clearing"].includes(currentWeather.key))
+          oval(ctx, x + 2, y + 1, 10, 4, "#5a7b6a55");
         tree(ctx, x, y, 0.3, growth);
         if (growth < 0.5) {
           oval(ctx, x, y + 1, 7, 3, "#856e45");

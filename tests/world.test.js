@@ -18,6 +18,7 @@ import {
   memoryVisit,
   phase,
   weather,
+  treeGrowth,
 } from "../public/world.js";
 
 test("every home and activity location is connected by land", () => {
@@ -64,6 +65,24 @@ test("weather follows a calm four-day cycle and announces each new day", () => {
     w.events[0].text,
     "Uuden päivän mukana saaren ylle nousi hento utu.",
   );
+});
+test("quiet rain nourishes planted trees without changing the saved tree shape", () => {
+  const clearGrowth = treeGrowth({ at: 0 }, 40),
+    rainGrowth = treeGrowth({ at: 480 }, 520),
+    afterRain = treeGrowth({ at: 560 }, 650);
+  assert.ok(rainGrowth > clearGrowth);
+  assert.ok(afterRain > treeGrowth({ at: 0 }, 90));
+  assert.equal(treeGrowth({ at: 0 }, DAY), 1);
+
+  const w = newWorld();
+  while (weather(w.elapsed).key !== "rain") step(w, 1);
+  const result = plantTree(w);
+  assert.equal(result.ok, true);
+  assert.match(result.message, /Sade auttaa/);
+  assert.match(w.events[0].text, /sade ravitsi taimea/);
+  const loaded = restore(serialize(w));
+  assert.deepEqual(loaded.planted, w.planted);
+  assert.equal(treeGrowth(loaded.planted[0], loaded.elapsed), treeGrowth(w.planted[0], w.elapsed));
 });
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();

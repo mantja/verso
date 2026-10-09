@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.6.0 · 2026-10-09 · Sade auttaa taimea
+
+**Choice:** give yesterday's weather cycle one gentle, observable consequence before moving to another system. Rain now matters to the visitor's existing trees without creating chores or resource management.
+
+- Quiet rain accelerates the growth of visitor-planted saplings by fifty percent for the time they spend in the rain. The bonus remains part of their growth after the weather clears and mature trees never regress.
+- Damp soil appears beneath planted trees during rain and the following clearing day. Planting while it rains creates a specific status message and event.
+- Growth is derived from the existing planting and world times, so personal islands and all v1–v3 saves remain compatible without a schema migration.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all seventeen simulation tests cover rain-assisted growth, its persistence after rain, mature-tree bounds, rain-specific planting feedback and save restoration in addition to the existing world, weather, encounter, memory, route and migration behavior. `npm ci`, `npm test`, `npm run check:deploy` and `npm run build` passed. Chromium checks passed for rainy planting feedback, v3 persistence, damp soil on the clearing day, keyboard selection, reload, reduced motion, unavailable storage and absence of page errors. Desktop (1440 px) and mobile (390 px) screenshots were visually inspected with no horizontal overflow. Actual production verification follows the main update and is reported in the delivery message.
+
+Limitations: rain affects only trees planted by the visitor while they are still growing. Residents do not yet react to weather, and trees need no ongoing care.
+
 ## 0.5.0 · 2026-10-08 · Saari saa oman sään
 
 **Choice:** make the island itself feel alive before adding more resident behavior. A restrained weather cycle changes the atmosphere without introducing tasks, resource management or new controls.
