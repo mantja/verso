@@ -18,6 +18,8 @@ import {
   memoryVisit,
   phase,
   weather,
+  shoreTrace,
+  routine,
   treeGrowth,
 } from "../public/world.js";
 
@@ -83,6 +85,33 @@ test("quiet rain nourishes planted trees without changing the saved tree shape",
   const loaded = restore(serialize(w));
   assert.deepEqual(loaded.planted, w.planted);
   assert.equal(treeGrowth(loaded.planted[0], loaded.elapsed), treeGrowth(w.planted[0], w.elapsed));
+});
+test("clearing mornings leave a changing trace on the shore for Otso", () => {
+  assert.equal(shoreTrace(0), null);
+  assert.equal(shoreTrace(2 * DAY), null);
+  assert.deepEqual(
+    [3, 7, 11, 15].map((day) => shoreTrace(day * DAY).key),
+    ["stone", "shell", "driftwood", "stone"],
+  );
+  assert.deepEqual(routine(1, 3 * DAY), {
+    target: PLACES.shore,
+    action: "Tutkii vaaleaa kiveä",
+    event: "löysi sateen jäljiltä rannalta sileän, vaalean kiven.",
+  });
+  assert.equal(routine(1, 4 * DAY).action, "Kuuntelee merta");
+
+  const world = newWorld();
+  while (
+    !world.events.some((event) => event.text.includes("vaalean kiven")) &&
+    world.elapsed < 3 * DAY + 90
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Otso löysi.*vaalean kiven/);
+  for (let i = 0; i < 20; i++) step(world, 1);
+  assert.equal(
+    world.events.filter((event) => event.text.includes("vaalean kiven")).length,
+    1,
+  );
 });
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();

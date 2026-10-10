@@ -4,6 +4,7 @@ import {
   clock,
   phase,
   weather,
+  shoreTrace,
   newWorld,
   step,
   plantTree,
@@ -34,6 +35,7 @@ const reducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
 const canvas = $("island"),
+  canvasLabel = canvas.getAttribute("aria-label"),
   draw = createRenderer(canvas);
 const cards = PEOPLE.map((p, id) => {
   const b = document.createElement("button");
@@ -70,9 +72,14 @@ function updateUI() {
     day: "Päivän pienet puuhat",
     evening: "Ilta saapuu",
   }[phase(world.elapsed)];
-  const currentWeather = weather(world.elapsed);
+  const currentWeather = weather(world.elapsed),
+    trace = shoreTrace(world.elapsed);
   $("weather").textContent = currentWeather.label;
-  $("weather").title = currentWeather.description;
+  $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}`;
+  canvas.setAttribute(
+    "aria-label",
+    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}`,
+  );
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;
     b.classList.toggle("has-memory", Boolean(world.memories[id]));

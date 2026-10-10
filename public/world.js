@@ -58,6 +58,26 @@ const WEATHER_CYCLE = [
     event: "Uusi päivä kirkastui sateen jäljiltä.",
   },
 ];
+const SHORE_TRACES = [
+  {
+    key: "stone",
+    label: "vaalea kivi",
+    action: "Tutkii vaaleaa kiveä",
+    event: "löysi sateen jäljiltä rannalta sileän, vaalean kiven.",
+  },
+  {
+    key: "shell",
+    label: "simpukankuori",
+    action: "Katselee simpukankuorta",
+    event: "löysi sateen jäljiltä rannalta pienen simpukankuoren.",
+  },
+  {
+    key: "driftwood",
+    label: "ajopuun oksa",
+    action: "Tutkii ajopuun oksaa",
+    event: "löysi sateen jäljiltä rannalta sileäksi kuluneen ajopuun oksan.",
+  },
+];
 export const PEOPLE = [
   {
     name: "Aava",
@@ -166,6 +186,11 @@ export function phase(elapsed) {
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
 }
+export function shoreTrace(elapsed) {
+  if (weather(elapsed).key !== "clearing") return null;
+  const cycle = Math.floor((clock(elapsed).day - 1) / WEATHER_CYCLE.length);
+  return SHORE_TRACES[cycle % SHORE_TRACES.length];
+}
 function rainDuration(start, end) {
   let total = 0;
   const firstDay = clock(start).day,
@@ -216,6 +241,13 @@ export function routine(id, elapsed, memory = null) {
     };
   const remembered = memoryVisit(id, elapsed, memory);
   if (remembered) return remembered;
+  const trace = id === 1 && p === "morning" ? shoreTrace(elapsed) : null;
+  if (trace)
+    return {
+      target: PLACES.shore,
+      action: trace.action,
+      event: trace.event,
+    };
   const stops =
     p === "morning"
       ? ["garden", "shore", "lookout"]

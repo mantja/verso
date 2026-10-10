@@ -8,6 +8,7 @@ import {
   clock,
   activeEncounter,
   weather,
+  shoreTrace,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -235,6 +236,41 @@ function weatherDetails(c, kind, t) {
     c.fillRect(410, 0, 690, 500);
   }
 }
+function drawShoreTrace(c, x, y, trace) {
+  oval(c, x, y + 2, 17, 6, "#5d776653");
+  if (trace.key === "stone") {
+    oval(c, x, y - 1, 9, 5, "#e5ddc5");
+    oval(c, x - 3, y - 3, 3, 1.5, "#fff9e5");
+  }
+  if (trace.key === "shell") {
+    c.fillStyle = "#efd6b7";
+    c.beginPath();
+    c.arc(x, y, 8, Math.PI, Math.PI * 2);
+    c.lineTo(x, y + 3);
+    c.closePath();
+    c.fill();
+    c.strokeStyle = "#c9997c";
+    c.lineWidth = 1;
+    for (const offset of [-4, 0, 4]) {
+      c.beginPath();
+      c.moveTo(x, y + 2);
+      c.lineTo(x + offset, y - 6);
+      c.stroke();
+    }
+  }
+  if (trace.key === "driftwood") {
+    c.strokeStyle = "#96765a";
+    c.lineWidth = 4;
+    c.lineCap = "round";
+    c.beginPath();
+    c.moveTo(x - 11, y + 2);
+    c.lineTo(x + 11, y - 4);
+    c.moveTo(x + 2, y - 1);
+    c.lineTo(x + 7, y - 10);
+    c.stroke();
+    c.lineCap = "butt";
+  }
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -385,8 +421,12 @@ export function createRenderer(canvas) {
       ctx.quadraticCurveTo(x + 10, y + Math.sin(t * 0.8 + i) * 2, x + 22, y);
       ctx.stroke();
     }
-    const objects = [
+    const trace = shoreTrace(world.elapsed),
+      objects = [
       ...fixed,
+      ...(trace
+        ? [{ x: 20.4, y: 12.4, kind: "shore-trace", trace }]
+        : []),
       ...world.planted.map((p) => ({ ...p, kind: "planted" })),
       ...world.people.map((p, id) => ({ ...p, kind: "person", id })),
     ].sort((a, b) => a.x + a.y - (b.x + b.y) || a.x - b.x);
@@ -409,6 +449,7 @@ export function createRenderer(canvas) {
         house(ctx, x, y, ["#9e7153", "#8e8362", "#ad855e"][o.id]);
       if (o.kind === "person")
         person(ctx, x, y, o.id, o.route.length > 0, t, selected === o.id);
+      if (o.kind === "shore-trace") drawShoreTrace(ctx, x, y, o.trace);
       if (o.kind === "garden") {
         polygon(
           ctx,

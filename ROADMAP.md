@@ -30,13 +30,17 @@ The island now moves through a deterministic four-day weather cycle: calm clear 
 
 Quiet rain now helps visitor-planted saplings mature sooner. Damp soil remains visible at their roots through the rain and the following clearing day, while planting during rain gets its own event and status message. The growth bonus is calculated from existing world time and planting time, so old trees need no migration and save schema remains v3.
 
+## The shore remembers — v0.7.0
+
+The morning after rain leaves one of three small, rotating traces on the shore: a pale stone, a shell or a smooth driftwood branch. Otso pauses to notice the trace during his familiar morning round, changing his action and adding a quiet event. The detail is derived from the existing weather cycle, so it adds no collectible, chore or save migration and remains consistent on every personal island.
+
 ## Next question
 
-**What else could passing days leave behind?** Explore one rare, deterministic detail that rewards revisiting a familiar place. Keep it discoverable without adding collectibles, scores or obligations.
+**What else might residents notice as the weather changes?** Keep the next response small, observable and free of chores or resource management.
 
 ## Later possibilities
 
-- Small traces of time in familiar places.
+- More small traces of time in familiar places.
 - Richer personal worlds while preserving each visitor's local save. Shared world state was declined by Jani on 2026-10-04.
 
 ## Deployment repair — v0.1.1

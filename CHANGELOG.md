@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.7.0 · 2026-10-10 · Ranta muistaa sateen
+
+**Choice:** answer the roadmap's question with one rare detail in a familiar place. The clearing day after rain now leaves something small to notice on the shore, without turning exploration into collecting or another task.
+
+- The clearing-day shore shows a pale stone, a shell or a smooth driftwood branch. The trace rotates deterministically after each rainy day, so returning later can reveal a different detail.
+- Otso notices the trace on his familiar morning round. His resident action names what he is looking at, arrival adds one quiet event, and the canvas description exposes the same detail without relying only on the drawing.
+- The trace is derived from existing world time and weather. Save schema remains v3, and all earlier personal islands, trees, memories and events remain compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all eighteen simulation tests cover the rotating trace, Otso's route, action, single arrival event and save compatibility in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at 1100 px and 390 px widths, including the clearing-day trace. A full local DOM browser run was unavailable because Chromium exited before opening a page in this runner; the unchanged responsive layout and production controls are checked after the main update and reported in the delivery message.
+
+Limitations: the traces appear only during clearing weather and are observations rather than persistent possessions. If an immediate conversation memory guides Otso elsewhere that morning, the trace remains visible but he does not visit it.
+
 ## 0.6.0 · 2026-10-09 · Sade auttaa taimea
 
 **Choice:** give yesterday's weather cycle one gentle, observable consequence before moving to another system. Rain now matters to the visitor's existing trees without creating chores or resource management.
