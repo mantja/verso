@@ -113,6 +113,35 @@ test("clearing mornings leave a changing trace on the shore for Otso", () => {
     1,
   );
 });
+test("residents notice quiet rain while memories still guide their morning", () => {
+  assert.deepEqual(
+    [0, 1, 2].map((id) => routine(id, 2 * DAY).action),
+    [
+      "Kuuntelee sadetta puutarhassa",
+      "Katselee sateen renkaita",
+      "Tutkii sateistä metsäpolkua",
+    ],
+  );
+  assert.deepEqual(routine(1, 2 * DAY).target, PLACES.shore);
+  assert.match(routine(1, 2 * DAY).event, /sadepisaroiden renkaita/);
+
+  const world = newWorld();
+  while (world.elapsed < 2 * DAY) step(world, 1);
+  assert.equal(world.people[0].action, "Kuuntelee sadetta puutarhassa");
+  assert.equal(
+    world.events.filter((event) =>
+      event.text.includes("Aava pysähtyi kuuntelemaan sadetta puutarhassa"),
+    ).length,
+    1,
+  );
+
+  const memory = { at: 340, pair: 1 };
+  assert.deepEqual(routine(1, 2 * DAY, memory), {
+    target: PLACES.lookout,
+    action: "Muisto vie metsäpolulle",
+    event: "seurasi muistoaan metsäpolulle Pajun kertomuksen innoittamana.",
+  });
+});
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();
   for (let i = 0; i < 24; i++) assert.equal(plantTree(w).ok, true);

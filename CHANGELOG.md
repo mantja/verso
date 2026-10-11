@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.8.0 · 2026-10-11 · Sade muuttaa askelia
+
+**Choice:** finish the first weather arc by letting the residents respond to rain themselves. The reaction changes familiar routines just enough to reward watching, without adding a task or another system for the visitor to manage.
+
+- During quiet rain, Aava, Otso and Paju carry small umbrellas in their own colors. The umbrellas remain visible while they walk and pause around the island.
+- Their ordinary garden, shore and forest actions now become rain observations, reflected in resident cards and arrival events. A memory-guided morning visit still takes priority over the weather-specific action.
+- The behavior is derived from the existing weather cycle. Save schema remains v3, and all earlier personal islands, trees, memories and events remain compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all nineteen simulation tests cover the rain-specific actions, destinations and memory priority in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. Desktop and mobile browser inspection covered the rain rendering, resident actions, keyboard controls, reduced motion, persistence and the absence of page errors. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the new reactions belong only to quiet rain. A memory-guided morning visit keeps its own action and event, although the resident still carries an umbrella.
+
 ## 0.7.0 · 2026-10-10 · Ranta muistaa sateen
 
 **Choice:** answer the roadmap's question with one rare detail in a familiar place. The clearing day after rain now leaves something small to notice on the shore, without turning exploration into collecting or another task.

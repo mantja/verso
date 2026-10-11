@@ -169,7 +169,7 @@ function house(c, x, y, color) {
 export function portrait(p) {
   return `<svg viewBox="0 0 24 30" aria-hidden="true"><path fill="${p.hair}" d="M7 3h10v4h2v9H5V7h2z"/><path fill="#ecc59b" d="M8 7h8v11H8z"/><path fill="${p.hair}" d="M7 5h10v4H7z"/><path fill="${p.color}" d="M6 17h12v9H6z"/><path fill="#424c40" d="M7 26h4v4H7zm6 0h4v4h-4z"/><path fill="#434138" d="M9 11h1v2H9zm5 0h1v2h-1z"/></svg>`;
 }
-function person(c, x, y, id, moving, t, selected) {
+function person(c, x, y, id, moving, t, selected, raining) {
   const p = PEOPLE[id];
   oval(c, x, y + 2, 10, 4, "#294a354a");
   if (selected) {
@@ -181,6 +181,15 @@ function person(c, x, y, id, moving, t, selected) {
   }
   const bob = moving ? Math.sin(t * 10 + id) * 1.5 : 0;
   y += bob;
+  if (raining) {
+    c.strokeStyle = "#3f5149";
+    c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(x + 7, y - 42);
+    c.lineTo(x + 7, y - 9);
+    c.quadraticCurveTo(x + 7, y - 5, x + 11, y - 7);
+    c.stroke();
+  }
   c.fillStyle = "#394b3f";
   c.fillRect(x - 5, y - 8, 4, 8);
   c.fillRect(x + 1, y - 8, 4, 8);
@@ -191,8 +200,21 @@ function person(c, x, y, id, moving, t, selected) {
   c.fillStyle = p.hair;
   c.fillRect(x - 6, y - 36, 12, 6);
   c.fillRect(x - 6, y - 31, 3, 6);
+  if (raining) {
+    c.fillStyle = p.color;
+    c.beginPath();
+    c.arc(x, y - 41, 17, Math.PI, Math.PI * 2);
+    c.lineTo(x + 17, y - 39);
+    c.quadraticCurveTo(x + 9, y - 43, x, y - 39);
+    c.quadraticCurveTo(x - 9, y - 43, x - 17, y - 39);
+    c.closePath();
+    c.fill();
+    c.strokeStyle = "#52645a";
+    c.lineWidth = 1;
+    c.stroke();
+  }
   if (selected) {
-    oval(c, x, y - 48, 3, 3, "#f7eac1");
+    oval(c, x, y - (raining ? 63 : 48), 3, 3, "#f7eac1");
   }
 }
 function weatherLight(c, kind) {
@@ -448,7 +470,16 @@ export function createRenderer(canvas) {
       if (o.kind === "house")
         house(ctx, x, y, ["#9e7153", "#8e8362", "#ad855e"][o.id]);
       if (o.kind === "person")
-        person(ctx, x, y, o.id, o.route.length > 0, t, selected === o.id);
+        person(
+          ctx,
+          x,
+          y,
+          o.id,
+          o.route.length > 0,
+          t,
+          selected === o.id,
+          currentWeather.key === "rain",
+        );
       if (o.kind === "shore-trace") drawShoreTrace(ctx, x, y, o.trace);
       if (o.kind === "garden") {
         polygon(

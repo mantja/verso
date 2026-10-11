@@ -34,9 +34,13 @@ Quiet rain now helps visitor-planted saplings mature sooner. Damp soil remains v
 
 The morning after rain leaves one of three small, rotating traces on the shore: a pale stone, a shell or a smooth driftwood branch. Otso pauses to notice the trace during his familiar morning round, changing his action and adding a quiet event. The detail is derived from the existing weather cycle, so it adds no collectible, chore or save migration and remains consistent on every personal island.
 
+## Rain changes the steps — v0.8.0
+
+During quiet rain, all three residents now carry small umbrellas in their own colors. At their ordinary garden, shore and forest stops they listen to the rain or notice what it changes, with matching action labels and arrival events. Memory-guided visits still take priority, while the umbrella keeps the weather visible. The response is derived from existing weather and needs no save migration.
+
 ## Next question
 
-**What else might residents notice as the weather changes?** Keep the next response small, observable and free of chores or resource management.
+**What other fleeting moment might make a familiar route worth watching?** Keep the response small, observable and free of chores or resource management.
 
 ## Later possibilities
 

@@ -32,6 +32,20 @@ const PLACE_DESTINATIONS = {
   shore: "rannalle",
   lookout: "metsäpolulle",
 };
+const RAIN_ROUTINES = {
+  garden: {
+    action: "Kuuntelee sadetta puutarhassa",
+    event: "pysähtyi kuuntelemaan sadetta puutarhassa.",
+  },
+  shore: {
+    action: "Katselee sateen renkaita",
+    event: "jäi katselemaan sadepisaroiden renkaita rannalla.",
+  },
+  lookout: {
+    action: "Tutkii sateistä metsäpolkua",
+    event: "lähti tutkimaan sateen tummentamaa metsäpolkua.",
+  },
+};
 const WEATHER_CYCLE = [
   {
     key: "clear",
@@ -253,6 +267,11 @@ export function routine(id, elapsed, memory = null) {
       ? ["garden", "shore", "lookout"]
       : ["lookout", "garden", "shore"];
   const place = stops[id];
+  if (weather(elapsed).key === "rain")
+    return {
+      target: PLACES[place],
+      ...RAIN_ROUTINES[place],
+    };
   return {
     target: PLACES[place],
     action: {
