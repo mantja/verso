@@ -38,9 +38,13 @@ The morning after rain leaves one of three small, rotating traces on the shore: 
 
 During quiet rain, all three residents now carry small umbrellas in their own colors. At their ordinary garden, shore and forest stops they listen to the rain or notice what it changes, with matching action labels and arrival events. Memory-guided visits still take priority, while the umbrella keeps the weather visible. The response is derived from existing weather and needs no save migration.
 
+## A brief garden visitor — v0.9.0
+
+Three small butterflies visit the garden during the first hours of a clear morning. Aava pauses to follow their flight, changing her action and adding one arrival event. Reduced-motion visitors see the same butterflies at rest. The moment is derived from existing time and weather, and memory-guided visits still take priority, so save schema remains v3.
+
 ## Next question
 
-**What other fleeting moment might make a familiar route worth watching?** Keep the response small, observable and free of chores or resource management.
+**What small evening moment might make the fire clearing feel different?** Keep the response calm, observable and free of chores or resource management.
 
 ## Later possibilities
 

@@ -205,6 +205,11 @@ export function shoreTrace(elapsed) {
   const cycle = Math.floor((clock(elapsed).day - 1) / WEATHER_CYCLE.length);
   return SHORE_TRACES[cycle % SHORE_TRACES.length];
 }
+export function gardenButterflies(elapsed) {
+  const time = clock(elapsed);
+  return weather(elapsed).key === "clear" &&
+    time.hour >= 8 && time.hour < 10.5;
+}
 function rainDuration(start, end) {
   let total = 0;
   const firstDay = clock(start).day,
@@ -261,6 +266,12 @@ export function routine(id, elapsed, memory = null) {
       target: PLACES.shore,
       action: trace.action,
       event: trace.event,
+    };
+  if (id === 0 && gardenButterflies(elapsed))
+    return {
+      target: PLACES.garden,
+      action: "Seuraa perhosten lentoa",
+      event: "jäi seuraamaan puutarhassa lepattelevia perhosia.",
     };
   const stops =
     p === "morning"

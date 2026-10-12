@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.9.0 · 2026-10-12 · Pouta-aamun vieraat
+
+**Choice:** answer the roadmap's question with a genuinely passing detail on an existing route. The garden changes briefly in the morning, rewarding a timely glance without creating a collectible, task or permanent resource.
+
+- Three pale butterflies visit the garden between 08.00 and 10.30 on clear-weather mornings. Their flight is gently animated, while reduced-motion mode keeps the same detail visible without movement.
+- Aava pauses to follow the butterflies on her ordinary garden visit. Her resident action and one arrival event describe the moment without relying on the drawing alone.
+- Memory-guided morning visits still take priority. The butterflies are derived from existing world time and weather, so save schema remains v3 and all earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty simulation tests cover the moment's weather and time boundaries, Aava's action, single arrival event, return to her ordinary routine and memory priority in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at 1100 px and 390 px widths, including reduced-motion rendering. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the butterflies visit only during the first hours of clear-weather mornings. If a fresh conversation memory guides Aava elsewhere, the butterflies remain visible but she does not visit them.
+
 ## 0.8.0 · 2026-10-11 · Sade muuttaa askelia
 
 **Choice:** finish the first weather arc by letting the residents respond to rain themselves. The reaction changes familiar routines just enough to reward watching, without adding a task or another system for the visitor to manage.

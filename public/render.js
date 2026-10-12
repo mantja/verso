@@ -9,6 +9,7 @@ import {
   activeEncounter,
   weather,
   shoreTrace,
+  gardenButterflies,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -293,6 +294,21 @@ function drawShoreTrace(c, x, y, trace) {
     c.lineCap = "butt";
   }
 }
+function drawButterflies(c, x, y, t) {
+  const colors = ["#efd58a", "#d7e6c0", "#d9b58f"];
+  for (let i = 0; i < colors.length; i++) {
+    const angle = t * 0.65 + i * 2.2,
+      bx = x + Math.cos(angle) * (19 + i * 4),
+      by = y - 28 + Math.sin(angle * 1.35) * 8 - i * 3,
+      wing = 1.4 + Math.abs(Math.sin(t * 5 + i * 1.7)) * 2.2;
+    c.fillStyle = colors[i];
+    c.beginPath();
+    c.ellipse(bx - 2.5, by, 3.2, wing, -0.35, 0, Math.PI * 2);
+    c.ellipse(bx + 2.5, by, 3.2, wing, 0.35, 0, Math.PI * 2);
+    c.fill();
+    oval(c, bx, by + 0.5, 0.8, 2.3, "#635b43");
+  }
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -538,6 +554,10 @@ export function createRenderer(canvas) {
           "#f3d596",
         );
       }
+    }
+    if (gardenButterflies(world.elapsed)) {
+      const [x, ground] = project(...PLACES.garden);
+      drawButterflies(ctx, x, ground - height(...PLACES.garden), t);
     }
     // Draw quiet speech marks above the scenery so the meeting stays visible.
     // The same information is available in the resident buttons and event log.

@@ -5,6 +5,7 @@ import {
   phase,
   weather,
   shoreTrace,
+  gardenButterflies,
   newWorld,
   step,
   plantTree,
@@ -73,12 +74,13 @@ function updateUI() {
     evening: "Ilta saapuu",
   }[phase(world.elapsed)];
   const currentWeather = weather(world.elapsed),
-    trace = shoreTrace(world.elapsed);
+    trace = shoreTrace(world.elapsed),
+    butterflies = gardenButterflies(world.elapsed);
   $("weather").textContent = currentWeather.label;
-  $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}`;
+  $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}`;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}`,
+    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}`,
   );
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;

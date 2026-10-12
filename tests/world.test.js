@@ -19,6 +19,7 @@ import {
   phase,
   weather,
   shoreTrace,
+  gardenButterflies,
   routine,
   treeGrowth,
 } from "../public/world.js";
@@ -141,6 +142,32 @@ test("residents notice quiet rain while memories still guide their morning", () 
     action: "Muisto vie metsäpolulle",
     event: "seurasi muistoaan metsäpolulle Pajun kertomuksen innoittamana.",
   });
+});
+test("clear-morning butterflies briefly change Aava's garden visit", () => {
+  assert.equal(gardenButterflies(0), true);
+  assert.equal(gardenButterflies(24.9), true);
+  assert.equal(gardenButterflies(25), false);
+  assert.equal(gardenButterflies(DAY), false);
+  assert.equal(gardenButterflies(4 * DAY), true);
+  assert.deepEqual(routine(0, 0), {
+    target: PLACES.garden,
+    action: "Seuraa perhosten lentoa",
+    event: "jäi seuraamaan puutarhassa lepattelevia perhosia.",
+  });
+
+  const world = newWorld();
+  while (world.elapsed < 15) step(world, 1);
+  assert.equal(world.people[0].action, "Seuraa perhosten lentoa");
+  assert.equal(
+    world.events.filter((event) => event.text.includes("lepattelevia perhosia"))
+      .length,
+    1,
+  );
+  while (world.elapsed < 25) step(world, 1);
+  assert.equal(world.people[0].action, "Hoitaa puutarhaa");
+
+  const memory = { at: 820, pair: 0 };
+  assert.equal(routine(0, 4 * DAY, memory).action, "Muisto vie rannalle");
 });
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();
