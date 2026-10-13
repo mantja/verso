@@ -210,6 +210,9 @@ export function gardenButterflies(elapsed) {
   return weather(elapsed).key === "clear" &&
     time.hour >= 8 && time.hour < 10.5;
 }
+export function fireSparks(elapsed) {
+  return phase(elapsed) === "evening" && weather(elapsed).key === "clear";
+}
 function rainDuration(start, end) {
   let total = 0;
   const firstDay = clock(start).day,
@@ -255,8 +258,12 @@ export function routine(id, elapsed, memory = null) {
   if (p === "evening")
     return {
       target: [PLACES.fire[0] + id - 1, PLACES.fire[1] + 1],
-      action: "Viipyy nuotiolla",
-      event: "asettui nuotion ääreen.",
+      action: id === 2 && fireSparks(elapsed)
+        ? "Kuuntelee nuotion rätinää"
+        : "Viipyy nuotiolla",
+      event: id === 2 && fireSparks(elapsed)
+        ? "kohensi nuotiota ja jäi kuuntelemaan kipinöiden rätinää."
+        : "asettui nuotion ääreen.",
     };
   const remembered = memoryVisit(id, elapsed, memory);
   if (remembered) return remembered;

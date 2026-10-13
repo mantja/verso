@@ -20,6 +20,7 @@ import {
   weather,
   shoreTrace,
   gardenButterflies,
+  fireSparks,
   routine,
   treeGrowth,
 } from "../public/world.js";
@@ -169,6 +170,34 @@ test("clear-morning butterflies briefly change Aava's garden visit", () => {
   const memory = { at: 820, pair: 0 };
   assert.equal(routine(0, 4 * DAY, memory).action, "Muisto vie rannalle");
 });
+test("clear evenings lift sparks from the fire and give Paju a quiet task", () => {
+  assert.equal(fireSparks(89.9), false);
+  assert.equal(fireSparks(90), true);
+  assert.equal(fireSparks(129.9), true);
+  assert.equal(fireSparks(130), false);
+  assert.equal(fireSparks(DAY + 90), false);
+  assert.equal(fireSparks(4 * DAY + 90), true);
+  assert.equal(routine(0, 90).action, "Viipyy nuotiolla");
+  assert.deepEqual(routine(2, 90), {
+    target: [PLACES.fire[0] + 1, PLACES.fire[1] + 1],
+    action: "Kuuntelee nuotion rätinää",
+    event: "kohensi nuotiota ja jäi kuuntelemaan kipinöiden rätinää.",
+  });
+
+  const world = newWorld();
+  while (
+    !world.events.some((event) => event.text.includes("kipinöiden rätinää")) &&
+    world.elapsed < 130
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Paju kohensi nuotiota/);
+  for (let i = 0; i < 15; i++) step(world, 1);
+  assert.equal(
+    world.events.filter((event) => event.text.includes("kipinöiden rätinää"))
+      .length,
+    1,
+  );
+});
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();
   for (let i = 0; i < 24; i++) assert.equal(plantTree(w).ok, true);
@@ -225,7 +254,10 @@ test('evening encounters are visible, stationary, bounded and rotate between all
     assert.deepEqual(w.people.map(({x, y}) => [x, y]), positions);
     assert.equal(w.people.filter(p => p.action.startsWith('Juttelee:')).length, 2);
     step(w, 1);
-    assert.ok(w.people.every(p => p.action === 'Viipyy nuotiolla'));
+    assert.deepEqual(
+      w.people.map((p) => p.action),
+      PEOPLE.map((_, id) => routine(id, w.elapsed, w.memories[id]).action),
+    );
     assert.equal(w.events.filter(e => e.text === encounterText(w.lastEncounter)).length, 1);
   }
 });
@@ -241,7 +273,10 @@ test('reloading an encounter preserves its remaining duration and does not repla
   step(loaded, 1);
   assert.equal(loaded.people.filter(p => p.action.startsWith('Juttelee:')).length, 2);
   for (let i = 0; i < 5; i++) step(loaded, 1);
-  assert.ok(loaded.people.every(p => p.action === 'Viipyy nuotiolla'));
+  assert.deepEqual(
+    loaded.people.map((p) => p.action),
+    PEOPLE.map((_, id) => routine(id, loaded.elapsed, loaded.memories[id]).action),
+  );
   for (let i = 0; i < 70; i++) step(loaded, 1);
   assert.equal(loaded.lastEncounter.at, at);
   assert.equal(loaded.events.filter(e => e.at === at && e.text === encounterText(loaded.lastEncounter)).length, 1);

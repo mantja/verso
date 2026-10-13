@@ -42,9 +42,13 @@ During quiet rain, all three residents now carry small umbrellas in their own co
 
 Three small butterflies visit the garden during the first hours of a clear morning. Aava pauses to follow their flight, changing her action and adding one arrival event. Reduced-motion visitors see the same butterflies at rest. The moment is derived from existing time and weather, and memory-guided visits still take priority, so save schema remains v3.
 
+## Sparks in the clearing — v0.10.0
+
+On clear evenings, Paju tends the fire and listens to its crackle while a handful of warm sparks rise above the clearing. The sparks remain visible without movement in reduced-motion mode, and the canvas description names the moment. Existing conversations continue normally. The evening is derived from existing time and weather, so save schema remains v3.
+
 ## Next question
 
-**What small evening moment might make the fire clearing feel different?** Keep the response calm, observable and free of chores or resource management.
+**What small choice might distinguish one familiar day from another without asking anything of the visitor?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

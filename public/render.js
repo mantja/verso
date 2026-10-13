@@ -10,6 +10,7 @@ import {
   weather,
   shoreTrace,
   gardenButterflies,
+  fireSparks,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -309,6 +310,25 @@ function drawButterflies(c, x, y, t) {
     oval(c, bx, by + 0.5, 0.8, 2.3, "#635b43");
   }
 }
+function drawFireSparks(c, x, y, t) {
+  c.save();
+  c.shadowColor = "#f7c96a";
+  c.shadowBlur = 7;
+  for (let i = 0; i < 6; i++) {
+    const rise = (t * 0.22 + i / 6) % 1,
+      drift = Math.sin(t * 1.3 + i * 2.1) * (4 + rise * 8),
+      size = 2.4 - rise * 1.2;
+    oval(
+      c,
+      x + drift,
+      y - 18 - rise * 48,
+      size,
+      size,
+      `rgba(248,211,126,${0.9 - rise * 0.55})`,
+    );
+  }
+  c.restore();
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -553,6 +573,7 @@ export function createRenderer(canvas) {
           ],
           "#f3d596",
         );
+        if (fireSparks(world.elapsed)) drawFireSparks(ctx, x, y, t);
       }
     }
     if (gardenButterflies(world.elapsed)) {

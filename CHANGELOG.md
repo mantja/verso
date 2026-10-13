@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.10.0 · 2026-10-13 · Kipinöitä nuotioaukealla
+
+**Choice:** answer the roadmap's evening question by deepening the existing fire routine instead of adding another place or system. A passing fire detail makes clear evenings distinct while keeping the visitor free to simply watch.
+
+- On clear evenings, Paju tends the fire and listens to its crackle. His resident action and one arrival event describe the moment before and after any active conversation.
+- Six warm sparks rise gently above the fire. Reduced-motion mode keeps the same sparks visible without movement, and the weather tooltip and canvas description expose the detail without relying only on the drawing.
+- Existing evening conversations, memories and following-morning visits continue normally. The moment is derived from existing world time and weather, so save schema remains v3 and all earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-one simulation tests cover the clear-evening boundaries, four-day weather recurrence, Paju's action, single arrival event and return from a conversation to the correct evening routine in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at 1100 px and 390 px widths, including reduced-motion rendering. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: sparks appear only on clear evenings. During Paju's active conversation, the conversation action temporarily takes priority, although the sparks remain visible.
+
 ## 0.9.0 · 2026-10-12 · Pouta-aamun vieraat
 
 **Choice:** answer the roadmap's question with a genuinely passing detail on an existing route. The garden changes briefly in the morning, rewarding a timely glance without creating a collectible, task or permanent resource.
