@@ -21,6 +21,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  daytimeRoute,
   routine,
   treeGrowth,
 } from "../public/world.js";
@@ -196,6 +197,38 @@ test("clear evenings lift sparks from the fire and give Paju a quiet task", () =
     world.events.filter((event) => event.text.includes("kipinöiden rätinää"))
       .length,
     1,
+  );
+});
+test("residents alternate between two familiar daytime routes", () => {
+  assert.deepEqual(daytimeRoute(30), ["lookout", "garden", "shore"]);
+  assert.deepEqual(daytimeRoute(DAY + 30), ["shore", "lookout", "garden"]);
+  assert.deepEqual(daytimeRoute(2 * DAY + 30), ["lookout", "garden", "shore"]);
+  assert.deepEqual(
+    [0, 1, 2].map((id) => routine(id, DAY + 30).target),
+    [PLACES.shore, PLACES.lookout, PLACES.garden],
+  );
+  assert.deepEqual(
+    [0, 1, 2].map((id) => routine(id, DAY + 30).action),
+    ["Kuuntelee merta", "Tutkii metsäpolkua", "Hoitaa puutarhaa"],
+  );
+  assert.deepEqual(
+    [0, 1, 2].map((id) => routine(id, 2 * DAY + 30).action),
+    [
+      "Tutkii sateistä metsäpolkua",
+      "Kuuntelee sadetta puutarhassa",
+      "Katselee sateen renkaita",
+    ],
+  );
+
+  const world = newWorld();
+  while (world.elapsed < DAY + 70) step(world, 1);
+  assert.deepEqual(
+    world.people.map(({ x, y }) => [x, y]),
+    [PLACES.shore, PLACES.lookout, PLACES.garden],
+  );
+  assert.deepEqual(
+    world.people.map(({ action }) => action),
+    ["Kuuntelee merta", "Tutkii metsäpolkua", "Hoitaa puutarhaa"],
   );
 });
 test("planting is bounded, unique and survives serialization", () => {

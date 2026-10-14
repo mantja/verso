@@ -27,6 +27,10 @@ const MEMORY_VISITS = [
   ["lookout", "shore"],
   ["lookout", "garden"],
 ];
+const DAYTIME_ROUTES = [
+  ["lookout", "garden", "shore"],
+  ["shore", "lookout", "garden"],
+];
 const PLACE_DESTINATIONS = {
   garden: "puutarhaan",
   shore: "rannalle",
@@ -213,6 +217,9 @@ export function gardenButterflies(elapsed) {
 export function fireSparks(elapsed) {
   return phase(elapsed) === "evening" && weather(elapsed).key === "clear";
 }
+export function daytimeRoute(elapsed) {
+  return DAYTIME_ROUTES[(clock(elapsed).day - 1) % DAYTIME_ROUTES.length];
+}
 function rainDuration(start, end) {
   let total = 0;
   const firstDay = clock(start).day,
@@ -283,7 +290,7 @@ export function routine(id, elapsed, memory = null) {
   const stops =
     p === "morning"
       ? ["garden", "shore", "lookout"]
-      : ["lookout", "garden", "shore"];
+      : daytimeRoute(elapsed);
   const place = stops[id];
   if (weather(elapsed).key === "rain")
     return {

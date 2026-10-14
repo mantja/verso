@@ -46,9 +46,13 @@ Three small butterflies visit the garden during the first hours of a clear morni
 
 On clear evenings, Paju tends the fire and listens to its crackle while a handful of warm sparks rise above the clearing. The sparks remain visible without movement in reduced-motion mode, and the canvas description names the moment. Existing conversations continue normally. The evening is derived from existing time and weather, so save schema remains v3.
 
+## A different daytime path — v0.11.0
+
+The residents now alternate between two later-day routes. Their familiar morning places, memory-guided visits and evening gathering remain intact, but on every other day Aava heads to the shore, Otso explores the forest path and Paju tends the garden. Route choice is derived from the existing world day, so it adds variety without a new control, random result or save migration.
+
 ## Next question
 
-**What small choice might distinguish one familiar day from another without asking anything of the visitor?** Keep it calm, observable and compatible with personal saves.
+**What small trace could one resident leave for another to notice later?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

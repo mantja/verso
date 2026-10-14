@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.11.0 · 2026-10-14 · Päivän toinen polku
+
+**Choice:** answer the roadmap's question by varying an existing routine rather than adding another subsystem. A familiar day can feel different simply because the residents do not always take the same later route.
+
+- Morning places remain familiar: Aava begins at the garden, Otso at the shore and Paju on the forest path. Their later route now alternates by world day between two existing rounds.
+- On every other day Aava heads to the shore, Otso explores the forest path and Paju tends the garden. Their resident actions, walking paths and arrival events all follow the chosen route.
+- Memory-guided mornings, rain reactions, evening conversations and all existing transient moments retain their priority. The route is derived from the existing world day, so save schema remains v3 and earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-two simulation tests cover both route variants, their day-to-day recurrence, place-specific actions, rainy-day actions and actual arrival positions in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at 1100 px and 390 px widths. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the choice alternates deterministically between two routes rather than being random. Morning specialties and memories can still lead a resident elsewhere before the later route begins.
+
 ## 0.10.0 · 2026-10-13 · Kipinöitä nuotioaukealla
 
 **Choice:** answer the roadmap's evening question by deepening the existing fire routine instead of adding another place or system. A passing fire detail makes clear evenings distinct while keeping the visitor free to simply watch.
