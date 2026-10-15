@@ -11,6 +11,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  gardenKeepsake,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -329,6 +330,21 @@ function drawFireSparks(c, x, y, t) {
   }
   c.restore();
 }
+function drawGardenKeepsake(c, x, y) {
+  oval(c, x + 2, y + 3, 18, 6, "#526c5940");
+  oval(c, x, y, 15, 6, "#b8ad86");
+  c.strokeStyle = "#d7ca82";
+  c.lineWidth = 3;
+  c.beginPath();
+  c.ellipse(x, y - 2, 10, 4, -0.08, 0, Math.PI * 2);
+  c.stroke();
+  c.strokeStyle = "#8e8452";
+  c.lineWidth = 1;
+  c.beginPath();
+  c.ellipse(x, y - 2, 10, 4, -0.08, 0, Math.PI * 2);
+  c.stroke();
+  oval(c, x + 9, y + 1, 2.5, 1.5, "#766d43");
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -579,6 +595,10 @@ export function createRenderer(canvas) {
     if (gardenButterflies(world.elapsed)) {
       const [x, ground] = project(...PLACES.garden);
       drawButterflies(ctx, x, ground - height(...PLACES.garden), t);
+    }
+    if (gardenKeepsake(world.elapsed)) {
+      const [x, ground] = project(...PLACES.garden);
+      drawGardenKeepsake(ctx, x + 41, ground - height(...PLACES.garden) + 5);
     }
     // Draw quiet speech marks above the scenery so the meeting stays visible.
     // The same information is available in the resident buttons and event log.

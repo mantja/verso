@@ -96,6 +96,11 @@ const SHORE_TRACES = [
     event: "löysi sateen jäljiltä rannalta sileäksi kuluneen ajopuun oksan.",
   },
 ];
+const GARDEN_KEEPSAKE = {
+  label: "Pajun punoma ruohorengas",
+  action: "Tutkii Pajun ruohorengasta",
+  event: "löysi puutarhan kiveltä Pajun punoman pienen ruohorenkaan.",
+};
 export const PEOPLE = [
   {
     name: "Aava",
@@ -217,6 +222,16 @@ export function gardenButterflies(elapsed) {
 export function fireSparks(elapsed) {
   return phase(elapsed) === "evening" && weather(elapsed).key === "clear";
 }
+export function gardenKeepsake(elapsed) {
+  const time = clock(elapsed),
+    mood = weather(elapsed).key;
+  if (
+    (mood === "mist" && time.hour >= 12) ||
+    (mood === "rain" && time.hour < 11)
+  )
+    return GARDEN_KEEPSAKE;
+  return null;
+}
 export function daytimeRoute(elapsed) {
   return DAYTIME_ROUTES[(clock(elapsed).day - 1) % DAYTIME_ROUTES.length];
 }
@@ -274,6 +289,15 @@ export function routine(id, elapsed, memory = null) {
     };
   const remembered = memoryVisit(id, elapsed, memory);
   if (remembered) return remembered;
+  const keepsake = id === 0 && p === "morning"
+    ? gardenKeepsake(elapsed)
+    : null;
+  if (keepsake)
+    return {
+      target: PLACES.garden,
+      action: keepsake.action,
+      event: keepsake.event,
+    };
   const trace = id === 1 && p === "morning" ? shoreTrace(elapsed) : null;
   if (trace)
     return {
@@ -292,6 +316,12 @@ export function routine(id, elapsed, memory = null) {
       ? ["garden", "shore", "lookout"]
       : daytimeRoute(elapsed);
   const place = stops[id];
+  if (id === 2 && p === "day" && weather(elapsed).key === "mist")
+    return {
+      target: PLACES.garden,
+      action: "Punoo ruohorengasta",
+      event: "punoi ruohosta pienen renkaan ja jätti sen puutarhan kivelle.",
+    };
   if (weather(elapsed).key === "rain")
     return {
       target: PLACES[place],

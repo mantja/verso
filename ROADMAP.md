@@ -50,9 +50,13 @@ On clear evenings, Paju tends the fire and listens to its crackle while a handfu
 
 The residents now alternate between two later-day routes. Their familiar morning places, memory-guided visits and evening gathering remain intact, but on every other day Aava heads to the shore, Otso explores the forest path and Paju tends the garden. Route choice is derived from the existing world day, so it adds variety without a new control, random result or save migration.
 
+## A trace for someone else — v0.12.0
+
+On misty days when his later route reaches the garden, Paju weaves a small grass ring and leaves it on a garden stone. The trace remains through the night, and Aava pauses to notice it on the following rainy morning. A fresh conversation memory still takes priority. The moment is derived from the existing route, weather and time, so it adds continuity between residents without shared state or a save migration.
+
 ## Next question
 
-**What small trace could one resident leave for another to notice later?** Keep it calm, observable and compatible with personal saves.
+**What quiet detail could make the island's night worth watching rather than merely waiting through?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.12.0 · 2026-10-15 · Ruohorengas puutarhakivellä
+
+**Choice:** answer the roadmap's question with a small act that connects two residents across time. Paju now leaves a trace during an existing garden visit, and Aava notices it the next morning.
+
+- During misty daytime visits Paju weaves a small grass ring and leaves it on a garden stone. His action and one arrival event describe making the trace.
+- The ring remains visible through the night and the following rainy morning. Aava pauses at the garden to notice what Paju left, with a matching action and event.
+- A fresh conversation memory retains priority over the discovery. The trace is derived from the existing weather, route and clock, so save schema remains v3 and earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-three simulation tests cover the trace's appearance and disappearance boundaries, both residents' actions and events, the following-morning handoff and memory priority in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at desktop and mobile widths. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the ring appears once per four-day weather cycle rather than becoming a persistent possession. A fresh conversation memory can guide Aava elsewhere that morning, leaving the trace visible but unnoticed.
+
 ## 0.11.0 · 2026-10-14 · Päivän toinen polku
 
 **Choice:** answer the roadmap's question by varying an existing routine rather than adding another subsystem. A familiar day can feel different simply because the residents do not always take the same later route.

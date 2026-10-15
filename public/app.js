@@ -7,6 +7,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  gardenKeepsake,
   newWorld,
   step,
   plantTree,
@@ -77,12 +78,13 @@ function updateUI() {
   const currentWeather = weather(world.elapsed),
     trace = shoreTrace(world.elapsed),
     butterflies = gardenButterflies(world.elapsed),
-    sparks = fireSparks(world.elapsed);
+    sparks = fireSparks(world.elapsed),
+    keepsake = gardenKeepsake(world.elapsed);
   $("weather").textContent = currentWeather.label;
-  $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}`;
+  $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}`,
+    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`,
   );
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;

@@ -21,6 +21,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  gardenKeepsake,
   daytimeRoute,
   routine,
   treeGrowth,
@@ -116,11 +117,11 @@ test("clearing mornings leave a changing trace on the shore for Otso", () => {
     1,
   );
 });
-test("residents notice quiet rain while memories still guide their morning", () => {
+test("residents notice quiet rain while memories and keepsakes guide their morning", () => {
   assert.deepEqual(
     [0, 1, 2].map((id) => routine(id, 2 * DAY).action),
     [
-      "Kuuntelee sadetta puutarhassa",
+      "Tutkii Pajun ruohorengasta",
       "Katselee sateen renkaita",
       "Tutkii sateistä metsäpolkua",
     ],
@@ -130,10 +131,10 @@ test("residents notice quiet rain while memories still guide their morning", () 
 
   const world = newWorld();
   while (world.elapsed < 2 * DAY) step(world, 1);
-  assert.equal(world.people[0].action, "Kuuntelee sadetta puutarhassa");
+  assert.equal(world.people[0].action, "Tutkii Pajun ruohorengasta");
   assert.equal(
     world.events.filter((event) =>
-      event.text.includes("Aava pysähtyi kuuntelemaan sadetta puutarhassa"),
+      event.text.includes("Aava löysi puutarhan kiveltä"),
     ).length,
     1,
   );
@@ -209,7 +210,7 @@ test("residents alternate between two familiar daytime routes", () => {
   );
   assert.deepEqual(
     [0, 1, 2].map((id) => routine(id, DAY + 30).action),
-    ["Kuuntelee merta", "Tutkii metsäpolkua", "Hoitaa puutarhaa"],
+    ["Kuuntelee merta", "Tutkii metsäpolkua", "Punoo ruohorengasta"],
   );
   assert.deepEqual(
     [0, 1, 2].map((id) => routine(id, 2 * DAY + 30).action),
@@ -228,8 +229,42 @@ test("residents alternate between two familiar daytime routes", () => {
   );
   assert.deepEqual(
     world.people.map(({ action }) => action),
-    ["Kuuntelee merta", "Tutkii metsäpolkua", "Hoitaa puutarhaa"],
+    ["Kuuntelee merta", "Tutkii metsäpolkua", "Punoo ruohorengasta"],
   );
+});
+test("Paju leaves a grass ring for Aava to notice the next morning", () => {
+  assert.equal(gardenKeepsake(DAY + 39.9), null);
+  assert.equal(gardenKeepsake(DAY + 40).label, "Pajun punoma ruohorengas");
+  assert.equal(gardenKeepsake(2 * DAY + 29.9).action, "Tutkii Pajun ruohorengasta");
+  assert.equal(gardenKeepsake(2 * DAY + 30), null);
+  assert.equal(gardenKeepsake(3 * DAY), null);
+  assert.deepEqual(routine(2, DAY + 40), {
+    target: PLACES.garden,
+    action: "Punoo ruohorengasta",
+    event: "punoi ruohosta pienen renkaan ja jätti sen puutarhan kivelle.",
+  });
+  assert.deepEqual(routine(0, 2 * DAY), {
+    target: PLACES.garden,
+    action: "Tutkii Pajun ruohorengasta",
+    event: "löysi puutarhan kiveltä Pajun punoman pienen ruohorenkaan.",
+  });
+
+  const memory = { at: DAY + 95, pair: 0 };
+  assert.equal(routine(0, 2 * DAY, memory).action, "Muisto vie rannalle");
+
+  const world = newWorld();
+  while (
+    !world.events.some((event) => event.text.includes("jätti sen puutarhan kivelle")) &&
+    world.elapsed < DAY + 90
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Paju punoi ruohosta/);
+  while (
+    !world.events.some((event) => event.text.includes("Pajun punoman")) &&
+    world.elapsed < 2 * DAY + 30
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Aava löysi.*Pajun punoman/);
 });
 test("planting is bounded, unique and survives serialization", () => {
   const w = newWorld();
