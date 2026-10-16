@@ -54,9 +54,13 @@ The residents now alternate between two later-day routes. Their familiar morning
 
 On misty days when his later route reaches the garden, Paju weaves a small grass ring and leaves it on a garden stone. The trace remains through the night, and Aava pauses to notice it on the following rainy morning. A fresh conversation memory still takes priority. The moment is derived from the existing route, weather and time, so it adds continuity between residents without shared state or a save migration.
 
+## Small lights after dark — v0.13.0
+
+After dusk on clear nights, eight small lights drift near the forest path and their appearance enters the event log once. Reduced-motion visitors see the same lights held still, while the canvas description names the moment without relying only on the drawing. The lights are derived from existing time and weather, so save schema remains v3.
+
 ## Next question
 
-**What quiet detail could make the island's night worth watching rather than merely waiting through?** Keep it calm, observable and compatible with personal saves.
+**How could one resident's home reveal something about them without words?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

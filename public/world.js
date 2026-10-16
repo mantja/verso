@@ -222,6 +222,9 @@ export function gardenButterflies(elapsed) {
 export function fireSparks(elapsed) {
   return phase(elapsed) === "evening" && weather(elapsed).key === "clear";
 }
+export function nightLights(elapsed) {
+  return phase(elapsed) === "night" && weather(elapsed).key === "clear";
+}
 export function gardenKeepsake(elapsed) {
   const time = clock(elapsed),
     mood = weather(elapsed).key;
@@ -393,10 +396,13 @@ function meetAtFire(world) {
 }
 export function step(world, dt) {
   if (!Number.isFinite(dt) || dt <= 0) return;
-  const before = clock(world.elapsed).day;
+  const before = clock(world.elapsed).day,
+    beforePhase = phase(world.elapsed);
   world.elapsed += Math.min(dt, 1);
   if (clock(world.elapsed).day !== before)
     addEvent(world, weather(world.elapsed).event);
+  if (beforePhase !== "night" && nightLights(world.elapsed))
+    addEvent(world, "Metsän hämärään syttyi pieniä valoja.");
   world.people.forEach((p, id) => {
     const plan = routine(id, world.elapsed, world.memories[id]),
       goal = plan.target.join(",");

@@ -21,6 +21,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  nightLights,
   gardenKeepsake,
   daytimeRoute,
   routine,
@@ -197,6 +198,30 @@ test("clear evenings lift sparks from the fire and give Paju a quiet task", () =
   assert.equal(
     world.events.filter((event) => event.text.includes("kipinöiden rätinää"))
       .length,
+    1,
+  );
+});
+test("small forest lights make clear nights briefly visible", () => {
+  assert.equal(nightLights(129.9), false);
+  assert.equal(nightLights(130), true);
+  assert.equal(nightLights(159.9), true);
+  assert.equal(nightLights(160), false);
+  assert.equal(nightLights(DAY + 130), false);
+  assert.equal(nightLights(4 * DAY + 130), true);
+
+  const world = newWorld();
+  while (world.elapsed < 150) step(world, 1);
+  assert.equal(
+    world.events.filter((event) =>
+      event.text.includes("Metsän hämärään syttyi pieniä valoja"),
+    ).length,
+    1,
+  );
+  for (let i = 0; i < 9; i++) step(world, 1);
+  assert.equal(
+    world.events.filter((event) =>
+      event.text.includes("Metsän hämärään syttyi pieniä valoja"),
+    ).length,
     1,
   );
 });

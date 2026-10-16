@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.13.0 · 2026-10-16 · Metsän pienet yövalot
+
+**Choice:** answer the roadmap's night question with one restrained visual moment rather than a new activity. A clear night now gives the visitor something quiet to notice after the residents have gone home.
+
+- Eight small lights drift near the forest path after 21.00 on clear-weather nights. Reduced-motion mode keeps the same lights visible without movement.
+- The weather tooltip and canvas description name the lights, and their arrival adds one event without repeating during the same night.
+- The moment is derived from the existing time and weather. Save schema remains v3, so earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-four simulation tests cover the clear-night boundaries, four-day recurrence and single event in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at desktop and mobile widths, including reduced motion. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the lights appear only during the clear portion of the four-day weather cycle and fade when the weather changes at midnight.
+
 ## 0.12.0 · 2026-10-15 · Ruohorengas puutarhakivellä
 
 **Choice:** answer the roadmap's question with a small act that connects two residents across time. Paju now leaves a trace during an existing garden visit, and Aava notices it the next morning.

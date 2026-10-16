@@ -11,6 +11,7 @@ import {
   shoreTrace,
   gardenButterflies,
   fireSparks,
+  nightLights,
   gardenKeepsake,
   treeGrowth,
 } from "./world.js";
@@ -345,6 +346,19 @@ function drawGardenKeepsake(c, x, y) {
   c.stroke();
   oval(c, x + 9, y + 1, 2.5, 1.5, "#766d43");
 }
+function drawNightLights(c, x, y, t) {
+  c.save();
+  c.globalCompositeOperation = "lighter";
+  c.shadowColor = "#e9ef9c";
+  c.shadowBlur = 10;
+  for (let i = 0; i < 8; i++) {
+    const bx = x - 54 + noise(i, 71) * 108 + Math.sin(t * 0.22 + i) * 5,
+      by = y - 12 - noise(i, 72) * 45 + Math.cos(t * 0.18 + i * 1.7) * 3,
+      glow = 0.62 + Math.sin(t * 0.7 + i * 2.3) * 0.2;
+    oval(c, bx, by, 2.2, 2.2, `rgba(239,241,157,${glow})`);
+  }
+  c.restore();
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -627,6 +641,10 @@ export function createRenderer(canvas) {
     if (h >= 17 && h < 21) {
       ctx.fillStyle = "rgba(219,167,103,0.09)";
       ctx.fillRect(0, 0, W, H);
+    }
+    if (nightLights(world.elapsed)) {
+      const [x, ground] = project(...PLACES.lookout);
+      drawNightLights(ctx, x, ground - height(...PLACES.lookout), t);
     }
     weatherDetails(ctx, currentWeather.key, t);
     // A quiet compass, drawn as part of the map.
