@@ -127,6 +127,20 @@ export const PEOPLE = [
     thought: "Ehkä tutunkin polun varrelta löytyy vielä jotain uutta.",
   },
 ];
+export const HOME_DETAILS = [
+  {
+    key: "seedling-pots",
+    label: "Aavan oven vieressä kasvaa kaksi pientä tainta.",
+  },
+  {
+    key: "shore-stones",
+    label: "Otson oven vieressä on rivi meren hiomia kiviä.",
+  },
+  {
+    key: "twig-mobile",
+    label: "Pajun räystäällä riippuu oksista sidottu pieni riipus.",
+  },
+];
 export const PLACES = {
   garden: [8, 14],
   fire: [12, 12],

@@ -1,6 +1,7 @@
 import {
   SIZE,
   PEOPLE,
+  HOME_DETAILS,
   PLACES,
   terrain,
   noise,
@@ -96,7 +97,61 @@ function tree(c, x, y, seed, growth = 1) {
   );
   c.restore();
 }
-function house(c, x, y, color) {
+function homeDetail(c, x, y, detail) {
+  if (detail === "seedling-pots") {
+    for (const offset of [19, 29]) {
+      polygon(
+        c,
+        [
+          [x + offset - 5, y - 5],
+          [x + offset + 5, y - 5],
+          [x + offset + 3, y + 3],
+          [x + offset - 3, y + 3],
+        ],
+        "#a66f4c",
+      );
+      c.fillStyle = "#58784d";
+      c.fillRect(x + offset - 1, y - 14, 2, 10);
+      oval(c, x + offset - 4, y - 12, 4, 2, "#75955d");
+      oval(c, x + offset + 3, y - 15, 4, 2, "#89a76a");
+    }
+  }
+  if (detail === "shore-stones") {
+    oval(c, x + 18, y + 1, 6, 3, "#d9d4bd");
+    oval(c, x + 29, y - 1, 5, 3, "#a8b6aa");
+    oval(c, x + 38, y - 3, 4, 2.5, "#e7cfad");
+    c.strokeStyle = "#b48268";
+    c.lineWidth = 1;
+    c.beginPath();
+    c.arc(x + 38, y - 4, 3, Math.PI, Math.PI * 2);
+    c.stroke();
+  }
+  if (detail === "twig-mobile") {
+    c.strokeStyle = "#765c43";
+    c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(x + 22, y - 47);
+    c.lineTo(x + 32, y - 37);
+    c.lineTo(x + 32, y - 22);
+    c.moveTo(x + 24, y - 31);
+    c.lineTo(x + 40, y - 31);
+    for (const offset of [-6, 0, 6]) {
+      c.moveTo(x + 32 + offset, y - 31);
+      c.lineTo(x + 32 + offset, y - 22 + Math.abs(offset) * 0.25);
+    }
+    c.stroke();
+    for (const offset of [-6, 0, 6])
+      oval(
+        c,
+        x + 32 + offset,
+        y - 20 + Math.abs(offset) * 0.25,
+        2.5,
+        4,
+        "#d6c58a",
+      );
+  }
+}
+function house(c, x, y, color, detail) {
   oval(c, x + 7, y + 4, 32, 12, "#355e3e30");
   polygon(
     c,
@@ -169,6 +224,7 @@ function house(c, x, y, color) {
   );
   c.fillStyle = "#7d7a64";
   c.fillRect(x + 10, y - 64, 7, 18);
+  homeDetail(c, x, y, detail);
 }
 export function portrait(p) {
   return `<svg viewBox="0 0 24 30" aria-hidden="true"><path fill="${p.hair}" d="M7 3h10v4h2v9H5V7h2z"/><path fill="#ecc59b" d="M8 7h8v11H8z"/><path fill="${p.hair}" d="M7 5h10v4H7z"/><path fill="${p.color}" d="M6 17h12v9H6z"/><path fill="#424c40" d="M7 26h4v4H7zm6 0h4v4h-4z"/><path fill="#434138" d="M9 11h1v2H9zm5 0h1v2h-1z"/></svg>`;
@@ -471,7 +527,13 @@ export function createRenderer(canvas) {
     for (let x = 0; x < SIZE; x++)
       if (forest(x, y)) fixed.push({ x, y, kind: "tree", seed: noise(x, y) });
   PEOPLE.forEach((p, id) =>
-    fixed.push({ x: p.home[0], y: p.home[1], kind: "house", id }),
+    fixed.push({
+      x: p.home[0],
+      y: p.home[1],
+      kind: "house",
+      id,
+      detail: HOME_DETAILS[id].key,
+    }),
   );
   fixed.push(
     { x: PLACES.garden[0], y: PLACES.garden[1], kind: "garden" },
@@ -534,7 +596,13 @@ export function createRenderer(canvas) {
         }
       }
       if (o.kind === "house")
-        house(ctx, x, y, ["#9e7153", "#8e8362", "#ad855e"][o.id]);
+        house(
+          ctx,
+          x,
+          y,
+          ["#9e7153", "#8e8362", "#ad855e"][o.id],
+          o.detail,
+        );
       if (o.kind === "person")
         person(
           ctx,

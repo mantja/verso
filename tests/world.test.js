@@ -7,6 +7,7 @@ import {
   serialize,
   restore,
   PEOPLE,
+  HOME_DETAILS,
   PLACES,
   terrain,
   pathTo,
@@ -27,6 +28,18 @@ import {
   routine,
   treeGrowth,
 } from "../public/world.js";
+
+test("each home has a distinct detail that reflects its resident", () => {
+  assert.equal(HOME_DETAILS.length, PEOPLE.length);
+  assert.deepEqual(
+    HOME_DETAILS.map(({ key }) => key),
+    ["seedling-pots", "shore-stones", "twig-mobile"],
+  );
+  HOME_DETAILS.forEach((detail, id) => {
+    assert.match(detail.label, new RegExp(`^${PEOPLE[id].name}`));
+    assert.ok(detail.label.length < 100);
+  });
+});
 
 test("every home and activity location is connected by land", () => {
   const points = [...PEOPLE.map((p) => p.home), ...Object.values(PLACES)];

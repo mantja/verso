@@ -58,9 +58,13 @@ On misty days when his later route reaches the garden, Paju weaves a small grass
 
 After dusk on clear nights, eight small lights drift near the forest path and their appearance enters the event log once. Reduced-motion visitors see the same lights held still, while the canvas description names the moment without relying only on the drawing. The lights are derived from existing time and weather, so save schema remains v3.
 
+## Homes with a quiet signature — v0.14.0
+
+Each doorstep now carries one small, permanent detail: seedling pots for Aava, a row of shore stones for Otso and a twig mobile for Paju. The details distinguish the homes visually without adding dialogue, chores or collectibles. The canvas description exposes the same information to visitors who do not see the drawing. This is a rendering-only addition, so save schema remains v3.
+
 ## Next question
 
-**How could one resident's home reveal something about them without words?** Keep it calm, observable and compatible with personal saves.
+**How could residents notice the visitor-planted trees without turning them into tasks?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

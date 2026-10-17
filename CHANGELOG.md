@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.14.0 · 2026-10-17 · Kolme omanlaista ovenpielusta
+
+**Choice:** answer the roadmap's home question with a permanent visual detail rather than a new interaction. The houses now reveal a little about their residents even while everyone is away.
+
+- Two seedling pots sit beside Aava's door, a row of wave-smoothed stones marks Otso's doorstep and a small twig mobile hangs from Paju's eaves.
+- The canvas description names the details so the change is not conveyed only through the drawing.
+- The details are part of the procedural artwork. Save schema remains v3, so earlier personal islands stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-five tests cover the one-to-one resident detail definitions in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at desktop and mobile widths. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the details are permanent parts of the houses rather than objects residents interact with, and they do not change with weather or time.
+
 ## 0.13.0 · 2026-10-16 · Metsän pienet yövalot
 
 **Choice:** answer the roadmap's night question with one restrained visual moment rather than a new activity. A clear night now gives the visitor something quiet to notice after the residents have gone home.
