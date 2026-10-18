@@ -27,6 +27,7 @@ import {
   daytimeRoute,
   routine,
   treeGrowth,
+  plantedTreeVisit,
 } from "../public/world.js";
 
 test("each home has a distinct detail that reflects its resident", () => {
@@ -103,6 +104,55 @@ test("quiet rain nourishes planted trees without changing the saved tree shape",
   const loaded = restore(serialize(w));
   assert.deepEqual(loaded.planted, w.planted);
   assert.equal(treeGrowth(loaded.planted[0], loaded.elapsed), treeGrowth(w.planted[0], w.elapsed));
+});
+test("residents take turns noticing mature visitor-planted trees", () => {
+  const world = newWorld();
+  assert.equal(plantTree(world).ok, true);
+  const tree = world.planted[0];
+  assert.equal(plantedTreeVisit(0, 30, world.planted), null);
+  assert.equal(plantedTreeVisit(0, DAY + 30, world.planted), null);
+  assert.deepEqual(plantedTreeVisit(1, DAY + 30, world.planted), {
+    target: [tree.x, tree.y],
+    action: "Katselee kasvavaa latvusta",
+    event: "pysähtyi kävijän istuttaman puun luo katselemaan sen latvusta.",
+  });
+  assert.deepEqual(plantedTreeVisit(2, 2 * DAY + 30, world.planted), {
+    target: [tree.x, tree.y],
+    action: "Kuuntelee sadetta puun suojassa",
+    event: "pysähtyi kävijän istuttaman puun suojaan kuuntelemaan sadetta.",
+  });
+  assert.equal(routine(1, DAY + 30, null, []).action, "Tutkii metsäpolkua");
+  assert.equal(
+    routine(1, DAY + 30, null, world.planted).action,
+    "Katselee kasvavaa latvusta",
+  );
+
+  const grove = newWorld();
+  assert.equal(plantTree(grove).ok, true);
+  assert.equal(plantTree(grove).ok, true);
+  const mature = [...grove.planted].sort(
+    (a, b) => a.at - b.at || a.x - b.x || a.y - b.y,
+  );
+  assert.deepEqual(plantedTreeVisit(1, DAY + 30, grove.planted).target, [
+    mature[1].x,
+    mature[1].y,
+  ]);
+  assert.deepEqual(plantedTreeVisit(2, 2 * DAY + 30, grove.planted).target, [
+    mature[0].x,
+    mature[0].y,
+  ]);
+
+  while (
+    !world.events.some((event) => event.text.includes("katselemaan sen latvusta")) &&
+    world.elapsed < DAY + 100
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Otso pysähtyi.*istuttaman puun/);
+  assert.equal(
+    world.events.filter((event) => event.text.includes("katselemaan sen latvusta"))
+      .length,
+    1,
+  );
 });
 test("clearing mornings leave a changing trace on the shore for Otso", () => {
   assert.equal(shoreTrace(0), null);

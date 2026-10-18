@@ -62,9 +62,13 @@ After dusk on clear nights, eight small lights drift near the forest path and th
 
 Each doorstep now carries one small, permanent detail: seedling pots for Aava, a row of shore stones for Otso and a twig mobile for Paju. The details distinguish the homes visually without adding dialogue, chores or collectibles. The canvas description exposes the same information to visitors who do not see the drawing. This is a rendering-only addition, so save schema remains v3.
 
+## A pause beneath a planted tree — v0.15.0
+
+Once a visitor-planted tree reaches maturity, one resident at a time visits it during the daytime round. The resident rotates with the world day, and mature trees rotate too when there is more than one. Rain changes the pause into shelter beneath the canopy. The visit is derived from existing tree and world times, so it adds no task, reward, shared state or save migration.
+
 ## Next question
 
-**How could residents notice the visitor-planted trees without turning them into tasks?** Keep it calm, observable and compatible with personal saves.
+**How could the evening fire reflect what residents actually noticed during the day?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

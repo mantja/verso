@@ -271,6 +271,27 @@ export function treeGrowth(tree, elapsed) {
   const nourishedAge = age + rainDuration(tree.at, elapsed) * 0.5;
   return 0.23 + Math.min(1, nourishedAge / DAY) * 0.77;
 }
+export function plantedTreeVisit(id, elapsed, planted = []) {
+  const time = clock(elapsed);
+  if (phase(elapsed) !== "day" || id !== (time.day - 1) % PEOPLE.length)
+    return null;
+  const mature = planted
+    .filter((tree) => treeGrowth(tree, elapsed) >= 1)
+    .sort((a, b) => a.at - b.at || a.x - b.x || a.y - b.y);
+  if (!mature.length) return null;
+  const tree = mature[(time.day - 1) % mature.length];
+  if (weather(elapsed).key === "rain")
+    return {
+      target: [tree.x, tree.y],
+      action: "Kuuntelee sadetta puun suojassa",
+      event: "pysähtyi kävijän istuttaman puun suojaan kuuntelemaan sadetta.",
+    };
+  return {
+    target: [tree.x, tree.y],
+    action: "Katselee kasvavaa latvusta",
+    event: "pysähtyi kävijän istuttaman puun luo katselemaan sen latvusta.",
+  };
+}
 export function memoryVisit(id, elapsed, memory) {
   if (!memory || phase(elapsed) !== "morning") return null;
   if (clock(elapsed).day !== clock(memory.at).day + 1) return null;
@@ -286,7 +307,7 @@ export function memoryVisit(id, elapsed, memory) {
     event: `seurasi muistoaan ${destination} ${PEOPLE[other].name}n kertomuksen innoittamana.`,
   };
 }
-export function routine(id, elapsed, memory = null) {
+export function routine(id, elapsed, memory = null, planted = []) {
   const p = phase(elapsed);
   if (p === "night")
     return {
@@ -339,6 +360,8 @@ export function routine(id, elapsed, memory = null) {
       action: "Punoo ruohorengasta",
       event: "punoi ruohosta pienen renkaan ja jätti sen puutarhan kivelle.",
     };
+  const treeVisit = plantedTreeVisit(id, elapsed, planted);
+  if (treeVisit) return treeVisit;
   if (weather(elapsed).key === "rain")
     return {
       target: PLACES[place],
@@ -418,7 +441,7 @@ export function step(world, dt) {
   if (beforePhase !== "night" && nightLights(world.elapsed))
     addEvent(world, "Metsän hämärään syttyi pieniä valoja.");
   world.people.forEach((p, id) => {
-    const plan = routine(id, world.elapsed, world.memories[id]),
+    const plan = routine(id, world.elapsed, world.memories[id], world.planted),
       goal = plan.target.join(",");
     if (p.goal !== goal) {
       // Finish the current tile before taking a new route: no shortcuts over water.

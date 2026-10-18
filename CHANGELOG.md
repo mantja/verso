@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.15.0 · 2026-10-18 · Istutetun puun varjossa
+
+**Choice:** let the residents acknowledge the visitor's existing contribution instead of adding another object or control. A mature planted tree now becomes a quiet stop on their daytime round.
+
+- One resident per world day pauses beside a mature visitor-planted tree, rotating among Aava, Otso and Paju. When several trees are mature, the visited tree rotates as well.
+- During quiet rain the same visit becomes a pause beneath the canopy to listen to the rain. The resident action and one arrival event make the moment readable beyond the drawing.
+- The visit is derived from existing planting and world times. Save schema remains v3, so earlier personal islands, trees and memories stay compatible.
+- Updated the visible development diary and next direction. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-six tests cover tree maturity, resident rotation, rainy shelter, unchanged routines without mature trees and the single arrival event in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at desktop and mobile widths. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: only one resident visits one mature tree per day. The visit is observational and does not alter the tree or create a new memory.
+
 ## 0.14.0 · 2026-10-17 · Kolme omanlaista ovenpielusta
 
 **Choice:** answer the roadmap's home question with a permanent visual detail rather than a new interaction. The houses now reveal a little about their residents even while everyone is away.
