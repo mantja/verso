@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.16.0 · 2026-10-19 · Päivän kaiku nuotiolla
+
+**Choice:** connect the island's passing daytime details to the existing evening fire without changing conversations or inventing events that a resident did not experience.
+
+- During the evening, the fire recalls the latest special observation that actually appears in the current day's event history: butterflies, rain, a shore trace, the grass ring or a mature planted tree.
+- Four softly orbiting motes and a short Finnish map caption make the echo visible. The canvas description and caption tooltip identify the resident and observation without relying only on the drawing.
+- A day without a completed special observation gets no echo, and observations from earlier days are ignored. Reloading preserves a real echo through the existing event history.
+- Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: all twenty-seven tests cover actual-event selection, absence after a missed moment, day boundaries, mature-tree reflection and restoration in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer produced and passed visual inspection at desktop and mobile widths, including reduced motion. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the fire reflects only the latest recognized special observation of the day. It does not change the existing conversation or the residents' persistent memories.
+
 ## 0.15.0 · 2026-10-18 · Istutetun puun varjossa
 
 **Choice:** let the residents acknowledge the visitor's existing contribution instead of adding another object or control. A mature planted tree now becomes a quiet stop on their daytime round.

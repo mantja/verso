@@ -213,6 +213,12 @@ canvas {
   font-size: 9px;
   letter-spacing: 2px;
 }
+.map-caption .reflection {
+  color: #6f6544;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-align: center;
+}
 .world-controls {
   min-height: 68px;
   background: #eff2e9;
@@ -625,6 +631,11 @@ footer > span {
   }
   .map-caption span:last-child {
     font-size: 7px;
+  }
+  .map-caption .reflection {
+    max-width: 44%;
+    font-size: 6px;
+    letter-spacing: 0.6px;
   }
   .world-note {
     flex-direction: column;

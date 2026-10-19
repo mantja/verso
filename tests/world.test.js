@@ -24,6 +24,7 @@ import {
   fireSparks,
   nightLights,
   gardenKeepsake,
+  dayReflection,
   daytimeRoute,
   routine,
   treeGrowth,
@@ -263,6 +264,44 @@ test("clear evenings lift sparks from the fire and give Paju a quiet task", () =
       .length,
     1,
   );
+});
+test("the evening fire echoes only an observation that actually happened that day", () => {
+  const clearDay = newWorld();
+  while (phase(clearDay.elapsed) !== "evening") step(clearDay, 1);
+  assert.deepEqual(dayReflection(clearDay), {
+    key: "butterflies",
+    label: "puutarhan perhoset",
+    text: "Aava kertoo puutarhassa näkemistään perhosista.",
+  });
+  assert.deepEqual(
+    dayReflection(restore(serialize(clearDay))),
+    dayReflection(clearDay),
+  );
+
+  const quietEvening = newWorld();
+  quietEvening.elapsed = 90;
+  quietEvening.events = [];
+  assert.equal(dayReflection(quietEvening), null);
+
+  const plantedDay = newWorld();
+  assert.equal(plantTree(plantedDay).ok, true);
+  while (
+    !(clock(plantedDay.elapsed).day === 2 &&
+      phase(plantedDay.elapsed) === "evening")
+  )
+    step(plantedDay, 1);
+  assert.deepEqual(dayReflection(plantedDay), {
+    key: "tree",
+    label: "istutettu puu",
+    text: "Otso kertoo pysähdyksestään kävijän istuttaman puun luona.",
+  });
+
+  while (
+    !(clock(clearDay.elapsed).day === 2 &&
+      phase(clearDay.elapsed) === "evening")
+  )
+    step(clearDay, 1);
+  assert.equal(dayReflection(clearDay), null);
 });
 test("small forest lights make clear nights briefly visible", () => {
   assert.equal(nightLights(129.9), false);

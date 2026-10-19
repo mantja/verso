@@ -66,9 +66,13 @@ Each doorstep now carries one small, permanent detail: seedling pots for Aava, a
 
 Once a visitor-planted tree reaches maturity, one resident at a time visits it during the daytime round. The resident rotates with the world day, and mature trees rotate too when there is more than one. Rain changes the pause into shelter beneath the canopy. The visit is derived from existing tree and world times, so it adds no task, reward, shared state or save migration.
 
+## The day's echo at the fire — v0.16.0
+
+During the evening, four soft motes above the fire and a short Finnish caption recall one special observation that actually happened during that island's current day. The echo is chosen from the persisted event history, so a missed moment is never invented and a reload does not erase a real one. Old days are ignored. This adds no new task, shared state or save migration.
+
 ## Next question
 
-**How could the evening fire reflect what residents actually noticed during the day?** Keep it calm, observable and compatible with personal saves.
+**How could the same familiar place look subtly different to each resident without requiring new text for every visit?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

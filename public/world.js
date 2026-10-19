@@ -101,6 +101,41 @@ const GARDEN_KEEPSAKE = {
   action: "Tutkii Pajun ruohorengasta",
   event: "löysi puutarhan kiveltä Pajun punoman pienen ruohorenkaan.",
 };
+const DAY_REFLECTIONS = [
+  {
+    key: "tree",
+    label: "istutettu puu",
+    matches: /kävijän istuttaman puun/,
+    text: (name) =>
+      `${name} kertoo pysähdyksestään kävijän istuttaman puun luona.`,
+  },
+  {
+    key: "keepsake",
+    label: "ruohorengas",
+    matches: /Pajun punoman pienen ruohorenkaan/,
+    text: (name) =>
+      `${name} kertoo puutarhakivelle jätetystä ruohorenkaasta.`,
+  },
+  {
+    key: "shore",
+    label: "rannan jälki",
+    matches: /rannalta (?:sileän, vaalean kiven|pienen simpukankuoren|sileäksi kuluneen ajopuun oksan)/,
+    text: (name) =>
+      `${name} kertoo sateen rannalle jättämästä pienestä jäljestä.`,
+  },
+  {
+    key: "butterflies",
+    label: "puutarhan perhoset",
+    matches: /puutarhassa lepattelevia perhosia/,
+    text: (name) => `${name} kertoo puutarhassa näkemistään perhosista.`,
+  },
+  {
+    key: "rain",
+    label: "hiljainen sade",
+    matches: /(?:kuuntelemaan sadetta|sadepisaroiden renkaita|sateen tummentamaa metsäpolkua)/,
+    text: (name) => `${name} kertoo, miten hiljainen sade muutti saarta.`,
+  },
+];
 export const PEOPLE = [
   {
     name: "Aava",
@@ -247,6 +282,38 @@ export function gardenKeepsake(elapsed) {
     (mood === "rain" && time.hour < 11)
   )
     return GARDEN_KEEPSAKE;
+  return null;
+}
+export function dayReflection(world) {
+  if (
+    !world ||
+    phase(world.elapsed) !== "evening" ||
+    !Array.isArray(world.events)
+  )
+    return null;
+  const day = clock(world.elapsed).day;
+  for (const event of world.events) {
+    if (
+      !event ||
+      typeof event.text !== "string" ||
+      !Number.isFinite(event.at) ||
+      clock(event.at).day !== day
+    )
+      continue;
+    const resident = PEOPLE.find((person) =>
+      event.text.startsWith(`${person.name} `),
+    );
+    if (!resident) continue;
+    const reflection = DAY_REFLECTIONS.find(({ matches }) =>
+      matches.test(event.text),
+    );
+    if (reflection)
+      return {
+        key: reflection.key,
+        label: reflection.label,
+        text: reflection.text(resident.name),
+      };
+  }
   return null;
 }
 export function daytimeRoute(elapsed) {

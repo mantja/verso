@@ -14,6 +14,7 @@ import {
   fireSparks,
   nightLights,
   gardenKeepsake,
+  dayReflection,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -387,6 +388,31 @@ function drawFireSparks(c, x, y, t) {
   }
   c.restore();
 }
+function drawFireReflection(c, x, y, t, reflection) {
+  const colors = {
+    tree: "#b9d68b",
+    keepsake: "#e4d78d",
+    shore: "#d8e2d7",
+    butterflies: "#efd58a",
+    rain: "#a9cddd",
+  };
+  c.save();
+  c.globalCompositeOperation = "lighter";
+  c.shadowColor = colors[reflection.key];
+  c.shadowBlur = 9;
+  for (let i = 0; i < 4; i++) {
+    const angle = t * 0.24 + i * Math.PI / 2;
+    oval(
+      c,
+      x + Math.cos(angle) * 18,
+      y - 43 + Math.sin(angle) * 5,
+      2.4,
+      2.4,
+      colors[reflection.key],
+    );
+  }
+  c.restore();
+}
 function drawGardenKeepsake(c, x, y) {
   oval(c, x + 2, y + 3, 18, 6, "#526c5940");
   oval(c, x, y, 15, 6, "#b8ad86");
@@ -552,7 +578,8 @@ export function createRenderer(canvas) {
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,
-      currentWeather = weather(world.elapsed);
+      currentWeather = weather(world.elapsed),
+      reflection = dayReflection(world);
     weatherLight(ctx, currentWeather.key);
     ctx.strokeStyle = "#e8f1e28c";
     ctx.lineWidth = 1.5;
@@ -672,6 +699,7 @@ export function createRenderer(canvas) {
           "#f3d596",
         );
         if (fireSparks(world.elapsed)) drawFireSparks(ctx, x, y, t);
+        if (reflection) drawFireReflection(ctx, x, y, t, reflection);
       }
     }
     if (gardenButterflies(world.elapsed)) {

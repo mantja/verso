@@ -9,6 +9,7 @@ import {
   fireSparks,
   nightLights,
   gardenKeepsake,
+  dayReflection,
   newWorld,
   step,
   plantTree,
@@ -81,13 +82,19 @@ function updateUI() {
     butterflies = gardenButterflies(world.elapsed),
     sparks = fireSparks(world.elapsed),
     lights = nightLights(world.elapsed),
-    keepsake = gardenKeepsake(world.elapsed);
+    keepsake = gardenKeepsake(world.elapsed),
+    reflection = dayReflection(world);
   $("weather").textContent = currentWeather.label;
   $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`,
+    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}`,
   );
+  $("reflection").hidden = !reflection;
+  $("reflection").textContent = reflection
+    ? `PÄIVÄN KAIKU · ${reflection.label.toUpperCase()}`
+    : "";
+  $("reflection").title = reflection?.text || "";
   cards.forEach((b, id) => {
     b.querySelector("small").textContent = world.people[id].action;
     b.classList.toggle("has-memory", Boolean(world.memories[id]));
