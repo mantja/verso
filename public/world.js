@@ -176,6 +176,20 @@ export const HOME_DETAILS = [
     label: "Pajun räystäällä riippuu oksista sidottu pieni riipus.",
   },
 ];
+export const ATTENTION_DETAILS = [
+  {
+    key: "sprout",
+    label: "Aava huomaa kaksi hentoa lehteä.",
+  },
+  {
+    key: "ripples",
+    label: "Otso huomaa maan pinnassa veden kaltaisia renkaita.",
+  },
+  {
+    key: "trail",
+    label: "Paju huomaa polussa pienen uuden mutkan.",
+  },
+];
 export const PLACES = {
   garden: [8, 14],
   fire: [12, 12],

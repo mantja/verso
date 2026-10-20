@@ -8,6 +8,7 @@ import {
   restore,
   PEOPLE,
   HOME_DETAILS,
+  ATTENTION_DETAILS,
   PLACES,
   terrain,
   pathTo,
@@ -38,6 +39,18 @@ test("each home has a distinct detail that reflects its resident", () => {
     ["seedling-pots", "shore-stones", "twig-mobile"],
   );
   HOME_DETAILS.forEach((detail, id) => {
+    assert.match(detail.label, new RegExp(`^${PEOPLE[id].name}`));
+    assert.ok(detail.label.length < 100);
+  });
+});
+
+test("each resident has a distinct selectable way of noticing the island", () => {
+  assert.equal(ATTENTION_DETAILS.length, PEOPLE.length);
+  assert.deepEqual(
+    ATTENTION_DETAILS.map(({ key }) => key),
+    ["sprout", "ripples", "trail"],
+  );
+  ATTENTION_DETAILS.forEach((detail, id) => {
     assert.match(detail.label, new RegExp(`^${PEOPLE[id].name}`));
     assert.ok(detail.label.length < 100);
   });

@@ -2,6 +2,7 @@ import {
   SIZE,
   PEOPLE,
   HOME_DETAILS,
+  ATTENTION_DETAILS,
   PLACES,
   terrain,
   noise,
@@ -277,6 +278,40 @@ function person(c, x, y, id, moving, t, selected, raining) {
   if (selected) {
     oval(c, x, y - (raining ? 63 : 48), 3, 3, "#f7eac1");
   }
+}
+function drawAttention(c, x, y, detail) {
+  c.save();
+  c.lineCap = "round";
+  if (detail === "sprout") {
+    c.strokeStyle = "#58784d";
+    c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(x + 21, y + 2);
+    c.quadraticCurveTo(x + 20, y - 6, x + 23, y - 13);
+    c.stroke();
+    oval(c, x + 18, y - 8, 5, 2.5, "#86a867");
+    oval(c, x + 27, y - 13, 5, 2.5, "#a4bd75");
+  }
+  if (detail === "ripples") {
+    c.strokeStyle = "#d7e7df";
+    c.lineWidth = 1.8;
+    for (const [rx, ry] of [[7, 3], [12, 5]]) {
+      c.beginPath();
+      c.ellipse(x + 23, y - 1, rx, ry, -0.08, Math.PI, Math.PI * 2);
+      c.stroke();
+    }
+  }
+  if (detail === "trail") {
+    c.fillStyle = "#efe0a9";
+    for (const [dx, dy] of [[15, 1], [22, -4], [29, -1], [35, -7]]) {
+      c.save();
+      c.translate(x + dx, y + dy);
+      c.rotate(-0.35);
+      c.fillRect(-2.5, -1.5, 5, 3);
+      c.restore();
+    }
+  }
+  c.restore();
 }
 function weatherLight(c, kind) {
   const color = {
@@ -630,7 +665,7 @@ export function createRenderer(canvas) {
           ["#9e7153", "#8e8362", "#ad855e"][o.id],
           o.detail,
         );
-      if (o.kind === "person")
+      if (o.kind === "person") {
         person(
           ctx,
           x,
@@ -641,6 +676,9 @@ export function createRenderer(canvas) {
           selected === o.id,
           currentWeather.key === "rain",
         );
+        if (selected === o.id)
+          drawAttention(ctx, x, y, ATTENTION_DETAILS[o.id].key);
+      }
       if (o.kind === "shore-trace") drawShoreTrace(ctx, x, y, o.trace);
       if (o.kind === "garden") {
         polygon(

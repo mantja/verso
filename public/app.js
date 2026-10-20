@@ -1,5 +1,6 @@
 import {
   PEOPLE,
+  ATTENTION_DETAILS,
   STORAGE_KEY,
   clock,
   phase,
@@ -83,12 +84,13 @@ function updateUI() {
     sparks = fireSparks(world.elapsed),
     lights = nightLights(world.elapsed),
     keepsake = gardenKeepsake(world.elapsed),
-    reflection = dayReflection(world);
+    reflection = dayReflection(world),
+    attention = selected === null ? null : ATTENTION_DETAILS[selected];
   $("weather").textContent = currentWeather.label;
   $("weather").title = `${currentWeather.description}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}`,
+    `${canvasLabel}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label}` : ""}`,
   );
   $("reflection").hidden = !reflection;
   $("reflection").textContent = reflection

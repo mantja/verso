@@ -70,9 +70,13 @@ Once a visitor-planted tree reaches maturity, one resident at a time visits it d
 
 During the evening, four soft motes above the fire and a short Finnish caption recall one special observation that actually happened during that island's current day. The echo is chosen from the persisted event history, so a missed moment is never invented and a reload does not erase a real one. Old days are ignored. This adds no new task, shared state or save migration.
 
+## Three ways of noticing — v0.17.0
+
+Selecting a resident now reveals one small visual trace beside them wherever they are: Aava notices a pair of leaves, Otso sees ripple-like rings and Paju follows a winding line of steps. The three stable visual languages let the same evening clearing look subtly different through each resident's attention without generating fresh text on every visit. The canvas description exposes the selected trace without relying on sight. This is a rendering-only addition, so save schema remains v3.
+
 ## Next question
 
-**How could the same familiar place look subtly different to each resident without requiring new text for every visit?** Keep it calm, observable and compatible with personal saves.
+**How could weather subtly reshape these three ways of noticing while keeping each one immediately recognizable?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.17.0 · 2026-10-20 · Kolme tapaa huomata
+
+**Choice:** give each resident a stable visual language for noticing the same familiar ground, rather than adding another routine, place or stream of generated text.
+
+- Selecting Aava reveals a tiny two-leaf sprout beside her, Otso sees two ripple-like rings and Paju follows four winding step marks. The trace travels with the selected resident, so the shared evening clearing can look subtly different through each perspective.
+- The existing resident buttons remain the keyboard-accessible way to select a viewpoint. The canvas description names the selected trace, so the difference is not conveyed only by color or drawing.
+- The change is purely visual and derived from the current selection. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test checks a unique, resident-aligned attention definition for all three inhabitants in addition to the existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` are run before publication. The actual canvas renderer is inspected at desktop and mobile widths, and the selection behavior is checked in a browser. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: a trace appears only for the resident the visitor has selected. It is a way of seeing, not a collectible, event or permanent mark on the island.
+
 ## 0.16.0 · 2026-10-19 · Päivän kaiku nuotiolla
 
 **Choice:** connect the island's passing daytime details to the existing evening fire without changing conversations or inventing events that a resident did not experience.
