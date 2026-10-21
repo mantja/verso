@@ -9,6 +9,7 @@ import {
   PEOPLE,
   HOME_DETAILS,
   ATTENTION_DETAILS,
+  ATTENTION_WEATHER,
   PLACES,
   terrain,
   pathTo,
@@ -20,6 +21,7 @@ import {
   memoryVisit,
   phase,
   weather,
+  attentionWeather,
   shoreTrace,
   gardenButterflies,
   fireSparks,
@@ -54,6 +56,19 @@ test("each resident has a distinct selectable way of noticing the island", () =>
     assert.match(detail.label, new RegExp(`^${PEOPLE[id].name}`));
     assert.ok(detail.label.length < 100);
   });
+});
+
+test("weather gives every attention trace a calm readable variation", () => {
+  assert.deepEqual(Object.keys(ATTENTION_WEATHER), [
+    "clear",
+    "mist",
+    "rain",
+    "clearing",
+  ]);
+  const descriptions = [0, DAY, 2 * DAY, 3 * DAY].map(attentionWeather);
+  assert.deepEqual(descriptions, Object.values(ATTENTION_WEATHER));
+  assert.equal(new Set(descriptions).size, 4);
+  descriptions.forEach((description) => assert.ok(description.length < 80));
 });
 
 test("every home and activity location is connected by land", () => {

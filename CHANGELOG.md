@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.18.0 · 2026-10-21 · Sää muuttaa katseen jälkeä
+
+**Choice:** complete yesterday's visual-perspective idea by letting the existing weather cycle reshape each trace, rather than opening another system.
+
+- Mist softly fades every selected trace. In rain Aava's leaves bow and collect a droplet, Otso's two rings expand to three and Paju's steps become wider and dark with moisture. Clearing light gives every trace one small glint.
+- The sprout, ripples and winding steps retain their distinct shapes in every weather. A weather-specific sentence in the canvas description exposes the same change without relying only on the drawing.
+- The variation is derived entirely from current weather and selection. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all four attention-weather descriptions and their deterministic cycle in addition to existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` are run before publication. The actual canvas renderer is inspected in all four weathers at desktop and mobile widths, including reduced motion, and selection is checked in a browser. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: weather changes only the selected visual trace. It creates no new resident action, event or persistent mark.
+
 ## 0.17.0 · 2026-10-20 · Kolme tapaa huomata
 
 **Choice:** give each resident a stable visual language for noticing the same familiar ground, rather than adding another routine, place or stream of generated text.

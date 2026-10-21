@@ -190,6 +190,12 @@ export const ATTENTION_DETAILS = [
     label: "Paju huomaa polussa pienen uuden mutkan.",
   },
 ];
+export const ATTENTION_WEATHER = {
+  clear: "Tyynessä poudassa jälki näkyy kirkkaana.",
+  mist: "Utu pehmentää jäljen sävyä.",
+  rain: "Sade painaa jälkeen oman merkkinsä.",
+  clearing: "Kirkastuva valo välähtää jäljessä.",
+};
 export const PLACES = {
   garden: [8, 14],
   fire: [12, 12],
@@ -271,6 +277,9 @@ export function phase(elapsed) {
 }
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
+}
+export function attentionWeather(elapsed) {
+  return ATTENTION_WEATHER[weather(elapsed).key];
 }
 export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;

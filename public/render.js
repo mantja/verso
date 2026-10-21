@@ -279,37 +279,68 @@ function person(c, x, y, id, moving, t, selected, raining) {
     oval(c, x, y - (raining ? 63 : 48), 3, 3, "#f7eac1");
   }
 }
-function drawAttention(c, x, y, detail) {
+function drawAttention(c, x, y, detail, mood) {
   c.save();
   c.lineCap = "round";
+  if (mood === "mist") c.globalAlpha = 0.62;
+  if (mood === "mist") oval(c, x + 24, y - 5, 21, 8, "#f4f5ed52");
   if (detail === "sprout") {
-    c.strokeStyle = "#58784d";
+    const bowed = mood === "rain";
+    c.strokeStyle = bowed ? "#466454" : "#58784d";
     c.lineWidth = 2;
     c.beginPath();
     c.moveTo(x + 21, y + 2);
-    c.quadraticCurveTo(x + 20, y - 6, x + 23, y - 13);
+    c.quadraticCurveTo(
+      x + 20,
+      y - 6,
+      x + (bowed ? 27 : 23),
+      y - (bowed ? 10 : 13),
+    );
     c.stroke();
-    oval(c, x + 18, y - 8, 5, 2.5, "#86a867");
-    oval(c, x + 27, y - 13, 5, 2.5, "#a4bd75");
+    oval(c, x + 18, y - 8, 5, 2.5, bowed ? "#6f9067" : "#86a867");
+    oval(
+      c,
+      x + (bowed ? 31 : 27),
+      y - (bowed ? 9 : 13),
+      5,
+      2.5,
+      bowed ? "#839f73" : "#a4bd75",
+    );
+    if (bowed) oval(c, x + 33, y - 4, 1.8, 3, "#c8e2df");
   }
   if (detail === "ripples") {
-    c.strokeStyle = "#d7e7df";
-    c.lineWidth = 1.8;
-    for (const [rx, ry] of [[7, 3], [12, 5]]) {
+    c.strokeStyle = mood === "rain" ? "#b8d5d1" : "#d7e7df";
+    c.lineWidth = mood === "rain" ? 2.1 : 1.8;
+    const rings = [[7, 3], [12, 5]];
+    if (mood === "rain") rings.push([17, 7]);
+    for (const [rx, ry] of rings) {
       c.beginPath();
       c.ellipse(x + 23, y - 1, rx, ry, -0.08, Math.PI, Math.PI * 2);
       c.stroke();
     }
   }
   if (detail === "trail") {
-    c.fillStyle = "#efe0a9";
+    c.fillStyle = mood === "rain" ? "#756d55" : "#efe0a9";
+    const markWidth = mood === "rain" ? 6 : 5,
+      markHeight = mood === "rain" ? 3.6 : 3;
     for (const [dx, dy] of [[15, 1], [22, -4], [29, -1], [35, -7]]) {
       c.save();
       c.translate(x + dx, y + dy);
       c.rotate(-0.35);
-      c.fillRect(-2.5, -1.5, 5, 3);
+      c.fillRect(-markWidth / 2, -markHeight / 2, markWidth, markHeight);
       c.restore();
     }
+  }
+  if (mood === "clearing") {
+    c.strokeStyle = "#fff0b7";
+    c.lineWidth = 1.4;
+    c.beginPath();
+    c.moveTo(x + 38, y - 18);
+    c.lineTo(x + 38, y - 10);
+    c.moveTo(x + 34, y - 14);
+    c.lineTo(x + 42, y - 14);
+    c.stroke();
+    oval(c, x + 38, y - 14, 1.7, 1.7, "#fff8d6");
   }
   c.restore();
 }
@@ -677,7 +708,13 @@ export function createRenderer(canvas) {
           currentWeather.key === "rain",
         );
         if (selected === o.id)
-          drawAttention(ctx, x, y, ATTENTION_DETAILS[o.id].key);
+          drawAttention(
+            ctx,
+            x,
+            y,
+            ATTENTION_DETAILS[o.id].key,
+            currentWeather.key,
+          );
       }
       if (o.kind === "shore-trace") drawShoreTrace(ctx, x, y, o.trace);
       if (o.kind === "garden") {

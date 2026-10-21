@@ -74,9 +74,13 @@ During the evening, four soft motes above the fire and a short Finnish caption r
 
 Selecting a resident now reveals one small visual trace beside them wherever they are: Aava notices a pair of leaves, Otso sees ripple-like rings and Paju follows a winding line of steps. The three stable visual languages let the same evening clearing look subtly different through each resident's attention without generating fresh text on every visit. The canvas description exposes the selected trace without relying on sight. This is a rendering-only addition, so save schema remains v3.
 
+## Weather in the trace — v0.18.0
+
+The four-day weather cycle now changes the selected resident's attention trace without changing its identity. Mist softens every trace; rain bends Aava's leaves and adds a droplet, expands Otso's ripples and darkens Paju's steps; clearing light leaves a small glint. The canvas description names the weather's effect. The variation is derived from existing weather and selection, so it adds no event, shared state or save migration.
+
 ## Next question
 
-**How could weather subtly reshape these three ways of noticing while keeping each one immediately recognizable?** Keep it calm, observable and compatible with personal saves.
+**How could two residents' different ways of noticing meet in one shared evening detail without adding more dialogue?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 
