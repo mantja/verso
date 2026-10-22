@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.19.0 · 2026-10-22 · Kaksi jälkeä kohtaa
+
+**Choice:** answer the visible next question by combining the existing visual languages at the existing evening meeting, rather than adding another conversation, place or system.
+
+- Once the evening encounter has happened, its pair leaves one small combined mark beside the fire: Aava's sprout within Otso's rings, Paju's steps through Otso's rings, or Paju's steps ending at Aava's sprout.
+- The mark remains for the rest of that evening and disappears at night. The canvas description names the pair-specific combination, so the meeting is not conveyed only through the drawing.
+- The detail is derived from the current day's already persisted encounter. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No new dialogue, event, dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all three rotating pairs, appearance only after an actual meeting, restoration and disappearance at night in addition to existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` are run before publication. The actual canvas renderer is inspected for all three combinations at desktop and mobile widths, including reduced motion, and the published description is checked in a browser. Production verification follows the main update and is reported in the delivery message.
+
+Limitations: the shared trace is an evening-only visual echo of the existing meeting. It adds no new resident action, event or persistent memory.
+
 ## 0.18.0 · 2026-10-21 · Sää muuttaa katseen jälkeä
 
 **Choice:** complete yesterday's visual-perspective idea by letting the existing weather cycle reshape each trace, rather than opening another system.

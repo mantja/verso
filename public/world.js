@@ -196,6 +196,20 @@ export const ATTENTION_WEATHER = {
   rain: "Sade painaa jälkeen oman merkkinsä.",
   clearing: "Kirkastuva valo välähtää jäljessä.",
 };
+export const SHARED_EVENING_DETAILS = [
+  {
+    key: "sprout-ripples",
+    label: "Aavan versoa ympäröivät Otson vedenrenkaat.",
+  },
+  {
+    key: "ripples-trail",
+    label: "Pajun askelpolku kulkee Otson vedenrenkaiden halki.",
+  },
+  {
+    key: "sprout-trail",
+    label: "Pajun askelpolku päättyy Aavan pieneen versoon.",
+  },
+];
 export const PLACES = {
   garden: [8, 14],
   fire: [12, 12],
@@ -280,6 +294,17 @@ export function weather(elapsed) {
 }
 export function attentionWeather(elapsed) {
   return ATTENTION_WEATHER[weather(elapsed).key];
+}
+export function sharedEveningDetail(world) {
+  if (!world || phase(world.elapsed) !== "evening") return null;
+  const meeting = world.lastEncounter;
+  if (
+    !meeting ||
+    clock(meeting.at).day !== clock(world.elapsed).day ||
+    !SHARED_EVENING_DETAILS[meeting.pair]
+  )
+    return null;
+  return SHARED_EVENING_DETAILS[meeting.pair];
 }
 export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;

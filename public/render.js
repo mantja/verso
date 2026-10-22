@@ -16,6 +16,7 @@ import {
   nightLights,
   gardenKeepsake,
   dayReflection,
+  sharedEveningDetail,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -479,6 +480,42 @@ function drawFireReflection(c, x, y, t, reflection) {
   }
   c.restore();
 }
+function drawSharedEveningDetail(c, x, y, detail) {
+  c.save();
+  c.lineCap = "round";
+  oval(c, x, y + 3, 25, 8, "#37544536");
+  if (detail.key.includes("ripples")) {
+    c.strokeStyle = "#d7e7df";
+    c.lineWidth = 1.8;
+    for (const [rx, ry] of [[9, 3], [16, 5]]) {
+      c.beginPath();
+      c.ellipse(x, y, rx, ry, -0.08, 0, Math.PI * 2);
+      c.stroke();
+    }
+  }
+  if (detail.key.includes("trail")) {
+    c.fillStyle = "#efe0a9";
+    for (const [dx, dy] of [[-21, 6], [-13, 2], [-5, 5], [3, 1]]) {
+      c.save();
+      c.translate(x + dx, y + dy);
+      c.rotate(-0.35);
+      c.fillRect(-2.5, -1.5, 5, 3);
+      c.restore();
+    }
+  }
+  if (detail.key.includes("sprout")) {
+    const stemX = detail.key === "sprout-ripples" ? x : x + 11;
+    c.strokeStyle = "#58784d";
+    c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(stemX, y + 2);
+    c.quadraticCurveTo(stemX - 1, y - 7, stemX + 2, y - 14);
+    c.stroke();
+    oval(c, stemX - 4, y - 8, 5, 2.5, "#86a867");
+    oval(c, stemX + 6, y - 14, 5, 2.5, "#a4bd75");
+  }
+  c.restore();
+}
 function drawGardenKeepsake(c, x, y) {
   oval(c, x + 2, y + 3, 18, 6, "#526c5940");
   oval(c, x, y, 15, 6, "#b8ad86");
@@ -645,7 +682,8 @@ export function createRenderer(canvas) {
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,
       currentWeather = weather(world.elapsed),
-      reflection = dayReflection(world);
+      reflection = dayReflection(world),
+      sharedDetail = sharedEveningDetail(world);
     weatherLight(ctx, currentWeather.key);
     ctx.strokeStyle = "#e8f1e28c";
     ctx.lineWidth = 1.5;
@@ -776,6 +814,15 @@ export function createRenderer(canvas) {
         if (fireSparks(world.elapsed)) drawFireSparks(ctx, x, y, t);
         if (reflection) drawFireReflection(ctx, x, y, t, reflection);
       }
+    }
+    if (sharedDetail) {
+      const [x, ground] = project(...PLACES.fire);
+      drawSharedEveningDetail(
+        ctx,
+        x + 45,
+        ground - height(...PLACES.fire) + 10,
+        sharedDetail,
+      );
     }
     if (gardenButterflies(world.elapsed)) {
       const [x, ground] = project(...PLACES.garden);

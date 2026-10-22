@@ -78,9 +78,13 @@ Selecting a resident now reveals one small visual trace beside them wherever the
 
 The four-day weather cycle now changes the selected resident's attention trace without changing its identity. Mist softens every trace; rain bends Aava's leaves and adds a droplet, expands Otso's ripples and darkens Paju's steps; clearing light leaves a small glint. The canvas description names the weather's effect. The variation is derived from existing weather and selection, so it adds no event, shared state or save migration.
 
+## Two traces meet — v0.19.0
+
+After the existing evening encounter, its two participants now leave one combined visual trace beside the fire for the rest of that evening. Aava's sprout can rise from Otso's rings, Paju's steps can cross Otso's rings, or Paju's steps can end at Aava's sprout. The canvas description names the pair-specific mark. It is derived from the current day's already saved encounter and disappears at night, so it adds no dialogue, event, shared state or save migration.
+
 ## Next question
 
-**How could two residents' different ways of noticing meet in one shared evening detail without adding more dialogue?** Keep it calm, observable and compatible with personal saves.
+**How could selecting either participant make the shared evening trace feel subtly different without hiding its common origin?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

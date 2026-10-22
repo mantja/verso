@@ -10,6 +10,7 @@ import {
   HOME_DETAILS,
   ATTENTION_DETAILS,
   ATTENTION_WEATHER,
+  SHARED_EVENING_DETAILS,
   PLACES,
   terrain,
   pathTo,
@@ -22,6 +23,7 @@ import {
   phase,
   weather,
   attentionWeather,
+  sharedEveningDetail,
   shoreTrace,
   gardenButterflies,
   fireSparks,
@@ -69,6 +71,24 @@ test("weather gives every attention trace a calm readable variation", () => {
   assert.deepEqual(descriptions, Object.values(ATTENTION_WEATHER));
   assert.equal(new Set(descriptions).size, 4);
   descriptions.forEach((description) => assert.ok(description.length < 80));
+});
+
+test("each evening pair leaves one shared detail after meeting", () => {
+  assert.deepEqual(
+    SHARED_EVENING_DETAILS.map(({ key }) => key),
+    ["sprout-ripples", "ripples-trail", "sprout-trail"],
+  );
+  const world = newWorld();
+  assert.equal(sharedEveningDetail(world), null);
+  for (let pair = 0; pair < SHARED_EVENING_DETAILS.length; pair++) {
+    firstMeeting(world);
+    assert.equal(world.lastEncounter.pair, pair);
+    assert.deepEqual(sharedEveningDetail(world), SHARED_EVENING_DETAILS[pair]);
+    const loaded = restore(serialize(world));
+    assert.deepEqual(sharedEveningDetail(loaded), SHARED_EVENING_DETAILS[pair]);
+    while (phase(world.elapsed) === "evening") step(world, 1);
+    assert.equal(sharedEveningDetail(world), null);
+  }
 });
 
 test("every home and activity location is connected by land", () => {
