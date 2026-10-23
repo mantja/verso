@@ -199,15 +199,30 @@ export const ATTENTION_WEATHER = {
 export const SHARED_EVENING_DETAILS = [
   {
     key: "sprout-ripples",
+    members: [0, 1],
     label: "Aavan versoa ympäröivät Otson vedenrenkaat.",
+    perspectives: {
+      0: "Aavan verso kirkastuu hieman, mutta Otson renkaat säilyvät sen ympärillä.",
+      1: "Otson renkaat kirkastuvat hieman, mutta Aavan verso säilyy niiden keskellä.",
+    },
   },
   {
     key: "ripples-trail",
+    members: [1, 2],
     label: "Pajun askelpolku kulkee Otson vedenrenkaiden halki.",
+    perspectives: {
+      1: "Otson renkaat kirkastuvat hieman, mutta Pajun askeleet säilyvät niiden halki.",
+      2: "Pajun askeleet kirkastuvat hieman, mutta Otson renkaat säilyvät niiden alla.",
+    },
   },
   {
     key: "sprout-trail",
+    members: [0, 2],
     label: "Pajun askelpolku päättyy Aavan pieneen versoon.",
+    perspectives: {
+      0: "Aavan verso kirkastuu hieman, mutta Pajun askeleet säilyvät sen juurella.",
+      2: "Pajun askeleet kirkastuvat hieman, mutta Aavan verso säilyy niiden päässä.",
+    },
   },
 ];
 export const PLACES = {
@@ -305,6 +320,10 @@ export function sharedEveningDetail(world) {
   )
     return null;
   return SHARED_EVENING_DETAILS[meeting.pair];
+}
+export function sharedEveningPerspective(world, resident) {
+  const detail = sharedEveningDetail(world);
+  return detail?.perspectives?.[resident] || "";
 }
 export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;

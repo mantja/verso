@@ -82,9 +82,13 @@ The four-day weather cycle now changes the selected resident's attention trace w
 
 After the existing evening encounter, its two participants now leave one combined visual trace beside the fire for the rest of that evening. Aava's sprout can rise from Otso's rings, Paju's steps can cross Otso's rings, or Paju's steps can end at Aava's sprout. The canvas description names the pair-specific mark. It is derived from the current day's already saved encounter and disappears at night, so it adds no dialogue, event, shared state or save migration.
 
+## One trace, two viewpoints — v0.20.0
+
+Selecting either participant now gently brightens their familiar part of the shared evening trace. The other resident's part remains visible and the pair-specific composition stays in place, so selection changes emphasis rather than rewriting the meeting. The canvas description names the same shift. It is derived from the current selection and already saved encounter, so it adds no event, shared state or save migration.
+
 ## Next question
 
-**How could selecting either participant make the shared evening trace feel subtly different without hiding its common origin?** Keep it calm, observable and compatible with personal saves.
+**How could the evening's current weather reshape the shared trace while keeping both participants recognizable?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

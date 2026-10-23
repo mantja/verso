@@ -480,39 +480,62 @@ function drawFireReflection(c, x, y, t, reflection) {
   }
   c.restore();
 }
-function drawSharedEveningDetail(c, x, y, detail) {
+function drawSharedEveningDetail(c, x, y, detail, selected) {
+  const focusKey = detail.members.includes(selected)
+    ? ATTENTION_DETAILS[selected].key
+    : null;
   c.save();
   c.lineCap = "round";
   oval(c, x, y + 3, 25, 8, "#37544536");
   if (detail.key.includes("ripples")) {
-    c.strokeStyle = "#d7e7df";
-    c.lineWidth = 1.8;
+    c.save();
+    c.strokeStyle = focusKey === "ripples" ? "#f1faf5" : "#d7e7df";
+    c.lineWidth = focusKey === "ripples" ? 2.4 : 1.8;
+    if (focusKey === "ripples") {
+      c.shadowColor = "#cce9dd";
+      c.shadowBlur = 7;
+    }
     for (const [rx, ry] of [[9, 3], [16, 5]]) {
       c.beginPath();
       c.ellipse(x, y, rx, ry, -0.08, 0, Math.PI * 2);
       c.stroke();
     }
+    c.restore();
   }
   if (detail.key.includes("trail")) {
-    c.fillStyle = "#efe0a9";
+    c.save();
+    c.fillStyle = focusKey === "trail" ? "#fff0b7" : "#efe0a9";
+    if (focusKey === "trail") {
+      c.shadowColor = "#f6d887";
+      c.shadowBlur = 7;
+    }
     for (const [dx, dy] of [[-21, 6], [-13, 2], [-5, 5], [3, 1]]) {
       c.save();
       c.translate(x + dx, y + dy);
       c.rotate(-0.35);
-      c.fillRect(-2.5, -1.5, 5, 3);
+      const scale = focusKey === "trail" ? 1.15 : 1;
+      c.fillRect(-2.5 * scale, -1.5 * scale, 5 * scale, 3 * scale);
       c.restore();
     }
+    c.restore();
   }
   if (detail.key.includes("sprout")) {
+    c.save();
     const stemX = detail.key === "sprout-ripples" ? x : x + 11;
-    c.strokeStyle = "#58784d";
-    c.lineWidth = 2;
+    c.strokeStyle = focusKey === "sprout" ? "#6f965d" : "#58784d";
+    c.lineWidth = focusKey === "sprout" ? 2.5 : 2;
+    if (focusKey === "sprout") {
+      c.shadowColor = "#b8d68c";
+      c.shadowBlur = 7;
+    }
     c.beginPath();
     c.moveTo(stemX, y + 2);
     c.quadraticCurveTo(stemX - 1, y - 7, stemX + 2, y - 14);
     c.stroke();
-    oval(c, stemX - 4, y - 8, 5, 2.5, "#86a867");
-    oval(c, stemX + 6, y - 14, 5, 2.5, "#a4bd75");
+    const leafScale = focusKey === "sprout" ? 1.15 : 1;
+    oval(c, stemX - 4, y - 8, 5 * leafScale, 2.5 * leafScale, "#86a867");
+    oval(c, stemX + 6, y - 14, 5 * leafScale, 2.5 * leafScale, "#a4bd75");
+    c.restore();
   }
   c.restore();
 }
@@ -822,6 +845,7 @@ export function createRenderer(canvas) {
         x + 45,
         ground - height(...PLACES.fire) + 10,
         sharedDetail,
+        selected,
       );
     }
     if (gardenButterflies(world.elapsed)) {

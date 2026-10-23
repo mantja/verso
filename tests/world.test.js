@@ -24,6 +24,7 @@ import {
   weather,
   attentionWeather,
   sharedEveningDetail,
+  sharedEveningPerspective,
   shoreTrace,
   gardenButterflies,
   fireSparks,
@@ -88,6 +89,36 @@ test("each evening pair leaves one shared detail after meeting", () => {
     assert.deepEqual(sharedEveningDetail(loaded), SHARED_EVENING_DETAILS[pair]);
     while (phase(world.elapsed) === "evening") step(world, 1);
     assert.equal(sharedEveningDetail(world), null);
+  }
+});
+
+test("either participant can gently emphasize their part of the shared trace", () => {
+  assert.deepEqual(
+    SHARED_EVENING_DETAILS.map(({ members }) => members),
+    [[0, 1], [1, 2], [0, 2]],
+  );
+  const world = newWorld();
+  assert.equal(sharedEveningPerspective(world, 0), "");
+  for (let pair = 0; pair < SHARED_EVENING_DETAILS.length; pair++) {
+    firstMeeting(world);
+    const detail = SHARED_EVENING_DETAILS[pair];
+    const [first, second] = detail.members;
+    const outsider = PEOPLE.findIndex((_, id) => !detail.members.includes(id));
+    assert.equal(
+      sharedEveningPerspective(world, first),
+      detail.perspectives[first],
+    );
+    assert.equal(
+      sharedEveningPerspective(world, second),
+      detail.perspectives[second],
+    );
+    assert.notEqual(
+      sharedEveningPerspective(world, first),
+      sharedEveningPerspective(world, second),
+    );
+    assert.equal(sharedEveningPerspective(world, outsider), "");
+    while (phase(world.elapsed) === "evening") step(world, 1);
+    assert.equal(sharedEveningPerspective(world, first), "");
   }
 });
 

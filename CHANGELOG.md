@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.20.0 · 2026-10-23 · Yksi jälki, kaksi näkökulmaa
+
+**Choice:** answer the visible next question by changing the emphasis inside the existing shared mark, rather than adding another meeting, memory or interface control.
+
+- Selecting either participant after the evening encounter now gently brightens their familiar component in the combined mark: Aava's sprout, Otso's rings or Paju's steps. The other component remains visible, so the meeting still reads as shared.
+- Selecting the third resident or clearing the selection returns the mark to its balanced form. A participant-specific sentence in the canvas description exposes the change without relying only on brightness or color.
+- The emphasis is derived from current selection and the current day's already persisted encounter. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No new dialogue, event, dependency, shared state, paid service or hosting change was added.
+
+Validation: all thirty-one tests cover both viewpoints for all three rotating pairs, the unchanged view for the third resident and disappearance at night in addition to existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer was inspected for the balanced and participant views at desktop and mobile widths, including reduced motion. The published version and selection controls are checked in a browser after the main update and reported in the delivery message.
+
+Limitations: selection only changes the visual emphasis and accessible description of the existing evening trace. It creates no new resident action, event or persistent memory.
+
 ## 0.19.0 · 2026-10-22 · Kaksi jälkeä kohtaa
 
 **Choice:** answer the visible next question by combining the existing visual languages at the existing evening meeting, rather than adding another conversation, place or system.
