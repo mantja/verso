@@ -86,9 +86,13 @@ After the existing evening encounter, its two participants now leave one combine
 
 Selecting either participant now gently brightens their familiar part of the shared evening trace. The other resident's part remains visible and the pair-specific composition stays in place, so selection changes emphasis rather than rewriting the meeting. The canvas description names the same shift. It is derived from the current selection and already saved encounter, so it adds no event, shared state or save migration.
 
+## Weather reaches the shared trace — v0.21.0
+
+The evening's current weather now reshapes both familiar parts of the shared mark. Mist softens the whole composition, rain bows the sprout, widens the rings and darkens the steps, while clearing light adds a small glint. Participant selection still brightens one part without hiding the other, and the canvas description names the weather's effect. Everything is derived from existing time, weather, selection and encounter state, so save schema remains v3.
+
 ## Next question
 
-**How could the evening's current weather reshape the shared trace while keeping both participants recognizable?** Keep it calm, observable and compatible with personal saves.
+**How could the shared trace fade into night through one brief transition instead of disappearing at once?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 

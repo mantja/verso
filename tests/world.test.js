@@ -10,6 +10,7 @@ import {
   HOME_DETAILS,
   ATTENTION_DETAILS,
   ATTENTION_WEATHER,
+  SHARED_EVENING_WEATHER,
   SHARED_EVENING_DETAILS,
   PLACES,
   terrain,
@@ -25,6 +26,7 @@ import {
   attentionWeather,
   sharedEveningDetail,
   sharedEveningPerspective,
+  sharedEveningWeather,
   shoreTrace,
   gardenButterflies,
   fireSparks,
@@ -120,6 +122,29 @@ test("either participant can gently emphasize their part of the shared trace", (
     while (phase(world.elapsed) === "evening") step(world, 1);
     assert.equal(sharedEveningPerspective(world, first), "");
   }
+});
+
+test("weather reshapes a shared trace without hiding either participant", () => {
+  assert.deepEqual(Object.keys(SHARED_EVENING_WEATHER), [
+    "clear",
+    "mist",
+    "rain",
+    "clearing",
+  ]);
+  const world = newWorld();
+  assert.equal(sharedEveningWeather(world), "");
+  const descriptions = [0, 1, 2, 3].map((day) => {
+    world.elapsed = day * DAY + (DAY * 5) / 12;
+    world.lastEncounter = { at: world.elapsed - 1, pair: day % 3 };
+    assert.ok(sharedEveningDetail(world));
+    return sharedEveningWeather(world);
+  });
+  assert.deepEqual(descriptions, Object.values(SHARED_EVENING_WEATHER));
+  assert.equal(new Set(descriptions).size, 4);
+  descriptions.forEach((description) => assert.ok(description.length < 90));
+  world.elapsed += DAY / 6;
+  assert.equal(phase(world.elapsed), "night");
+  assert.equal(sharedEveningWeather(world), "");
 });
 
 test("every home and activity location is connected by land", () => {

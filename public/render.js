@@ -480,22 +480,34 @@ function drawFireReflection(c, x, y, t, reflection) {
   }
   c.restore();
 }
-function drawSharedEveningDetail(c, x, y, detail, selected) {
+function drawSharedEveningDetail(c, x, y, detail, selected, mood) {
   const focusKey = detail.members.includes(selected)
-    ? ATTENTION_DETAILS[selected].key
-    : null;
+      ? ATTENTION_DETAILS[selected].key
+      : null,
+    raining = mood === "rain";
   c.save();
   c.lineCap = "round";
+  if (mood === "mist") c.globalAlpha = 0.66;
+  if (mood === "mist") oval(c, x, y - 3, 31, 11, "#f4f5ed52");
   oval(c, x, y + 3, 25, 8, "#37544536");
   if (detail.key.includes("ripples")) {
     c.save();
-    c.strokeStyle = focusKey === "ripples" ? "#f1faf5" : "#d7e7df";
-    c.lineWidth = focusKey === "ripples" ? 2.4 : 1.8;
+    c.strokeStyle =
+      focusKey === "ripples"
+        ? raining
+          ? "#e2f4ef"
+          : "#f1faf5"
+        : raining
+          ? "#b8d5d1"
+          : "#d7e7df";
+    c.lineWidth = focusKey === "ripples" ? 2.4 : raining ? 2.1 : 1.8;
     if (focusKey === "ripples") {
       c.shadowColor = "#cce9dd";
       c.shadowBlur = 7;
     }
-    for (const [rx, ry] of [[9, 3], [16, 5]]) {
+    const rings = [[9, 3], [16, 5]];
+    if (raining) rings.push([22, 7]);
+    for (const [rx, ry] of rings) {
       c.beginPath();
       c.ellipse(x, y, rx, ry, -0.08, 0, Math.PI * 2);
       c.stroke();
@@ -504,17 +516,31 @@ function drawSharedEveningDetail(c, x, y, detail, selected) {
   }
   if (detail.key.includes("trail")) {
     c.save();
-    c.fillStyle = focusKey === "trail" ? "#fff0b7" : "#efe0a9";
+    c.fillStyle =
+      focusKey === "trail"
+        ? raining
+          ? "#a99d75"
+          : "#fff0b7"
+        : raining
+          ? "#756d55"
+          : "#efe0a9";
     if (focusKey === "trail") {
-      c.shadowColor = "#f6d887";
+      c.shadowColor = raining ? "#d4c48d" : "#f6d887";
       c.shadowBlur = 7;
     }
     for (const [dx, dy] of [[-21, 6], [-13, 2], [-5, 5], [3, 1]]) {
       c.save();
       c.translate(x + dx, y + dy);
       c.rotate(-0.35);
-      const scale = focusKey === "trail" ? 1.15 : 1;
-      c.fillRect(-2.5 * scale, -1.5 * scale, 5 * scale, 3 * scale);
+      const focusScale = focusKey === "trail" ? 1.15 : 1,
+        markWidth = raining ? 6 : 5,
+        markHeight = raining ? 3.6 : 3;
+      c.fillRect(
+        (-markWidth * focusScale) / 2,
+        (-markHeight * focusScale) / 2,
+        markWidth * focusScale,
+        markHeight * focusScale,
+      );
       c.restore();
     }
     c.restore();
@@ -522,7 +548,14 @@ function drawSharedEveningDetail(c, x, y, detail, selected) {
   if (detail.key.includes("sprout")) {
     c.save();
     const stemX = detail.key === "sprout-ripples" ? x : x + 11;
-    c.strokeStyle = focusKey === "sprout" ? "#6f965d" : "#58784d";
+    c.strokeStyle =
+      focusKey === "sprout"
+        ? raining
+          ? "#648a70"
+          : "#6f965d"
+        : raining
+          ? "#466454"
+          : "#58784d";
     c.lineWidth = focusKey === "sprout" ? 2.5 : 2;
     if (focusKey === "sprout") {
       c.shadowColor = "#b8d68c";
@@ -530,12 +563,43 @@ function drawSharedEveningDetail(c, x, y, detail, selected) {
     }
     c.beginPath();
     c.moveTo(stemX, y + 2);
-    c.quadraticCurveTo(stemX - 1, y - 7, stemX + 2, y - 14);
+    c.quadraticCurveTo(
+      stemX - 1,
+      y - 7,
+      stemX + (raining ? 6 : 2),
+      y - (raining ? 10 : 14),
+    );
     c.stroke();
     const leafScale = focusKey === "sprout" ? 1.15 : 1;
-    oval(c, stemX - 4, y - 8, 5 * leafScale, 2.5 * leafScale, "#86a867");
-    oval(c, stemX + 6, y - 14, 5 * leafScale, 2.5 * leafScale, "#a4bd75");
+    oval(
+      c,
+      stemX - 4,
+      y - 8,
+      5 * leafScale,
+      2.5 * leafScale,
+      raining ? "#6f9067" : "#86a867",
+    );
+    oval(
+      c,
+      stemX + (raining ? 10 : 6),
+      y - (raining ? 9 : 14),
+      5 * leafScale,
+      2.5 * leafScale,
+      raining ? "#839f73" : "#a4bd75",
+    );
+    if (raining) oval(c, stemX + 12, y - 4, 1.8, 3, "#c8e2df");
     c.restore();
+  }
+  if (mood === "clearing") {
+    c.strokeStyle = "#fff0b7";
+    c.lineWidth = 1.4;
+    c.beginPath();
+    c.moveTo(x + 23, y - 18);
+    c.lineTo(x + 23, y - 10);
+    c.moveTo(x + 19, y - 14);
+    c.lineTo(x + 27, y - 14);
+    c.stroke();
+    oval(c, x + 23, y - 14, 1.7, 1.7, "#fff8d6");
   }
   c.restore();
 }
@@ -846,6 +910,7 @@ export function createRenderer(canvas) {
         ground - height(...PLACES.fire) + 10,
         sharedDetail,
         selected,
+        currentWeather.key,
       );
     }
     if (gardenButterflies(world.elapsed)) {

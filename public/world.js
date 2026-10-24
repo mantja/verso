@@ -196,6 +196,12 @@ export const ATTENTION_WEATHER = {
   rain: "Sade painaa jälkeen oman merkkinsä.",
   clearing: "Kirkastuva valo välähtää jäljessä.",
 };
+export const SHARED_EVENING_WEATHER = {
+  clear: "Tyynessä poudassa yhteisen jäljen kaksi osaa erottuvat selkeinä.",
+  mist: "Utu pehmentää yhteistä jälkeä piilottamatta kumpaakaan osaa.",
+  rain: "Sade painaa yhteisen jäljen kumpaankin osaan oman merkin.",
+  clearing: "Kirkastuva valo välähtää yhteisen jäljen yllä.",
+};
 export const SHARED_EVENING_DETAILS = [
   {
     key: "sprout-ripples",
@@ -324,6 +330,10 @@ export function sharedEveningDetail(world) {
 export function sharedEveningPerspective(world, resident) {
   const detail = sharedEveningDetail(world);
   return detail?.perspectives?.[resident] || "";
+}
+export function sharedEveningWeather(world) {
+  if (!sharedEveningDetail(world)) return "";
+  return SHARED_EVENING_WEATHER[weather(world.elapsed).key];
 }
 export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;

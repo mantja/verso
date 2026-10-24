@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.21.0 · 2026-10-24 · Sää ulottuu yhteiseen jälkeen
+
+**Choice:** complete the shared evening trace by connecting it to the island's existing weather cycle, rather than adding another object, event or system.
+
+- Mist now softens the whole shared composition without hiding either part. Rain bows Aava's sprout and adds a droplet, expands Otso's rings and darkens Paju's steps. Clearing light leaves a small glint above the pair's mark.
+- Either participant can still be selected to brighten their part inside every weather treatment. A weather-specific sentence in the canvas description exposes the change without relying only on color, brightness or drawing.
+- The variation is derived from current weather, selection and the already persisted encounter. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No new event, dependency, shared state, paid service or hosting change was added.
+
+Validation: all thirty-two tests cover all four weather descriptions, their deterministic day cycle and disappearance with the shared trace at night in addition to existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer was inspected in all four weather states at desktop and mobile widths, including participant emphasis and reduced motion. The published version is checked in a browser after the main update and reported in the delivery message.
+
+Limitations: weather changes only the rendering and accessible description of the existing shared trace. It creates no new resident action, event or persistent memory.
+
 ## 0.20.0 · 2026-10-23 · Yksi jälki, kaksi näkökulmaa
 
 **Choice:** answer the visible next question by changing the emphasis inside the existing shared mark, rather than adding another meeting, memory or interface control.
