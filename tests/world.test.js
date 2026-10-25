@@ -11,6 +11,7 @@ import {
   ATTENTION_DETAILS,
   ATTENTION_WEATHER,
   SHARED_EVENING_WEATHER,
+  SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
   PLACES,
   terrain,
@@ -27,6 +28,8 @@ import {
   sharedEveningDetail,
   sharedEveningPerspective,
   sharedEveningWeather,
+  sharedEveningFade,
+  sharedEveningTransition,
   shoreTrace,
   gardenButterflies,
   fireSparks,
@@ -89,7 +92,7 @@ test("each evening pair leaves one shared detail after meeting", () => {
     assert.deepEqual(sharedEveningDetail(world), SHARED_EVENING_DETAILS[pair]);
     const loaded = restore(serialize(world));
     assert.deepEqual(sharedEveningDetail(loaded), SHARED_EVENING_DETAILS[pair]);
-    while (phase(world.elapsed) === "evening") step(world, 1);
+    while (sharedEveningDetail(world)) step(world, 1);
     assert.equal(sharedEveningDetail(world), null);
   }
 });
@@ -119,7 +122,7 @@ test("either participant can gently emphasize their part of the shared trace", (
       sharedEveningPerspective(world, second),
     );
     assert.equal(sharedEveningPerspective(world, outsider), "");
-    while (phase(world.elapsed) === "evening") step(world, 1);
+    while (sharedEveningDetail(world)) step(world, 1);
     assert.equal(sharedEveningPerspective(world, first), "");
   }
 });
@@ -145,6 +148,32 @@ test("weather reshapes a shared trace without hiding either participant", () => 
   world.elapsed += DAY / 6;
   assert.equal(phase(world.elapsed), "night");
   assert.equal(sharedEveningWeather(world), "");
+});
+
+test("the shared trace fades briefly as evening becomes night", () => {
+  const world = newWorld(),
+    atHour = (hour) => (DAY * (hour - 8)) / 24;
+  world.lastEncounter = { at: atHour(18), pair: 0 };
+
+  world.elapsed = atHour(20.5);
+  assert.equal(sharedEveningFade(world), 1);
+  assert.equal(sharedEveningTransition(world), "");
+  assert.ok(sharedEveningDetail(world));
+
+  world.elapsed = atHour(20.875);
+  assert.equal(sharedEveningFade(world), 0.5);
+  assert.equal(sharedEveningTransition(world), SHARED_EVENING_FADE.label);
+  assert.ok(sharedEveningDetail(world));
+
+  world.elapsed = atHour(21.1);
+  assert.equal(phase(world.elapsed), "night");
+  assert.ok(sharedEveningFade(world) > 0);
+  assert.ok(sharedEveningDetail(world));
+
+  world.elapsed = atHour(21.25);
+  assert.equal(sharedEveningFade(world), 0);
+  assert.equal(sharedEveningTransition(world), "");
+  assert.equal(sharedEveningDetail(world), null);
 });
 
 test("every home and activity location is connected by land", () => {

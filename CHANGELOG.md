@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.22.0 · 2026-10-25 · Jälki hiipuu yöhön
+
+**Choice:** finish the shared trace's evening arc with a gentle transition, rather than letting the whole composition disappear at an exact clock boundary.
+
+- The mark now stays fully visible until 20.30, fades through the end of evening and lingers faintly until 21.15. Both participants' shapes, the current weather treatment and selection emphasis fade together.
+- A sentence in the canvas description names the transition while it is happening. Because the fade follows simulation time, pausing holds it in place and the existing speed control advances it consistently.
+- The transition is derived from the current clock and already persisted encounter. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No new event, dependency, shared state, paid service or hosting change was added.
+
+Validation: all thirty-three tests cover the fade's full, half, early-night and vanished boundaries in addition to existing encounter, weather and selection behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer was inspected through the transition at desktop and mobile widths, including reduced motion. The published version is checked in a browser after the main update and reported in the delivery message.
+
+Limitations: the transition lasts forty-five minutes of simulation time, or about 7.5 seconds at normal speed. It creates no event or persistent night-time trace.
+
 ## 0.21.0 · 2026-10-24 · Sää ulottuu yhteiseen jälkeen
 
 **Choice:** complete the shared evening trace by connecting it to the island's existing weather cycle, rather than adding another object, event or system.

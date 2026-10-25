@@ -202,6 +202,11 @@ export const SHARED_EVENING_WEATHER = {
   rain: "Sade painaa yhteisen jäljen kumpaankin osaan oman merkin.",
   clearing: "Kirkastuva valo välähtää yhteisen jäljen yllä.",
 };
+export const SHARED_EVENING_FADE = {
+  start: 20.5,
+  end: 21.25,
+  label: "Yhteinen jälki hiipuu hiljaa yön tullessa.",
+};
 export const SHARED_EVENING_DETAILS = [
   {
     key: "sprout-ripples",
@@ -316,8 +321,8 @@ export function weather(elapsed) {
 export function attentionWeather(elapsed) {
   return ATTENTION_WEATHER[weather(elapsed).key];
 }
-export function sharedEveningDetail(world) {
-  if (!world || phase(world.elapsed) !== "evening") return null;
+function currentSharedEncounter(world) {
+  if (!world) return null;
   const meeting = world.lastEncounter;
   if (
     !meeting ||
@@ -325,6 +330,21 @@ export function sharedEveningDetail(world) {
     !SHARED_EVENING_DETAILS[meeting.pair]
   )
     return null;
+  return meeting;
+}
+export function sharedEveningFade(world) {
+  if (!currentSharedEncounter(world)) return 0;
+  const hour = clock(world.elapsed).hour;
+  if (hour < 17 || hour >= SHARED_EVENING_FADE.end) return 0;
+  if (hour <= SHARED_EVENING_FADE.start) return 1;
+  return (
+    (SHARED_EVENING_FADE.end - hour) /
+    (SHARED_EVENING_FADE.end - SHARED_EVENING_FADE.start)
+  );
+}
+export function sharedEveningDetail(world) {
+  const meeting = currentSharedEncounter(world);
+  if (!meeting || sharedEveningFade(world) <= 0) return null;
   return SHARED_EVENING_DETAILS[meeting.pair];
 }
 export function sharedEveningPerspective(world, resident) {
@@ -334,6 +354,10 @@ export function sharedEveningPerspective(world, resident) {
 export function sharedEveningWeather(world) {
   if (!sharedEveningDetail(world)) return "";
   return SHARED_EVENING_WEATHER[weather(world.elapsed).key];
+}
+export function sharedEveningTransition(world) {
+  const fade = sharedEveningFade(world);
+  return fade > 0 && fade < 1 ? SHARED_EVENING_FADE.label : "";
 }
 export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;

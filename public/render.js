@@ -17,6 +17,7 @@ import {
   gardenKeepsake,
   dayReflection,
   sharedEveningDetail,
+  sharedEveningFade,
   treeGrowth,
 } from "./world.js";
 const W = 1100,
@@ -480,14 +481,14 @@ function drawFireReflection(c, x, y, t, reflection) {
   }
   c.restore();
 }
-function drawSharedEveningDetail(c, x, y, detail, selected, mood) {
+function drawSharedEveningDetail(c, x, y, detail, selected, mood, fade) {
   const focusKey = detail.members.includes(selected)
       ? ATTENTION_DETAILS[selected].key
       : null,
     raining = mood === "rain";
   c.save();
   c.lineCap = "round";
-  if (mood === "mist") c.globalAlpha = 0.66;
+  c.globalAlpha = fade * (mood === "mist" ? 0.66 : 1);
   if (mood === "mist") oval(c, x, y - 3, 31, 11, "#f4f5ed52");
   oval(c, x, y + 3, 25, 8, "#37544536");
   if (detail.key.includes("ripples")) {
@@ -770,7 +771,8 @@ export function createRenderer(canvas) {
     const t = reducedMotion ? 0 : world.elapsed,
       currentWeather = weather(world.elapsed),
       reflection = dayReflection(world),
-      sharedDetail = sharedEveningDetail(world);
+      sharedDetail = sharedEveningDetail(world),
+      sharedFade = sharedEveningFade(world);
     weatherLight(ctx, currentWeather.key);
     ctx.strokeStyle = "#e8f1e28c";
     ctx.lineWidth = 1.5;
@@ -911,6 +913,7 @@ export function createRenderer(canvas) {
         sharedDetail,
         selected,
         currentWeather.key,
+        sharedFade,
       );
     }
     if (gardenButterflies(world.elapsed)) {

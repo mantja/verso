@@ -90,9 +90,13 @@ Selecting either participant now gently brightens their familiar part of the sha
 
 The evening's current weather now reshapes both familiar parts of the shared mark. Mist softens the whole composition, rain bows the sprout, widens the rings and darkens the steps, while clearing light adds a small glint. Participant selection still brightens one part without hiding the other, and the canvas description names the weather's effect. Everything is derived from existing time, weather, selection and encounter state, so save schema remains v3.
 
+## Fading into night — v0.22.0
+
+The shared trace now begins to fade during the evening's last half-hour and lingers faintly for the first quarter-hour of night. Its pair, weather treatment and selected viewpoint remain intact throughout the transition, while the canvas description names the fading state. The opacity is derived from the existing world clock, so pause and speed controls affect it naturally and save schema remains v3.
+
 ## Next question
 
-**How could the shared trace fade into night through one brief transition instead of disappearing at once?** Keep it calm, observable and compatible with personal saves.
+**How could the shore reveal a slow daily tide without creating a task, resource or new saved state?** Keep it calm, observable and compatible with personal saves.
 
 ## Later possibilities
 
