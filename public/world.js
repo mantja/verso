@@ -207,6 +207,12 @@ export const SHARED_EVENING_FADE = {
   end: 21.25,
   label: "Yhteinen jälki hiipuu hiljaa yön tullessa.",
 };
+export const TIDE_STATES = {
+  high: "Nousuvesi yltää lähelle rantaa.",
+  falling: "Vesi vetäytyy hitaasti rannalta.",
+  low: "Laskuvesi paljastaa leveän kaistaleen kosteaa hiekkaa.",
+  rising: "Vesi nousee hitaasti takaisin rantaan.",
+};
 export const SHARED_EVENING_DETAILS = [
   {
     key: "sprout-ripples",
@@ -317,6 +323,14 @@ export function phase(elapsed) {
 }
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
+}
+export function tide(elapsed) {
+  const hour = clock(elapsed).hour,
+    angle = ((hour - 6) / 24) * Math.PI * 2,
+    level = (1 + Math.cos(angle)) / 2,
+    direction = hour >= 6 && hour < 18 ? "falling" : "rising",
+    key = level >= 0.75 ? "high" : level <= 0.25 ? "low" : direction;
+  return { key, level, label: TIDE_STATES[key] };
 }
 export function attentionWeather(elapsed) {
   return ATTENTION_WEATHER[weather(elapsed).key];

@@ -94,9 +94,13 @@ The evening's current weather now reshapes both familiar parts of the shared mar
 
 The shared trace now begins to fade during the evening's last half-hour and lingers faintly for the first quarter-hour of night. Its pair, weather treatment and selected viewpoint remain intact throughout the transition, while the canvas description names the fading state. The opacity is derived from the existing world clock, so pause and speed controls affect it naturally and save schema remains v3.
 
+## A breathing shoreline — v0.23.0
+
+The island now completes one slow tide cycle during every world day. At high tide a translucent wet edge and pale foam reach inward across the front shore; as the water retreats, more dry sand and three shallow pools are revealed. Four Finnish descriptions make the high, falling, low and rising states available beyond the drawing. Tide level is derived from the existing clock, so pause and speed controls affect it naturally and save schema remains v3.
+
 ## Next question
 
-**How could the shore reveal a slow daily tide without creating a task, resource or new saved state?** Keep it calm, observable and compatible with personal saves.
+**How could one resident quietly notice the tide without turning it into a routine, task or saved achievement?** Keep it occasional, observable and compatible with personal saves.
 
 ## Later possibilities
 

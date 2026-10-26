@@ -8,6 +8,7 @@ import {
   noise,
   forest,
   clock,
+  tide,
   activeEncounter,
   weather,
   shoreTrace,
@@ -632,6 +633,55 @@ function drawNightLights(c, x, y, t) {
   }
   c.restore();
 }
+function drawTide(c, elapsed) {
+  const current = tide(elapsed),
+    inset = 0.08 + current.level * 0.24,
+    wetSand = `rgba(87,137,127,${0.25 + current.level * 0.25})`,
+    foam = `rgba(224,239,229,${0.46 + current.level * 0.42})`,
+    toward = ([x, y], center) => [
+      x + (center[0] - x) * inset,
+      y + (center[1] - y) * inset,
+    ];
+  c.save();
+  c.lineCap = "round";
+  c.lineWidth = 1.6;
+  for (let y = 0; y < SIZE; y++)
+    for (let x = 0; x < SIZE; x++) {
+      if (terrain(x, y) !== 1) continue;
+      const [sx, sy] = project(x, y),
+        center = [sx, sy - height(x, y)],
+        right = [center[0] + TW, center[1]],
+        bottom = [center[0], center[1] + TH],
+        left = [center[0] - TW, center[1]];
+      for (const [edge, exposed] of [
+        [[right, bottom], !terrain(x + 1, y)],
+        [[bottom, left], !terrain(x, y + 1)],
+      ]) {
+        if (!exposed) continue;
+        const inner = edge.map((point) => toward(point, center));
+        polygon(c, [edge[0], edge[1], inner[1], inner[0]], wetSand);
+        c.strokeStyle = foam;
+        c.beginPath();
+        c.moveTo(...inner[0]);
+        c.lineTo(...inner[1]);
+        c.stroke();
+      }
+    }
+  if (current.level < 0.35) {
+    const reveal = (0.35 - current.level) / 0.35;
+    for (const [x, y, dx] of [[10, 21, -2], [13, 21, 3], [17, 20, 0]]) {
+      const [sx, sy] = project(x, y),
+        ground = sy - height(x, y);
+      oval(c, sx + dx, ground + 1, 8, 3, `rgba(94,151,147,${reveal * 0.62})`);
+      c.strokeStyle = `rgba(222,237,222,${reveal * 0.72})`;
+      c.lineWidth = 1;
+      c.beginPath();
+      c.arc(sx + dx, ground, 5, Math.PI * 1.08, Math.PI * 1.86);
+      c.stroke();
+    }
+  }
+  c.restore();
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -774,6 +824,7 @@ export function createRenderer(canvas) {
       sharedDetail = sharedEveningDetail(world),
       sharedFade = sharedEveningFade(world);
     weatherLight(ctx, currentWeather.key);
+    drawTide(ctx, world.elapsed);
     ctx.strokeStyle = "#e8f1e28c";
     ctx.lineWidth = 1.5;
     for (let i = 0; i < 34; i++) {

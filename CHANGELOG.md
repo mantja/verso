@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.23.0 · 2026-10-26 · Ranta hengittää
+
+**Choice:** give the island's familiar shore one slow daily change, rather than adding another place, object or visitor task.
+
+- The front shoreline now completes one tide cycle per world day. A translucent wet band and pale foam line reach farther across the sand at high tide, then withdraw gradually and reveal three shallow pools at low tide.
+- The weather tooltip and canvas description name four readable states: high, falling, low and rising tide. The level follows simulation time, so pause holds it in place and the existing speed control advances it consistently.
+- Tide is derived entirely from the current clock. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No new event, dependency, shared state, paid service or hosting change was added.
+
+Validation: all thirty-four tests cover exact high and low water, both half-tide directions, readable descriptions and daily recurrence in addition to existing world behavior. `npm ci`, `npm test`, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The actual canvas renderer was inspected at high, falling, low and rising tide at desktop and mobile widths, including reduced motion. The published version is checked in a browser after the main update and reported in the delivery message.
+
+Limitations: the tide changes only the visible wet edge and shallow pools of the front shoreline. It does not alter paths, resident behavior or the existing rain-related shore trace.
+
 ## 0.22.0 · 2026-10-25 · Jälki hiipuu yöhön
 
 **Choice:** finish the shared trace's evening arc with a gentle transition, rather than letting the whole composition disappear at an exact clock boundary.

@@ -13,6 +13,7 @@ import {
   SHARED_EVENING_WEATHER,
   SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
+  TIDE_STATES,
   PLACES,
   terrain,
   pathTo,
@@ -24,6 +25,7 @@ import {
   memoryVisit,
   phase,
   weather,
+  tide,
   attentionWeather,
   sharedEveningDetail,
   sharedEveningPerspective,
@@ -77,6 +79,27 @@ test("weather gives every attention trace a calm readable variation", () => {
   assert.deepEqual(descriptions, Object.values(ATTENTION_WEATHER));
   assert.equal(new Set(descriptions).size, 4);
   descriptions.forEach((description) => assert.ok(description.length < 80));
+});
+
+test("the shore follows one slow tide cycle every world day", () => {
+  const atHour = (hour) => DAY + (DAY * (hour - 8)) / 24,
+    high = tide(atHour(6)),
+    falling = tide(atHour(12)),
+    low = tide(atHour(18)),
+    rising = tide(atHour(0));
+  assert.deepEqual(
+    [high.key, falling.key, low.key, rising.key],
+    ["high", "falling", "low", "rising"],
+  );
+  assert.equal(high.level, 1);
+  assert.ok(Math.abs(falling.level - 0.5) < Number.EPSILON);
+  assert.equal(low.level, 0);
+  assert.ok(Math.abs(rising.level - 0.5) < Number.EPSILON);
+  assert.deepEqual(
+    [high, falling, low, rising].map(({ label }) => label),
+    Object.values(TIDE_STATES),
+  );
+  assert.deepEqual(tide(atHour(9)), tide(atHour(9) + DAY));
 });
 
 test("each evening pair leaves one shared detail after meeting", () => {
