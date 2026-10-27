@@ -26,6 +26,7 @@ import {
   phase,
   weather,
   tide,
+  tideObservation,
   attentionWeather,
   sharedEveningDetail,
   sharedEveningPerspective,
@@ -100,6 +101,43 @@ test("the shore follows one slow tide cycle every world day", () => {
     Object.values(TIDE_STATES),
   );
   assert.deepEqual(tide(atHour(9)), tide(atHour(9) + DAY));
+});
+
+test("Otso occasionally notices high water on his existing morning shore visit", () => {
+  assert.deepEqual(tideObservation(0), {
+    action: "Seuraa korkeaa vesirajaa",
+    event: "pysähtyi kirkkaana aamuna seuraamaan korkealle ulottuvaa vesirajaa.",
+  });
+  assert.equal(tideObservation(25), null);
+  assert.equal(tideObservation(DAY), null);
+  assert.deepEqual(tideObservation(4 * DAY), tideObservation(0));
+  assert.deepEqual(routine(1, 0), {
+    target: PLACES.shore,
+    ...tideObservation(0),
+  });
+  assert.equal(routine(1, DAY).action, "Kuuntelee merta");
+
+  const memory = { at: 3 * DAY + 95, pair: 1 };
+  assert.equal(routine(1, 4 * DAY, memory).action, "Muisto vie metsäpolulle");
+
+  const world = newWorld();
+  while (
+    !world.events.some((event) => event.text.includes("korkealle ulottuvaa vesirajaa")) &&
+    world.elapsed < 40
+  )
+    step(world, 1);
+  assert.match(world.events[0].text, /Otso pysähtyi.*vesirajaa/);
+  assert.equal(
+    world.events.filter((event) => event.text.includes("korkealle ulottuvaa vesirajaa"))
+      .length,
+    1,
+  );
+  while (phase(world.elapsed) !== "evening") step(world, 1);
+  assert.deepEqual(dayReflection(world), {
+    key: "tide",
+    label: "korkea vesiraja",
+    text: "Otso kertoo aamun korkeasta vesirajasta.",
+  });
 });
 
 test("each evening pair leaves one shared detail after meeting", () => {
@@ -323,7 +361,7 @@ test("clearing mornings leave a changing trace on the shore for Otso", () => {
     action: "Tutkii vaaleaa kiveä",
     event: "löysi sateen jäljiltä rannalta sileän, vaalean kiven.",
   });
-  assert.equal(routine(1, 4 * DAY).action, "Kuuntelee merta");
+  assert.equal(routine(1, 5 * DAY).action, "Kuuntelee merta");
 
   const world = newWorld();
   while (
@@ -425,9 +463,9 @@ test("the evening fire echoes only an observation that actually happened that da
   const clearDay = newWorld();
   while (phase(clearDay.elapsed) !== "evening") step(clearDay, 1);
   assert.deepEqual(dayReflection(clearDay), {
-    key: "butterflies",
-    label: "puutarhan perhoset",
-    text: "Aava kertoo puutarhassa näkemistään perhosista.",
+    key: "tide",
+    label: "korkea vesiraja",
+    text: "Otso kertoo aamun korkeasta vesirajasta.",
   });
   assert.deepEqual(
     dayReflection(restore(serialize(clearDay))),

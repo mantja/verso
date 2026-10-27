@@ -130,6 +130,12 @@ const DAY_REFLECTIONS = [
     text: (name) => `${name} kertoo puutarhassa näkemistään perhosista.`,
   },
   {
+    key: "tide",
+    label: "korkea vesiraja",
+    matches: /korkealle ulottuvaa vesirajaa/,
+    text: (name) => `${name} kertoo aamun korkeasta vesirajasta.`,
+  },
+  {
     key: "rain",
     label: "hiljainen sade",
     matches: /(?:kuuntelemaan sadetta|sadepisaroiden renkaita|sateen tummentamaa metsäpolkua)/,
@@ -331,6 +337,18 @@ export function tide(elapsed) {
     direction = hour >= 6 && hour < 18 ? "falling" : "rising",
     key = level >= 0.75 ? "high" : level <= 0.25 ? "low" : direction;
   return { key, level, label: TIDE_STATES[key] };
+}
+export function tideObservation(elapsed) {
+  if (
+    phase(elapsed) !== "morning" ||
+    weather(elapsed).key !== "clear" ||
+    tide(elapsed).key !== "high"
+  )
+    return null;
+  return {
+    action: "Seuraa korkeaa vesirajaa",
+    event: "pysähtyi kirkkaana aamuna seuraamaan korkealle ulottuvaa vesirajaa.",
+  };
 }
 export function attentionWeather(elapsed) {
   return ATTENTION_WEATHER[weather(elapsed).key];
@@ -544,6 +562,14 @@ export function routine(id, elapsed, memory = null, planted = []) {
     };
   const treeVisit = plantedTreeVisit(id, elapsed, planted);
   if (treeVisit) return treeVisit;
+  const tideMoment = id === 1 && place === "shore"
+    ? tideObservation(elapsed)
+    : null;
+  if (tideMoment)
+    return {
+      target: PLACES.shore,
+      ...tideMoment,
+    };
   if (weather(elapsed).key === "rain")
     return {
       target: PLACES[place],

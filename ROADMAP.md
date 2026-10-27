@@ -98,9 +98,13 @@ The shared trace now begins to fade during the evening's last half-hour and ling
 
 The island now completes one slow tide cycle during every world day. At high tide a translucent wet edge and pale foam reach inward across the front shore; as the water retreats, more dry sand and three shallow pools are revealed. Four Finnish descriptions make the high, falling, low and rising states available beyond the drawing. Tide level is derived from the existing clock, so pause and speed controls affect it naturally and save schema remains v3.
 
+## Otso notices the high-water line — v0.24.0
+
+On clear mornings, Otso now pauses during his already familiar shore visit to follow the high-water line. His resident card and one arrival event name the moment, and the existing evening echo can recall it if it truly happened. A fresh conversation memory and a mature planted-tree visit still take priority. The observation is derived from the existing route, weather and tide, so it adds no new route, task, shared state or save migration.
+
 ## Next question
 
-**How could one resident quietly notice the tide without turning it into a routine, task or saved achievement?** Keep it occasional, observable and compatible with personal saves.
+**How could low tide briefly reshape the existing rain-borne shore trace without adding another routine, event or collectible?** Keep the relationship visible, temporary and compatible with personal saves.
 
 ## Later possibilities
 

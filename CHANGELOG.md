@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.24.0 · 2026-10-27 · Otso huomaa korkean veden
+
+**Choice:** connect yesterday's moving shoreline to one resident through an existing visit, rather than adding a new route, task or saved achievement.
+
+- On clear mornings, Otso now pauses at his familiar shore destination while the tide is high. His resident action and one arrival event name the high-water line that is already visible on the canvas.
+- The existing evening echo can recall the observation if it actually happened. A fresh conversation memory and a mature planted-tree visit retain priority, so the tide never pulls Otso away from something already meaningful.
+- The moment is derived from current route, weather and tide. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers the clear/high-tide overlap, its four-day recurrence, absence outside the moment, route stability, memory priority, the single arrival event and the matching evening echo in addition to existing world behavior. `npm ci`, all thirty-five tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The published UI is checked at desktop and mobile widths after the main update and reported in the delivery message.
+
+Limitations: the observation happens only when Otso's ordinary morning shore visit overlaps clear weather and high tide. It adds no new visual object beyond the moving shoreline and the existing evening echo.
+
 ## 0.23.0 · 2026-10-26 · Ranta hengittää
 
 **Choice:** give the island's familiar shore one slow daily change, rather than adding another place, object or visitor task.
