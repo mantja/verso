@@ -96,6 +96,20 @@ const SHORE_TRACES = [
     event: "löysi sateen jäljiltä rannalta sileäksi kuluneen ajopuun oksan.",
   },
 ];
+const LOW_TIDE_TRACE_DETAILS = {
+  stone: {
+    key: "stone-wash",
+    label: "Laskuvesi paljastaa vaalean kiven ympäriltä kaksi kaarevaa huuhtoutumisjälkeä.",
+  },
+  shell: {
+    key: "shell-fan",
+    label: "Laskuvesi paljastaa simpukankuoren alta viuhkamaisen hiekkakuvion.",
+  },
+  driftwood: {
+    key: "driftwood-lines",
+    label: "Laskuvesi paljastaa ajopuun oksan viereltä kaksi veden piirtämää juovaa.",
+  },
+};
 const GARDEN_KEEPSAKE = {
   label: "Pajun punoma ruohorengas",
   action: "Tutkii Pajun ruohorengasta",
@@ -395,6 +409,17 @@ export function shoreTrace(elapsed) {
   if (weather(elapsed).key !== "clearing") return null;
   const cycle = Math.floor((clock(elapsed).day - 1) / WEATHER_CYCLE.length);
   return SHORE_TRACES[cycle % SHORE_TRACES.length];
+}
+export function lowTideTrace(elapsed) {
+  const trace = shoreTrace(elapsed),
+    currentTide = tide(elapsed);
+  if (!trace || currentTide.key !== "low") return null;
+  const strength = Math.max(0, Math.min(1, (0.25 - currentTide.level) / 0.25));
+  if (strength <= 0) return null;
+  return {
+    ...LOW_TIDE_TRACE_DETAILS[trace.key],
+    strength,
+  };
 }
 export function gardenButterflies(elapsed) {
   const time = clock(elapsed);

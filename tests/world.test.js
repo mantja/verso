@@ -34,6 +34,7 @@ import {
   sharedEveningFade,
   sharedEveningTransition,
   shoreTrace,
+  lowTideTrace,
   gardenButterflies,
   fireSparks,
   nightLights,
@@ -138,6 +139,30 @@ test("Otso occasionally notices high water on his existing morning shore visit",
     label: "korkea vesiraja",
     text: "Otso kertoo aamun korkeasta vesirajasta.",
   });
+});
+
+test("low tide briefly reshapes each rain-borne shore trace", () => {
+  const clearingAt = (cycle, hour) =>
+      (3 + cycle * 4) * DAY + (DAY * (hour - 8)) / 24,
+    fading = lowTideTrace(clearingAt(0, 15)),
+    stone = lowTideTrace(clearingAt(0, 18)),
+    shell = lowTideTrace(clearingAt(1, 18)),
+    driftwood = lowTideTrace(clearingAt(2, 18));
+  assert.equal(lowTideTrace(clearingAt(0, 13)), null);
+  assert.equal(lowTideTrace(clearingAt(0, 23)), null);
+  assert.equal(lowTideTrace(18), null);
+  assert.ok(fading.strength > 0 && fading.strength < 1);
+  assert.deepEqual(
+    [stone.key, shell.key, driftwood.key],
+    ["stone-wash", "shell-fan", "driftwood-lines"],
+  );
+  assert.deepEqual(
+    [stone, shell, driftwood].map(({ strength }) => strength),
+    [1, 1, 1],
+  );
+  assert.match(stone.label, /vaalean kiven.*huuhtoutumisjälkeä/);
+  assert.match(shell.label, /simpukankuoren.*hiekkakuvion/);
+  assert.match(driftwood.label, /ajopuun oksan.*veden piirtämää juovaa/);
 });
 
 test("each evening pair leaves one shared detail after meeting", () => {

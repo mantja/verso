@@ -102,9 +102,13 @@ The island now completes one slow tide cycle during every world day. At high tid
 
 On clear mornings, Otso now pauses during his already familiar shore visit to follow the high-water line. His resident card and one arrival event name the moment, and the existing evening echo can recall it if it truly happened. A fresh conversation memory and a mature planted-tree visit still take priority. The observation is derived from the existing route, weather and tide, so it adds no new route, task, shared state or save migration.
 
+## Low tide redraws a familiar trace — v0.25.0
+
+During clearing weather, low tide now reveals a different wash pattern around each existing rain-borne shore trace: curved lines around the pale stone, a fan beneath the shell and two water-drawn streaks beside the driftwood. The pattern strengthens and fades with the tide and is named in the canvas description. It is derived from existing weather, trace rotation and tide level, so it adds no resident routine, event, collectible, shared state or save migration.
+
 ## Next question
 
-**How could low tide briefly reshape the existing rain-borne shore trace without adding another routine, event or collectible?** Keep the relationship visible, temporary and compatible with personal saves.
+**How could the forest path show one slow sign of passing days without adding another routine, event or saved state?** Keep it subtle, legible and compatible with personal saves.
 
 ## Later possibilities
 

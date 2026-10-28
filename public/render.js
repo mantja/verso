@@ -12,6 +12,7 @@ import {
   activeEncounter,
   weather,
   shoreTrace,
+  lowTideTrace,
   gardenButterflies,
   fireSparks,
   nightLights,
@@ -388,7 +389,43 @@ function weatherDetails(c, kind, t) {
     c.fillRect(410, 0, 690, 500);
   }
 }
-function drawShoreTrace(c, x, y, trace) {
+function drawLowTideTrace(c, x, y, trace, strength) {
+  c.save();
+  c.globalAlpha = strength * 0.85;
+  c.strokeStyle = "#779988";
+  c.lineWidth = 1.2;
+  c.lineCap = "round";
+  if (trace.key === "stone") {
+    for (const [rx, ry, offset] of [
+      [14, 6, 0],
+      [19, 8, 4],
+    ]) {
+      c.beginPath();
+      c.ellipse(x, y + offset, rx, ry, 0, 0.12 * Math.PI, 0.88 * Math.PI);
+      c.stroke();
+    }
+  }
+  if (trace.key === "shell") {
+    for (const offset of [-14, -7, 0, 7, 14]) {
+      c.beginPath();
+      c.moveTo(x, y + 2);
+      c.quadraticCurveTo(x + offset * 0.45, y + 7, x + offset, y + 11);
+      c.stroke();
+    }
+  }
+  if (trace.key === "driftwood") {
+    for (const offset of [6, 11]) {
+      c.beginPath();
+      c.moveTo(x - 16, y + offset);
+      c.quadraticCurveTo(x - 2, y + offset + 4, x + 17, y + offset - 1);
+      c.stroke();
+    }
+  }
+  c.restore();
+}
+function drawShoreTrace(c, x, y, trace, lowTideDetail) {
+  if (lowTideDetail)
+    drawLowTideTrace(c, x, y, trace, lowTideDetail.strength);
   oval(c, x, y + 2, 17, 6, "#5d776653");
   if (trace.key === "stone") {
     oval(c, x, y - 1, 9, 5, "#e5ddc5");
@@ -843,6 +880,7 @@ export function createRenderer(canvas) {
       ctx.stroke();
     }
     const trace = shoreTrace(world.elapsed),
+      lowTideDetail = lowTideTrace(world.elapsed),
       objects = [
       ...fixed,
       ...(trace
@@ -894,7 +932,8 @@ export function createRenderer(canvas) {
             currentWeather.key,
           );
       }
-      if (o.kind === "shore-trace") drawShoreTrace(ctx, x, y, o.trace);
+      if (o.kind === "shore-trace")
+        drawShoreTrace(ctx, x, y, o.trace, lowTideDetail);
       if (o.kind === "garden") {
         polygon(
           ctx,

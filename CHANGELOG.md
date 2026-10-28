@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.25.0 · 2026-10-28 · Laskuvesi piirtää jäljen
+
+**Choice:** connect the existing rain-borne shore trace to the tide through one temporary visual change, rather than adding another resident action, event or object.
+
+- On clearing days, low tide now reveals a trace-specific wash pattern: two arcs around the pale stone, a fan beneath the shell or two water-drawn lines beside the driftwood. The marks strengthen as the water reaches its lowest point and fade as it returns.
+- The weather tooltip and canvas description name the revealed pattern, so the relationship is not conveyed only through the drawing. Resident routines, the event log and the existing rain trace remain unchanged.
+- The effect is derived from current weather, trace rotation and tide level. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all three rotating shore traces, the low-tide boundary, gradual strength, absence outside clearing weather and readable Finnish descriptions in addition to existing world behavior. `npm ci`, all thirty-six tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The published UI is checked after the main update and reported in the delivery message.
+
+Limitations: the wash pattern appears only when low tide overlaps the clearing day after rain. It is a temporary visual relationship and creates no new event or resident memory.
+
 ## 0.24.0 · 2026-10-27 · Otso huomaa korkean veden
 
 **Choice:** connect yesterday's moving shoreline to one resident through an existing visit, rather than adding a new route, task or saved achievement.
