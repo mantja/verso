@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.26.0 · 2026-10-29 · Sammal pitää hidasta aikaa
+
+**Choice:** let one familiar forest detail age with the personal island, rather than adding another routine, event or saved object.
+
+- A grey stone now rests beside the forest path. It gains a thin moss edge on day three, a wider patch on day five and a soft green cover from day seven onward, making several visits visibly different.
+- The canvas description names every stage, so the change is not conveyed only through color or drawing. Resident routes, actions and the event log remain unchanged.
+- Moss stage is derived from the existing elapsed world time and caps at maturity. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers every moss stage, two-day boundaries, the mature cap, Finnish descriptions and identical derivation after a v3 save round-trip. `npm ci`, all thirty-seven tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The published rendering, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: moss changes only the path-side stone's drawing and accessible description. It reaches its final stage on day seven and creates no event, resident memory or collectible.
+
 ## 0.25.0 · 2026-10-28 · Laskuvesi piirtää jäljen
 
 **Choice:** connect the existing rain-borne shore trace to the tide through one temporary visual change, rather than adding another resident action, event or object.

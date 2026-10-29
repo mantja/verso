@@ -9,6 +9,7 @@ import {
   attentionWeather,
   shoreTrace,
   lowTideTrace,
+  forestPathMoss,
   gardenButterflies,
   fireSparks,
   nightLights,
@@ -89,6 +90,7 @@ function updateUI() {
     currentTide = tide(world.elapsed),
     trace = shoreTrace(world.elapsed),
     lowTideDetail = lowTideTrace(world.elapsed),
+    moss = forestPathMoss(world.elapsed),
     butterflies = gardenButterflies(world.elapsed),
     sparks = fireSparks(world.elapsed),
     lights = nightLights(world.elapsed),
@@ -104,7 +106,7 @@ function updateUI() {
   $("weather").title = `${currentWeather.description} ${currentTide.label}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel} ${currentTide.label}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
+    `${canvasLabel} ${currentTide.label} ${moss.label}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
   );
   $("reflection").hidden = !reflection;
   $("reflection").textContent = reflection

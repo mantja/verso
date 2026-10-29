@@ -106,9 +106,13 @@ On clear mornings, Otso now pauses during his already familiar shore visit to fo
 
 During clearing weather, low tide now reveals a different wash pattern around each existing rain-borne shore trace: curved lines around the pale stone, a fan beneath the shell and two water-drawn streaks beside the driftwood. The pattern strengthens and fades with the tide and is named in the canvas description. It is derived from existing weather, trace rotation and tide level, so it adds no resident routine, event, collectible, shared state or save migration.
 
+## Moss keeps slow time — v0.26.0
+
+A grey stone beside the forest path now gathers moss in three quiet stages across the first seven world days. Its readable canvas description follows the same change. The stage is derived from existing elapsed time and then remains fully mossed, so old personal islands need no new state or migration and the sign never resets into a younger form.
+
 ## Next question
 
-**How could the forest path show one slow sign of passing days without adding another routine, event or saved state?** Keep it subtle, legible and compatible with personal saves.
+**How could one doorstep detail quietly show that its resident is home without adding an action, event or saved state?** Keep it personal, legible and compatible with existing routines.
 
 ## Later possibilities
 

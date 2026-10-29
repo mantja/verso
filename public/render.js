@@ -13,6 +13,7 @@ import {
   weather,
   shoreTrace,
   lowTideTrace,
+  forestPathMoss,
   gardenButterflies,
   fireSparks,
   nightLights,
@@ -460,6 +461,21 @@ function drawShoreTrace(c, x, y, trace, lowTideDetail) {
     c.lineCap = "butt";
   }
 }
+function drawMossStone(c, x, y, moss) {
+  oval(c, x + 2, y + 3, 18, 6, "#3e5b4a42");
+  oval(c, x, y, 15, 7, "#717b72");
+  oval(c, x - 2, y - 3, 13, 6, "#a5aa98");
+  if (moss.stage >= 1)
+    oval(c, x - 7, y - 5, 6, 2.8, "#809663");
+  if (moss.stage >= 2) {
+    oval(c, x + 1, y - 4, 7, 3.2, "#708957");
+    oval(c, x - 10, y - 1, 4, 2.4, "#91a56d");
+  }
+  if (moss.stage >= 3) {
+    oval(c, x + 8, y - 2, 6, 3, "#66804f");
+    oval(c, x - 1, y, 9, 2.5, "#7f985f");
+  }
+}
 function drawButterflies(c, x, y, t) {
   const colors = ["#efd58a", "#d7e6c0", "#d9b58f"];
   for (let i = 0; i < colors.length; i++) {
@@ -841,6 +857,7 @@ export function createRenderer(canvas) {
   );
   fixed.push(
     { x: PLACES.garden[0], y: PLACES.garden[1], kind: "garden" },
+    { x: 9.35, y: 6.65, kind: "moss-stone" },
     { x: 12, y: 12, kind: "fire" },
   );
   let pixelRatio = 0;
@@ -881,6 +898,7 @@ export function createRenderer(canvas) {
     }
     const trace = shoreTrace(world.elapsed),
       lowTideDetail = lowTideTrace(world.elapsed),
+      moss = forestPathMoss(world.elapsed),
       objects = [
       ...fixed,
       ...(trace
@@ -934,6 +952,7 @@ export function createRenderer(canvas) {
       }
       if (o.kind === "shore-trace")
         drawShoreTrace(ctx, x, y, o.trace, lowTideDetail);
+      if (o.kind === "moss-stone") drawMossStone(ctx, x, y, moss);
       if (o.kind === "garden") {
         polygon(
           ctx,

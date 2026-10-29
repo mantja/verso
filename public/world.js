@@ -110,6 +110,24 @@ const LOW_TIDE_TRACE_DETAILS = {
     label: "Laskuvesi paljastaa ajopuun oksan viereltä kaksi veden piirtämää juovaa.",
   },
 };
+const FOREST_PATH_MOSS_STAGES = [
+  {
+    key: "bare",
+    label: "Metsäpolun vieressä lepää paljas harmaa kivi.",
+  },
+  {
+    key: "first-moss",
+    label: "Metsäpolun kiven reunaan on ilmestynyt ohut sammaljuova.",
+  },
+  {
+    key: "spreading-moss",
+    label: "Sammal peittää jo osan metsäpolun kivestä.",
+  },
+  {
+    key: "mossy",
+    label: "Metsäpolun kivi on peittynyt pehmeään sammaleeseen.",
+  },
+];
 const GARDEN_KEEPSAKE = {
   label: "Pajun punoma ruohorengas",
   action: "Tutkii Pajun ruohorengasta",
@@ -419,6 +437,20 @@ export function lowTideTrace(elapsed) {
   return {
     ...LOW_TIDE_TRACE_DETAILS[trace.key],
     strength,
+  };
+}
+export function forestPathMoss(elapsed) {
+  const stage = Math.max(
+    0,
+    Math.min(
+      FOREST_PATH_MOSS_STAGES.length - 1,
+      Math.floor((clock(elapsed).day - 1) / 2),
+    ),
+  );
+  return {
+    ...FOREST_PATH_MOSS_STAGES[stage],
+    stage,
+    coverage: stage / (FOREST_PATH_MOSS_STAGES.length - 1),
   };
 }
 export function gardenButterflies(elapsed) {

@@ -35,6 +35,7 @@ import {
   sharedEveningTransition,
   shoreTrace,
   lowTideTrace,
+  forestPathMoss,
   gardenButterflies,
   fireSparks,
   nightLights,
@@ -163,6 +164,35 @@ test("low tide briefly reshapes each rain-borne shore trace", () => {
   assert.match(stone.label, /vaalean kiven.*huuhtoutumisjälkeä/);
   assert.match(shell.label, /simpukankuoren.*hiekkakuvion/);
   assert.match(driftwood.label, /ajopuun oksan.*veden piirtämää juovaa/);
+});
+
+test("the forest path stone slowly gathers moss as days pass", () => {
+  const stages = [1, 3, 5, 7, 20].map((day) =>
+    forestPathMoss((day - 1) * DAY),
+  );
+  assert.deepEqual(
+    stages.map(({ key }) => key),
+    ["bare", "first-moss", "spreading-moss", "mossy", "mossy"],
+  );
+  assert.deepEqual(
+    stages.map(({ stage }) => stage),
+    [0, 1, 2, 3, 3],
+  );
+  assert.deepEqual(
+    stages.map(({ coverage }) => coverage),
+    [0, 1 / 3, 2 / 3, 1, 1],
+  );
+  stages.forEach(({ label }) => {
+    assert.match(label, /Metsäpolun|Sammal/);
+    assert.ok(label.length < 80);
+  });
+  const saved = newWorld();
+  saved.elapsed = 4 * DAY;
+  assert.deepEqual(
+    forestPathMoss(restore(serialize(saved)).elapsed),
+    forestPathMoss(saved.elapsed),
+  );
+  assert.equal(saved.version, 3);
 });
 
 test("each evening pair leaves one shared detail after meeting", () => {
