@@ -110,9 +110,13 @@ During clearing weather, low tide now reveals a different wash pattern around ea
 
 A grey stone beside the forest path now gathers moss in three quiet stages across the first seven world days. Its readable canvas description follows the same change. The stage is derived from existing elapsed time and then remains fully mossed, so old personal islands need no new state or migration and the sign never resets into a younger form.
 
+## A quiet sign of home — v0.27.0
+
+Each existing doorstep detail now changes in its own small way when its resident is home: a pale marker appears among Aava's seedlings, one of Otso's shore stones stands upright and a warm bead turns into view on Paju's twig mobile. The canvas description names the same signs. Presence is derived from each resident's current position and route, so leaving and returning change the detail without an action, event, shared state or save migration.
+
 ## Next question
 
-**How could one doorstep detail quietly show that its resident is home without adding an action, event or saved state?** Keep it personal, legible and compatible with existing routines.
+**How could weather gently touch these home signs without making presence harder to read?** Keep the distinction personal, restrained and independent of saved state.
 
 ## Later possibilities
 

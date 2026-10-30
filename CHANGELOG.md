@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.27.0 · 2026-10-30 · Hiljainen merkki kotiinpaluusta
+
+**Choice:** let the residents' existing doorstep details show when someone is home, rather than adding a status control, resident action or event.
+
+- A pale marker appears among Aava's seedlings, one of Otso's shore stones stands upright and a warm bead turns into view on Paju's twig mobile while the corresponding resident is home.
+- The canvas description names only the signs currently visible, so presence is available without relying on color or drawing. Residents' routines, action labels and the event log remain unchanged.
+- Presence is derived from each resident's current position and route. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all three distinct signs, leaving home, a v3 save round-trip and one resident's return in addition to existing world behavior. `npm ci`, all thirty-eight tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The published rendering, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: the signs change only after a resident has fully returned to the home tile and stopped moving. They are quiet visual indicators, not new objects to collect or controls to use.
+
 ## 0.26.0 · 2026-10-29 · Sammal pitää hidasta aikaa
 
 **Choice:** let one familiar forest detail age with the personal island, rather than adding another routine, event or saved object.

@@ -22,6 +22,7 @@ import {
   sharedEveningDetail,
   sharedEveningFade,
   treeGrowth,
+  residentAtHome,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -104,7 +105,7 @@ function tree(c, x, y, seed, growth = 1) {
   );
   c.restore();
 }
-function homeDetail(c, x, y, detail) {
+function homeDetail(c, x, y, detail, isHome) {
   if (detail === "seedling-pots") {
     for (const offset of [19, 29]) {
       polygon(
@@ -122,6 +123,19 @@ function homeDetail(c, x, y, detail) {
       oval(c, x + offset - 4, y - 12, 4, 2, "#75955d");
       oval(c, x + offset + 3, y - 15, 4, 2, "#89a76a");
     }
+    if (isHome) {
+      c.fillStyle = "#806342";
+      c.fillRect(x + 23, y - 12, 1.5, 10);
+      polygon(
+        c,
+        [
+          [x + 24, y - 13],
+          [x + 31, y - 10],
+          [x + 24, y - 7],
+        ],
+        "#f1dfa9",
+      );
+    }
   }
   if (detail === "shore-stones") {
     oval(c, x + 18, y + 1, 6, 3, "#d9d4bd");
@@ -132,6 +146,7 @@ function homeDetail(c, x, y, detail) {
     c.beginPath();
     c.arc(x + 38, y - 4, 3, Math.PI, Math.PI * 2);
     c.stroke();
+    if (isHome) oval(c, x + 29, y - 7, 3.5, 6, "#f0d8a4");
   }
   if (detail === "twig-mobile") {
     c.strokeStyle = "#765c43";
@@ -156,9 +171,10 @@ function homeDetail(c, x, y, detail) {
         4,
         "#d6c58a",
       );
+    if (isHome) oval(c, x + 32, y - 20, 3.5, 5, "#f2d79a");
   }
 }
-function house(c, x, y, color, detail) {
+function house(c, x, y, color, detail, isHome) {
   oval(c, x + 7, y + 4, 32, 12, "#355e3e30");
   polygon(
     c,
@@ -231,7 +247,7 @@ function house(c, x, y, color, detail) {
   );
   c.fillStyle = "#7d7a64";
   c.fillRect(x + 10, y - 64, 7, 18);
-  homeDetail(c, x, y, detail);
+  homeDetail(c, x, y, detail, isHome);
 }
 export function portrait(p) {
   return `<svg viewBox="0 0 24 30" aria-hidden="true"><path fill="${p.hair}" d="M7 3h10v4h2v9H5V7h2z"/><path fill="#ecc59b" d="M8 7h8v11H8z"/><path fill="${p.hair}" d="M7 5h10v4H7z"/><path fill="${p.color}" d="M6 17h12v9H6z"/><path fill="#424c40" d="M7 26h4v4H7zm6 0h4v4h-4z"/><path fill="#434138" d="M9 11h1v2H9zm5 0h1v2h-1z"/></svg>`;
@@ -929,6 +945,7 @@ export function createRenderer(canvas) {
           y,
           ["#9e7153", "#8e8362", "#ad855e"][o.id],
           o.detail,
+          residentAtHome(world, o.id),
         );
       if (o.kind === "person") {
         person(

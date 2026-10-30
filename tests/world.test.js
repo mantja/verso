@@ -45,6 +45,7 @@ import {
   routine,
   treeGrowth,
   plantedTreeVisit,
+  residentAtHome,
 } from "../public/world.js";
 
 test("each home has a distinct detail that reflects its resident", () => {
@@ -56,7 +57,39 @@ test("each home has a distinct detail that reflects its resident", () => {
   HOME_DETAILS.forEach((detail, id) => {
     assert.match(detail.label, new RegExp(`^${PEOPLE[id].name}`));
     assert.ok(detail.label.length < 100);
+    assert.match(detail.homeLabel, new RegExp(`${PEOPLE[id].name} on kotona\\.$`));
+    assert.ok(detail.homeLabel.length < 100);
   });
+});
+
+test("each doorstep detail shows only when its resident is home", () => {
+  const world = newWorld();
+  assert.deepEqual(
+    PEOPLE.map((_, id) => residentAtHome(world, id)),
+    [true, true, true],
+  );
+
+  step(world, 0.75);
+  assert.deepEqual(
+    PEOPLE.map((_, id) => residentAtHome(world, id)),
+    [false, false, false],
+  );
+  assert.equal(world.events.length, 1);
+
+  const restored = restore(serialize(world));
+  assert.deepEqual(
+    PEOPLE.map((_, id) => residentAtHome(restored, id)),
+    [false, false, false],
+  );
+  assert.equal(JSON.parse(serialize(restored)).version, 3);
+
+  restored.people[1].x = PEOPLE[1].home[0];
+  restored.people[1].y = PEOPLE[1].home[1];
+  restored.people[1].route = [];
+  assert.deepEqual(
+    PEOPLE.map((_, id) => residentAtHome(restored, id)),
+    [false, true, false],
+  );
 });
 
 test("each resident has a distinct selectable way of noticing the island", () => {

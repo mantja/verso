@@ -204,14 +204,17 @@ export const HOME_DETAILS = [
   {
     key: "seedling-pots",
     label: "Aavan oven vieressä kasvaa kaksi pientä tainta.",
+    homeLabel: "Aavan taimien välissä näkyy vaalea merkki: Aava on kotona.",
   },
   {
     key: "shore-stones",
     label: "Otson oven vieressä on rivi meren hiomia kiviä.",
+    homeLabel: "Yksi Otson rantakivistä on nostettu pystyyn: Otso on kotona.",
   },
   {
     key: "twig-mobile",
     label: "Pajun räystäällä riippuu oksista sidottu pieni riipus.",
+    homeLabel: "Pajun oksariipuksen keskellä näkyy lämmin helmi: Paju on kotona.",
   },
 ];
 export const ATTENTION_DETAILS = [
@@ -662,6 +665,17 @@ export function newWorld() {
     })),
     events: [{ at: 0, text: "Aava, Otso ja Paju saapuivat saarelle." }],
   };
+}
+export function residentAtHome(world, id) {
+  const resident = world?.people?.[id],
+    home = PEOPLE[id]?.home;
+  return Boolean(
+    resident &&
+      home &&
+      Array.isArray(resident.route) &&
+      resident.route.length === 0 &&
+      Math.hypot(resident.x - home[0], resident.y - home[1]) < 0.01,
+  );
 }
 export function addEvent(world, text) {
   world.events.unshift({ at: world.elapsed, text });
