@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   newWorld,
   step,
@@ -47,6 +48,13 @@ import {
   plantedTreeVisit,
   residentAtHome,
 } from "../public/world.js";
+
+test("the browser app imports the home details used by its presence label", () => {
+  const app = readFileSync(new URL("../public/app.js", import.meta.url), "utf8"),
+    worldImport = app.match(/import \{([\s\S]*?)\} from "\.\/world\.js";/)?.[1];
+  assert.ok(worldImport, "app.js should import its world symbols explicitly");
+  assert.match(worldImport, /\bHOME_DETAILS\b/);
+});
 
 test("each home has a distinct detail that reflects its resident", () => {
   assert.equal(HOME_DETAILS.length, PEOPLE.length);

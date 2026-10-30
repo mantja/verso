@@ -1,5 +1,6 @@
 import {
   PEOPLE,
+  HOME_DETAILS,
   ATTENTION_DETAILS,
   STORAGE_KEY,
   clock,

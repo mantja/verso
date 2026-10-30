@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.27.1 · 2026-10-30 · Selainkäynnistyksen korjaus
+
+The first v0.27.0 production browser check caught a missing `HOME_DETAILS` import in `app.js`. The omission stopped the world before its first UI update even though the simulation tests, syntax checks and build had passed. v0.27.1 adds the explicit browser-module import and a focused regression test that keeps it present.
+
+Validation: `npm ci`, all thirty-nine tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed again. The repaired production rendering, controls, accessibility text and public assets are checked after the main update and reported in the delivery message.
+
 ## 0.27.0 · 2026-10-30 · Hiljainen merkki kotiinpaluusta
 
 **Choice:** let the residents' existing doorstep details show when someone is home, rather than adding a status control, resident action or event.
