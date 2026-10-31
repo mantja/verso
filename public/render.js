@@ -105,7 +105,43 @@ function tree(c, x, y, seed, growth = 1) {
   );
   c.restore();
 }
-function homeDetail(c, x, y, detail, isHome) {
+function homeWeatherAccent(c, x, y, detail, weatherKey) {
+  const [markerX, markerY] = {
+    "seedling-pots": [x + 27, y - 10],
+    "shore-stones": [x + 29, y - 7],
+    "twig-mobile": [x + 32, y - 20],
+  }[detail];
+  if (weatherKey === "mist") {
+    c.strokeStyle = "#f2f0d9b8";
+    c.lineWidth = 2;
+    c.beginPath();
+    c.ellipse(markerX, markerY, 8, 7, 0, 0, Math.PI * 2);
+    c.stroke();
+  }
+  if (weatherKey === "rain") {
+    polygon(
+      c,
+      [
+        [markerX + 7, markerY - 5],
+        [markerX + 4, markerY + 1],
+        [markerX + 10, markerY + 1],
+      ],
+      "#9dc9d1",
+    );
+    oval(c, markerX + 7, markerY + 1, 3, 3.5, "#7faebb");
+  }
+  if (weatherKey === "clearing") {
+    c.strokeStyle = "#fff0ae";
+    c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(markerX + 7, markerY - 10);
+    c.lineTo(markerX + 7, markerY - 3);
+    c.moveTo(markerX + 3, markerY - 6.5);
+    c.lineTo(markerX + 11, markerY - 6.5);
+    c.stroke();
+  }
+}
+function homeDetail(c, x, y, detail, isHome, weatherKey) {
   if (detail === "seedling-pots") {
     for (const offset of [19, 29]) {
       polygon(
@@ -173,8 +209,9 @@ function homeDetail(c, x, y, detail, isHome) {
       );
     if (isHome) oval(c, x + 32, y - 20, 3.5, 5, "#f2d79a");
   }
+  if (isHome) homeWeatherAccent(c, x, y, detail, weatherKey);
 }
-function house(c, x, y, color, detail, isHome) {
+function house(c, x, y, color, detail, isHome, weatherKey) {
   oval(c, x + 7, y + 4, 32, 12, "#355e3e30");
   polygon(
     c,
@@ -247,7 +284,7 @@ function house(c, x, y, color, detail, isHome) {
   );
   c.fillStyle = "#7d7a64";
   c.fillRect(x + 10, y - 64, 7, 18);
-  homeDetail(c, x, y, detail, isHome);
+  homeDetail(c, x, y, detail, isHome, weatherKey);
 }
 export function portrait(p) {
   return `<svg viewBox="0 0 24 30" aria-hidden="true"><path fill="${p.hair}" d="M7 3h10v4h2v9H5V7h2z"/><path fill="#ecc59b" d="M8 7h8v11H8z"/><path fill="${p.hair}" d="M7 5h10v4H7z"/><path fill="${p.color}" d="M6 17h12v9H6z"/><path fill="#424c40" d="M7 26h4v4H7zm6 0h4v4h-4z"/><path fill="#434138" d="M9 11h1v2H9zm5 0h1v2h-1z"/></svg>`;
@@ -946,6 +983,7 @@ export function createRenderer(canvas) {
           ["#9e7153", "#8e8362", "#ad855e"][o.id],
           o.detail,
           residentAtHome(world, o.id),
+          currentWeather.key,
         );
       if (o.kind === "person") {
         person(

@@ -114,9 +114,13 @@ A grey stone beside the forest path now gathers moss in three quiet stages acros
 
 Each existing doorstep detail now changes in its own small way when its resident is home: a pale marker appears among Aava's seedlings, one of Otso's shore stones stands upright and a warm bead turns into view on Paju's twig mobile. The canvas description names the same signs. Presence is derived from each resident's current position and route, so leaving and returning change the detail without an action, event, shared state or save migration.
 
+## Weather beside the home sign — v0.28.0
+
+The three home signs keep their personal shape while current weather adds one restrained accent beside them: mist draws a pale ring, rain leaves a blue drop and clearing light adds a small glint. Clear weather leaves the sign unadorned. The canvas description names the same treatment only while someone is home. Both presence and accent are derived from existing position, route and weather, so save schema remains v3.
+
 ## Next question
 
-**How could weather gently touch these home signs without making presence harder to read?** Keep the distinction personal, restrained and independent of saved state.
+**How could one familiar path briefly show that residents have just passed without adding an event or saved history?** Keep the trace subtle, derived from current movement and compatible with existing routes.
 
 ## Later possibilities
 

@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.28.0 · 2026-10-31 · Sää kotonaolon merkin vierellä
+
+**Choice:** connect yesterday's home signs to the island's existing weather while keeping presence clearer than atmosphere.
+
+- The pale plant marker, upright shore stone and warm mobile bead keep their shape and color in every weather. Mist adds a pale ring beside the sign, rain a small blue drop and clearing light a restrained glint; clear weather leaves it unadorned.
+- The canvas description names the current treatment only when at least one resident is home. Resident routines, action labels and the event log remain unchanged.
+- Both presence and weather accent are derived from current position, route and weather. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all four weather descriptions, their deterministic four-day order and the unchanged personal presence labels. The browser-module regression check also covers the new import. `npm ci`, all forty tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The published rendering, controls, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: the accent appears only while a resident is fully home. It does not animate, create an event or alter the familiar home sign itself.
+
 ## 0.27.1 · 2026-10-30 · Selainkäynnistyksen korjaus
 
 The first v0.27.0 production browser check caught a missing `HOME_DETAILS` import in `app.js`. The omission stopped the world before its first UI update even though the simulation tests, syntax checks and build had passed. v0.27.1 adds the explicit browser-module import and a focused regression test that keeps it present.

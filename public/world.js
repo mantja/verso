@@ -237,6 +237,12 @@ export const ATTENTION_WEATHER = {
   rain: "Sade painaa jälkeen oman merkkinsä.",
   clearing: "Kirkastuva valo välähtää jäljessä.",
 };
+export const HOME_WEATHER = {
+  clear: "Tyyni pouta jättää kotonaolon merkin selkeäksi.",
+  mist: "Utu piirtää kotonaolon merkin ympärille vaalean kehän.",
+  rain: "Sade jättää kotonaolon merkin viereen pienen sinisen pisaran.",
+  clearing: "Kirkastuva valo välähtää kotonaolon merkin yllä.",
+};
 export const SHARED_EVENING_WEATHER = {
   clear: "Tyynessä poudassa yhteisen jäljen kaksi osaa erottuvat selkeinä.",
   mist: "Utu pehmentää yhteistä jälkeä piilottamatta kumpaakaan osaa.",
@@ -364,6 +370,9 @@ export function phase(elapsed) {
 }
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
+}
+export function homeWeather(elapsed) {
+  return HOME_WEATHER[weather(elapsed).key];
 }
 export function tide(elapsed) {
   const hour = clock(elapsed).hour,

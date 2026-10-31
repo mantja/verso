@@ -11,6 +11,7 @@ import {
   HOME_DETAILS,
   ATTENTION_DETAILS,
   ATTENTION_WEATHER,
+  HOME_WEATHER,
   SHARED_EVENING_WEATHER,
   SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
@@ -29,6 +30,7 @@ import {
   tide,
   tideObservation,
   attentionWeather,
+  homeWeather,
   sharedEveningDetail,
   sharedEveningPerspective,
   sharedEveningWeather,
@@ -53,7 +55,9 @@ test("the browser app imports the home details used by its presence label", () =
   const app = readFileSync(new URL("../public/app.js", import.meta.url), "utf8"),
     worldImport = app.match(/import \{([\s\S]*?)\} from "\.\/world\.js";/)?.[1];
   assert.ok(worldImport, "app.js should import its world symbols explicitly");
-  assert.match(worldImport, /\bHOME_DETAILS\b/);
+  ["HOME_DETAILS", "homeWeather"].forEach((name) =>
+    assert.match(worldImport, new RegExp(`\\b${name}\\b`)),
+  );
 });
 
 test("each home has a distinct detail that reflects its resident", () => {
@@ -98,6 +102,25 @@ test("each doorstep detail shows only when its resident is home", () => {
     PEOPLE.map((_, id) => residentAtHome(restored, id)),
     [false, true, false],
   );
+});
+
+test("weather adds a readable accent without replacing a home sign", () => {
+  assert.deepEqual(Object.keys(HOME_WEATHER), [
+    "clear",
+    "mist",
+    "rain",
+    "clearing",
+  ]);
+  const descriptions = [0, DAY, 2 * DAY, 3 * DAY].map(homeWeather);
+  assert.deepEqual(descriptions, Object.values(HOME_WEATHER));
+  assert.equal(new Set(descriptions).size, 4);
+  descriptions.forEach((description) => {
+    assert.match(description, /kotonaolon merki/);
+    assert.ok(description.length < 90);
+  });
+  HOME_DETAILS.forEach(({ homeLabel }, id) => {
+    assert.match(homeLabel, new RegExp(`${PEOPLE[id].name} on kotona`));
+  });
 });
 
 test("each resident has a distinct selectable way of noticing the island", () => {
