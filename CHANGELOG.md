@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.29.0 · 2026-11-01 · Polku muistaa hetken
+
+**Choice:** answer the visible next question with a trace derived from movement already happening on the island, rather than recording another event or history item.
+
+- A walking resident now leaves three faint pairs of pressed-grass marks immediately behind them. The short trace follows all existing route directions and disappears as soon as the resident stops.
+- The canvas description names each currently visible trace, so the passing detail is available without relying only on the drawing. Resident actions, routes and the event log remain unchanged.
+- Direction and position are derived entirely from each resident's current coordinates and next route tile. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers absence while resting, all four route directions, resident-aligned readable labels, disappearance after stopping and exclusion from serialized saves. The browser-module regression check also covers the new import. `npm ci`, all forty-one tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` are run before publication. The moving traces, controls, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: a trace is visible only while its resident is moving and covers less than one map tile. It creates no event, resident action, memory or saved history.
+
 ## 0.28.0 · 2026-10-31 · Sää kotonaolon merkin vierellä
 
 **Choice:** connect yesterday's home signs to the island's existing weather while keeping presence clearer than atmosphere.

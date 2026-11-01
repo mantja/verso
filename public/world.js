@@ -243,6 +243,9 @@ export const HOME_WEATHER = {
   rain: "Sade jättää kotonaolon merkin viereen pienen sinisen pisaran.",
   clearing: "Kirkastuva valo välähtää kotonaolon merkin yllä.",
 };
+export const MOVEMENT_TRAIL = {
+  label: "takana polun ruoho painuu hetkeksi vaaleaksi jäljeksi.",
+};
 export const SHARED_EVENING_WEATHER = {
   clear: "Tyynessä poudassa yhteisen jäljen kaksi osaa erottuvat selkeinä.",
   mist: "Utu pehmentää yhteistä jälkeä piilottamatta kumpaakaan osaa.",
@@ -685,6 +688,29 @@ export function residentAtHome(world, id) {
       resident.route.length === 0 &&
       Math.hypot(resident.x - home[0], resident.y - home[1]) < 0.01,
   );
+}
+export function movementTrail(world, id) {
+  const resident = world?.people?.[id];
+  if (!resident || !Array.isArray(resident.route) || !resident.route.length)
+    return null;
+  const target = resident.route.find(
+    (tile) =>
+      Array.isArray(tile) &&
+      tile.length >= 2 &&
+      Number.isFinite(tile[0]) &&
+      Number.isFinite(tile[1]) &&
+      Math.hypot(tile[0] - resident.x, tile[1] - resident.y) > 0.001,
+  );
+  if (!target) return null;
+  const distance = Math.hypot(target[0] - resident.x, target[1] - resident.y);
+  return {
+    id,
+    x: resident.x,
+    y: resident.y,
+    dx: (target[0] - resident.x) / distance,
+    dy: (target[1] - resident.y) / distance,
+    label: `${PEOPLE[id].name}n ${MOVEMENT_TRAIL.label}`,
+  };
 }
 export function addEvent(world, text) {
   world.events.unshift({ at: world.elapsed, text });

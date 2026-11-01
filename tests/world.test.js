@@ -12,6 +12,7 @@ import {
   ATTENTION_DETAILS,
   ATTENTION_WEATHER,
   HOME_WEATHER,
+  MOVEMENT_TRAIL,
   SHARED_EVENING_WEATHER,
   SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
@@ -49,15 +50,55 @@ import {
   treeGrowth,
   plantedTreeVisit,
   residentAtHome,
+  movementTrail,
 } from "../public/world.js";
 
-test("the browser app imports the home details used by its presence label", () => {
+test("the browser app imports dynamically described world details", () => {
   const app = readFileSync(new URL("../public/app.js", import.meta.url), "utf8"),
     worldImport = app.match(/import \{([\s\S]*?)\} from "\.\/world\.js";/)?.[1];
   assert.ok(worldImport, "app.js should import its world symbols explicitly");
-  ["HOME_DETAILS", "homeWeather"].forEach((name) =>
+  ["HOME_DETAILS", "homeWeather", "movementTrail"].forEach((name) =>
     assert.match(worldImport, new RegExp(`\\b${name}\\b`)),
   );
+});
+
+test("walking residents leave only a derived momentary path trace", () => {
+  const world = newWorld();
+  assert.match(MOVEMENT_TRAIL.label, /hetkeksi/);
+  assert.deepEqual(
+    PEOPLE.map((_, id) => movementTrail(world, id)),
+    [null, null, null],
+  );
+
+  const directions = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  directions.forEach(([dx, dy], id) => {
+    const residentId = id % PEOPLE.length,
+      resident = world.people[residentId];
+    resident.x = 12;
+    resident.y = 12;
+    resident.route = [[12, 12], [12 + dx, 12 + dy]];
+    const trail = movementTrail(world, residentId);
+    assert.equal(trail.id, residentId);
+    assert.equal(trail.x, 12);
+    assert.equal(trail.y, 12);
+    assert.ok(Math.abs(trail.dx - dx) < Number.EPSILON);
+    assert.ok(Math.abs(trail.dy - dy) < Number.EPSILON);
+    assert.match(trail.label, new RegExp(`^${PEOPLE[residentId].name}`));
+    resident.route = [];
+    assert.equal(movementTrail(world, residentId), null);
+  });
+
+  step(world, 0.75);
+  assert.ok(PEOPLE.every((_, id) => movementTrail(world, id)));
+  const saved = JSON.parse(serialize(world));
+  assert.equal(saved.version, 3);
+  assert.equal("movementTrail" in saved, false);
+  assert.ok(saved.people.every((resident) => !("route" in resident)));
 });
 
 test("each home has a distinct detail that reflects its resident", () => {

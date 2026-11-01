@@ -23,6 +23,7 @@ import {
   sharedEveningFade,
   treeGrowth,
   residentAtHome,
+  movementTrail,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -336,6 +337,31 @@ function person(c, x, y, id, moving, t, selected, raining) {
   if (selected) {
     oval(c, x, y - (raining ? 63 : 48), 3, 3, "#f7eac1");
   }
+}
+function drawMovementTrail(c, trail) {
+  c.save();
+  for (const [index, distance] of [0.28, 0.55, 0.82].entries()) {
+    const px = trail.x - trail.dx * distance,
+      py = trail.y - trail.dy * distance,
+      [x, projectedY] = project(px, py),
+      [aheadX, aheadY] = project(
+        px + trail.dx * 0.15,
+        py + trail.dy * 0.15,
+      ),
+      y = projectedY - height(px, py),
+      angle = Math.atan2(aheadY - projectedY, aheadX - x),
+      alpha = 0.5 - index * 0.12;
+    c.save();
+    c.translate(x, y + 1);
+    c.rotate(angle);
+    c.fillStyle = `rgba(225,220,166,${alpha})`;
+    c.beginPath();
+    c.ellipse(-3, -1.5, 4.5, 1.5, -0.18, 0, Math.PI * 2);
+    c.ellipse(4, 1.5, 4.5, 1.5, 0.18, 0, Math.PI * 2);
+    c.fill();
+    c.restore();
+  }
+  c.restore();
 }
 function drawAttention(c, x, y, detail, mood) {
   c.save();
@@ -952,6 +978,9 @@ export function createRenderer(canvas) {
     const trace = shoreTrace(world.elapsed),
       lowTideDetail = lowTideTrace(world.elapsed),
       moss = forestPathMoss(world.elapsed),
+      movementTrails = world.people
+        .map((_, id) => movementTrail(world, id))
+        .filter(Boolean),
       objects = [
       ...fixed,
       ...(trace
@@ -960,6 +989,7 @@ export function createRenderer(canvas) {
       ...world.planted.map((p) => ({ ...p, kind: "planted" })),
       ...world.people.map((p, id) => ({ ...p, kind: "person", id })),
     ].sort((a, b) => a.x + a.y - (b.x + b.y) || a.x - b.x);
+    movementTrails.forEach((trail) => drawMovementTrail(ctx, trail));
     for (const o of objects) {
       let [x, y] = project(o.x, o.y);
       y -= height(o.x, o.y);

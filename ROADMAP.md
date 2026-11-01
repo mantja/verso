@@ -118,9 +118,13 @@ Each existing doorstep detail now changes in its own small way when its resident
 
 The three home signs keep their personal shape while current weather adds one restrained accent beside them: mist draws a pale ring, rain leaves a blue drop and clearing light adds a small glint. Clear weather leaves the sign unadorned. The canvas description names the same treatment only while someone is home. Both presence and accent are derived from existing position, route and weather, so save schema remains v3.
 
+## The path remembers for a moment — v0.29.0
+
+Every walking resident now presses three faint pairs of marks into the path immediately behind them. The short trace follows the current direction on every existing route and vanishes as soon as the resident stops. The canvas description names the same passing detail. Position and direction are derived from current movement, so the trace adds no event, action, saved history or schema migration.
+
 ## Next question
 
-**How could one familiar path briefly show that residents have just passed without adding an event or saved history?** Keep the trace subtle, derived from current movement and compatible with existing routes.
+**How could two residents' passing traces briefly meet on the same path without adding an event or memory?** Keep any overlap readable, transient and derived from current movement.
 
 ## Later possibilities
 
