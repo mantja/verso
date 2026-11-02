@@ -13,6 +13,7 @@ import {
   ATTENTION_WEATHER,
   HOME_WEATHER,
   MOVEMENT_TRAIL,
+  PASSING_TRAIL,
   SHARED_EVENING_WEATHER,
   SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
@@ -51,13 +52,19 @@ import {
   plantedTreeVisit,
   residentAtHome,
   movementTrail,
+  passingTrailMeeting,
 } from "../public/world.js";
 
 test("the browser app imports dynamically described world details", () => {
   const app = readFileSync(new URL("../public/app.js", import.meta.url), "utf8"),
     worldImport = app.match(/import \{([\s\S]*?)\} from "\.\/world\.js";/)?.[1];
   assert.ok(worldImport, "app.js should import its world symbols explicitly");
-  ["HOME_DETAILS", "homeWeather", "movementTrail"].forEach((name) =>
+  [
+    "HOME_DETAILS",
+    "homeWeather",
+    "movementTrail",
+    "passingTrailMeeting",
+  ].forEach((name) =>
     assert.match(worldImport, new RegExp(`\\b${name}\\b`)),
   );
 });
@@ -99,6 +106,49 @@ test("walking residents leave only a derived momentary path trace", () => {
   assert.equal(saved.version, 3);
   assert.equal("movementTrail" in saved, false);
   assert.ok(saved.people.every((resident) => !("route" in resident)));
+});
+
+test("two current path traces can meet briefly without saved history", () => {
+  const world = newWorld();
+  assert.match(PASSING_TRAIL.label, /hetken samalla polulla/);
+  assert.equal(passingTrailMeeting(world), null);
+
+  world.people[0].x = 12.85;
+  world.people[0].y = 12;
+  world.people[0].route = [[13, 12]];
+  world.people[1].x = 12.15;
+  world.people[1].y = 12;
+  world.people[1].route = [[12, 12], [11, 12]];
+  const meeting = passingTrailMeeting(world);
+  assert.deepEqual(meeting.members, [0, 1]);
+  assert.ok(Math.abs(meeting.x - 12.5) < Number.EPSILON);
+  assert.equal(meeting.y, 12);
+  assert.ok(meeting.strength > 0);
+  assert.match(meeting.label, /^Aavan ja Otson/);
+
+  world.people[1].y = 12.2;
+  assert.equal(passingTrailMeeting(world), null);
+  world.people[1].y = 12;
+  world.people[1].x = 10;
+  assert.equal(passingTrailMeeting(world), null);
+  world.people[0].route = [];
+  assert.equal(passingTrailMeeting(world), null);
+
+  const saved = JSON.parse(serialize(world));
+  assert.equal("passingTrailMeeting" in saved, false);
+  assert.ok(saved.people.every((resident) => !Array.isArray(resident.route)));
+
+  const naturalWorld = newWorld(),
+    naturalLabels = [];
+  for (let frame = 0; frame < 1320; frame += 1) {
+    step(naturalWorld, 0.1);
+    const naturalMeeting = passingTrailMeeting(naturalWorld);
+    if (naturalMeeting) naturalLabels.push(naturalMeeting.label);
+  }
+  assert.ok(naturalLabels.some((label) => /^Aavan ja Otson/.test(label)));
+  assert.ok(naturalLabels.some((label) => /^Otson ja Pajun/.test(label)));
+  for (let frame = 0; frame < 30; frame += 1) step(naturalWorld, 0.1);
+  assert.equal(passingTrailMeeting(naturalWorld), null);
 });
 
 test("each home has a distinct detail that reflects its resident", () => {

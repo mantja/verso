@@ -246,6 +246,9 @@ export const HOME_WEATHER = {
 export const MOVEMENT_TRAIL = {
   label: "takana polun ruoho painuu hetkeksi vaaleaksi jäljeksi.",
 };
+export const PASSING_TRAIL = {
+  label: "vaaleat jäljet kohtaavat hetken samalla polulla.",
+};
 export const SHARED_EVENING_WEATHER = {
   clear: "Tyynessä poudassa yhteisen jäljen kaksi osaa erottuvat selkeinä.",
   mist: "Utu pehmentää yhteistä jälkeä piilottamatta kumpaakaan osaa.",
@@ -711,6 +714,44 @@ export function movementTrail(world, id) {
     dy: (target[1] - resident.y) / distance,
     label: `${PEOPLE[id].name}n ${MOVEMENT_TRAIL.label}`,
   };
+}
+export function passingTrailMeeting(world) {
+  const trails = PEOPLE.map((_, id) => movementTrail(world, id)).filter(
+      Boolean,
+    ),
+    meetings = [];
+  for (let first = 0; first < trails.length; first += 1) {
+    for (let second = first + 1; second < trails.length; second += 1) {
+      const a = trails[first],
+        b = trails[second],
+        cross = a.dx * b.dy - a.dy * b.dx,
+        offsetX = b.x - a.x,
+        offsetY = b.y - a.y,
+        perpendicular = Math.abs(offsetX * a.dy - offsetY * a.dx);
+      if (Math.abs(cross) > 0.05 || perpendicular > 0.12) continue;
+      const along = offsetX * a.dx + offsetY * a.dy,
+        alignment = a.dx * b.dx + a.dy * b.dy,
+        bRange = [along - alignment * 0.82, along - alignment * 0.28].sort(
+          (left, right) => left - right,
+        ),
+        start = Math.max(-0.82, bRange[0]),
+        end = Math.min(-0.28, bRange[1]),
+        overlap = end - start;
+      if (overlap < 0.05) continue;
+      const middle = (start + end) / 2,
+        members = [a.id, b.id];
+      meetings.push({
+        members,
+        x: a.x + a.dx * middle,
+        y: a.y + a.dy * middle,
+        dx: a.dx,
+        dy: a.dy,
+        strength: Math.min(1, overlap / 0.35),
+        label: `${PEOPLE[members[0]].name}n ja ${PEOPLE[members[1]].name}n ${PASSING_TRAIL.label}`,
+      });
+    }
+  }
+  return meetings.sort((a, b) => b.strength - a.strength)[0] || null;
 }
 export function addEvent(world, text) {
   world.events.unshift({ at: world.elapsed, text });

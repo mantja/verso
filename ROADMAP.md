@@ -122,9 +122,13 @@ The three home signs keep their personal shape while current weather adds one re
 
 Every walking resident now presses three faint pairs of marks into the path immediately behind them. The short trace follows the current direction on every existing route and vanishes as soon as the resident stops. The canvas description names the same passing detail. Position and direction are derived from current movement, so the trace adds no event, action, saved history or schema migration.
 
+## Two passing traces meet — v0.30.0
+
+When two residents' current pale trails overlap on the same path, a small woven mark appears at the shared patch of pressed grass. The mark follows the path, names both residents in the canvas description and vanishes as soon as the short traces separate or either resident stops. The overlap is derived from current position, direction and movement, so it adds no event, memory, shared state or save migration.
+
 ## Next question
 
-**How could two residents' passing traces briefly meet on the same path without adding an event or memory?** Keep any overlap readable, transient and derived from current movement.
+**How could a passing trace briefly soften beside the moss-covered path stone, linking fast and slow time without adding an event or memory?** Keep the relationship subtle, transient and derived from current movement and moss stage.
 
 ## Later possibilities
 

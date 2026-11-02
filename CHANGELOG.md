@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.30.0 · 2026-11-02 · Kaksi ohikiitävää jälkeä kohtaa
+
+**Choice:** answer the visible next question by detecting overlap between the movement traces already present, rather than storing a meeting, event or new history item.
+
+- When two residents' current pale trails overlap on the same path, a small woven mark appears at the shared patch of pressed grass. It follows the path and disappears as soon as the traces separate or either resident stops.
+- The canvas description names both residents in the overlap, so the moment remains readable without relying only on the drawing. Routes, resident actions and the event log remain unchanged.
+- The meeting is derived entirely from current position, direction and movement. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers a same-path overlap, both resident names, rejection of parallel but separate paths, disappearance when movement stops and exclusion from serialized saves. The browser-module regression check also covers the new import. `npm ci`, all forty-two tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The transient overlap, controls, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: the mark appears only while two sub-tile movement trails overlap on the same line. It creates no event, resident action, memory or saved history.
+
 ## 0.29.0 · 2026-11-01 · Polku muistaa hetken
 
 **Choice:** answer the visible next question with a trace derived from movement already happening on the island, rather than recording another event or history item.

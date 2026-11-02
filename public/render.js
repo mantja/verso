@@ -24,6 +24,7 @@ import {
   treeGrowth,
   residentAtHome,
   movementTrail,
+  passingTrailMeeting,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -361,6 +362,29 @@ function drawMovementTrail(c, trail) {
     c.fill();
     c.restore();
   }
+  c.restore();
+}
+function drawPassingTrailMeeting(c, meeting) {
+  const [x, projectedY] = project(meeting.x, meeting.y),
+    [aheadX, aheadY] = project(
+      meeting.x + meeting.dx * 0.15,
+      meeting.y + meeting.dy * 0.15,
+    ),
+    y = projectedY - height(meeting.x, meeting.y),
+    angle = Math.atan2(aheadY - projectedY, aheadX - x);
+  c.save();
+  c.translate(x, y + 1);
+  c.rotate(angle);
+  c.globalAlpha = 0.5 + meeting.strength * 0.3;
+  c.strokeStyle = "#f4e8ad";
+  c.lineWidth = 1.6;
+  c.lineCap = "round";
+  c.beginPath();
+  c.moveTo(-11, -3);
+  c.quadraticCurveTo(0, 3, 11, -3);
+  c.moveTo(-11, 3);
+  c.quadraticCurveTo(0, -3, 11, 3);
+  c.stroke();
   c.restore();
 }
 function drawAttention(c, x, y, detail, mood) {
@@ -981,6 +1005,7 @@ export function createRenderer(canvas) {
       movementTrails = world.people
         .map((_, id) => movementTrail(world, id))
         .filter(Boolean),
+      trailMeeting = passingTrailMeeting(world),
       objects = [
       ...fixed,
       ...(trace
@@ -990,6 +1015,7 @@ export function createRenderer(canvas) {
       ...world.people.map((p, id) => ({ ...p, kind: "person", id })),
     ].sort((a, b) => a.x + a.y - (b.x + b.y) || a.x - b.x);
     movementTrails.forEach((trail) => drawMovementTrail(ctx, trail));
+    if (trailMeeting) drawPassingTrailMeeting(ctx, trailMeeting);
     for (const o of objects) {
       let [x, y] = project(o.x, o.y);
       y -= height(o.x, o.y);
