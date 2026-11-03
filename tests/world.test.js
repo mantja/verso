@@ -14,6 +14,7 @@ import {
   HOME_WEATHER,
   MOVEMENT_TRAIL,
   PASSING_TRAIL,
+  MOSS_TRAIL,
   SHARED_EVENING_WEATHER,
   SHARED_EVENING_FADE,
   SHARED_EVENING_DETAILS,
@@ -53,6 +54,7 @@ import {
   residentAtHome,
   movementTrail,
   passingTrailMeeting,
+  mossSoftenedTrail,
 } from "../public/world.js";
 
 test("the browser app imports dynamically described world details", () => {
@@ -64,6 +66,7 @@ test("the browser app imports dynamically described world details", () => {
     "homeWeather",
     "movementTrail",
     "passingTrailMeeting",
+    "mossSoftenedTrail",
   ].forEach((name) =>
     assert.match(worldImport, new RegExp(`\\b${name}\\b`)),
   );
@@ -149,6 +152,48 @@ test("two current path traces can meet briefly without saved history", () => {
   assert.ok(naturalLabels.some((label) => /^Otson ja Pajun/.test(label)));
   for (let frame = 0; frame < 30; frame += 1) step(naturalWorld, 0.1);
   assert.equal(passingTrailMeeting(naturalWorld), null);
+});
+
+test("moss briefly softens a passing trail more as the stone ages", () => {
+  const world = newWorld(),
+    resident = world.people[2];
+  resident.x = 10;
+  resident.y = 7.2;
+  resident.route = [[10, 8]];
+
+  world.elapsed = 2 * DAY;
+  const firstMoss = mossSoftenedTrail(world);
+  assert.equal(firstMoss.id, 2);
+  assert.equal(firstMoss.stage, 1);
+  assert.ok(firstMoss.strength > 0);
+  assert.match(firstMoss.label, /^Ohut sammaljuova pehmentää Pajun/);
+
+  world.elapsed = 4 * DAY;
+  const spreadingMoss = mossSoftenedTrail(world);
+  assert.equal(spreadingMoss.stage, 2);
+  assert.ok(spreadingMoss.strength > firstMoss.strength);
+  assert.match(spreadingMoss.label, /^Levinnyt sammal pehmentää Pajun/);
+
+  world.elapsed = 6 * DAY;
+  const matureMoss = mossSoftenedTrail(world);
+  assert.equal(matureMoss.stage, 3);
+  assert.ok(matureMoss.strength > spreadingMoss.strength);
+  assert.match(matureMoss.label, /^Pehmeä sammal sulauttaa Pajun/);
+  assert.equal(MOSS_TRAIL.labels.length, 4);
+
+  resident.route = [];
+  assert.equal(mossSoftenedTrail(world), null);
+  resident.route = [[10, 8]];
+  resident.x = 14;
+  assert.equal(mossSoftenedTrail(world), null);
+  world.elapsed = 0;
+  resident.x = 10;
+  assert.equal(mossSoftenedTrail(world), null);
+
+  world.elapsed = 6 * DAY;
+  const saved = JSON.parse(serialize(world));
+  assert.equal("mossSoftenedTrail" in saved, false);
+  assert.ok(saved.people.every((person) => !Array.isArray(person.route)));
 });
 
 test("each home has a distinct detail that reflects its resident", () => {

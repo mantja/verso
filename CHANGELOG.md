@@ -1,5 +1,17 @@
 # Verso — development diary
 
+## 0.31.0 · 2026-11-03 · Sammal pehmentää ohikiitävän jäljen
+
+**Choice:** answer the visible next question by letting the existing moss stone touch one current movement mark, rather than recording another event or history item.
+
+- When a resident's short trail brushes the forest-path stone, the nearest pair of pressed-grass marks briefly broadens and takes on a muted moss tint. It disappears as soon as the resident or their trail moves on.
+- The effect strengthens across the stone's three existing moss stages. The canvas description names both the passing resident and the current stage, so the relationship is not conveyed only by color or softness.
+- The softened mark is derived entirely from current movement and elapsed world time. Save schema remains v3, so earlier personal islands, trees, memories and events stay compatible. No dependency, shared state, paid service or hosting change was added.
+
+Validation: the new test covers all three moss stages, increasing strength, absence beside the bare stone, disappearance after stopping or moving away and exclusion from serialized saves. The browser-module regression check also covers the new import. `npm ci`, all forty-three tests, `npm run check:deploy`, `npm run build`, JavaScript syntax checks and `git diff --check` passed. The transient mark, controls, version and public assets are checked after the main update and reported in the delivery message.
+
+Limitations: only the nearest pair of a current movement trail softens, and only while it passes beside a mossed stone. It creates no event, resident action, memory or saved history.
+
 ## 0.30.0 · 2026-11-02 · Kaksi ohikiitävää jälkeä kohtaa
 
 **Choice:** answer the visible next question by detecting overlap between the movement traces already present, rather than storing a meeting, event or new history item.

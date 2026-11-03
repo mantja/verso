@@ -4,6 +4,7 @@ import {
   HOME_DETAILS,
   ATTENTION_DETAILS,
   PLACES,
+  MOSS_STONE,
   terrain,
   noise,
   forest,
@@ -25,6 +26,7 @@ import {
   residentAtHome,
   movementTrail,
   passingTrailMeeting,
+  mossSoftenedTrail,
 } from "./world.js";
 const W = 1100,
   H = 760,
@@ -385,6 +387,27 @@ function drawPassingTrailMeeting(c, meeting) {
   c.moveTo(-11, 3);
   c.quadraticCurveTo(0, -3, 11, 3);
   c.stroke();
+  c.restore();
+}
+function drawMossSoftenedTrail(c, softened) {
+  const [x, projectedY] = project(softened.x, softened.y),
+    [aheadX, aheadY] = project(
+      softened.x + softened.dx * 0.15,
+      softened.y + softened.dy * 0.15,
+    ),
+    y = projectedY - height(softened.x, softened.y),
+    angle = Math.atan2(aheadY - projectedY, aheadX - x);
+  c.save();
+  c.translate(x, y + 1);
+  c.rotate(angle);
+  c.globalAlpha = 0.22 + softened.strength * 0.36;
+  c.fillStyle = "#a8bd78";
+  c.shadowColor = "#809963";
+  c.shadowBlur = 3 + softened.strength * 6;
+  c.beginPath();
+  c.ellipse(-3, -1.5, 6, 2.2, -0.18, 0, Math.PI * 2);
+  c.ellipse(4, 1.5, 6, 2.2, 0.18, 0, Math.PI * 2);
+  c.fill();
   c.restore();
 }
 function drawAttention(c, x, y, detail, mood) {
@@ -960,7 +983,7 @@ export function createRenderer(canvas) {
   );
   fixed.push(
     { x: PLACES.garden[0], y: PLACES.garden[1], kind: "garden" },
-    { x: 9.35, y: 6.65, kind: "moss-stone" },
+    { x: MOSS_STONE[0], y: MOSS_STONE[1], kind: "moss-stone" },
     { x: 12, y: 12, kind: "fire" },
   );
   let pixelRatio = 0;
@@ -1006,6 +1029,7 @@ export function createRenderer(canvas) {
         .map((_, id) => movementTrail(world, id))
         .filter(Boolean),
       trailMeeting = passingTrailMeeting(world),
+      softenedTrail = mossSoftenedTrail(world),
       objects = [
       ...fixed,
       ...(trace
@@ -1016,6 +1040,7 @@ export function createRenderer(canvas) {
     ].sort((a, b) => a.x + a.y - (b.x + b.y) || a.x - b.x);
     movementTrails.forEach((trail) => drawMovementTrail(ctx, trail));
     if (trailMeeting) drawPassingTrailMeeting(ctx, trailMeeting);
+    if (softenedTrail) drawMossSoftenedTrail(ctx, softenedTrail);
     for (const o of objects) {
       let [x, y] = project(o.x, o.y);
       y -= height(o.x, o.y);

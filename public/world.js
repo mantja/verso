@@ -128,6 +128,15 @@ const FOREST_PATH_MOSS_STAGES = [
     label: "Metsäpolun kivi on peittynyt pehmeään sammaleeseen.",
   },
 ];
+export const MOSS_STONE = [9.35, 6.65];
+export const MOSS_TRAIL = {
+  labels: [
+    "",
+    "Ohut sammaljuova pehmentää {name} ohikiitävän jäljen reunaa polkukiven vierellä.",
+    "Levinnyt sammal pehmentää {name} ohikiitävän jäljen reunaa polkukiven vierellä.",
+    "Pehmeä sammal sulauttaa {name} ohikiitävän jäljen reunaa polkukiven vierellä.",
+  ],
+};
 const GARDEN_KEEPSAKE = {
   label: "Pajun punoma ruohorengas",
   action: "Tutkii Pajun ruohorengasta",
@@ -752,6 +761,38 @@ export function passingTrailMeeting(world) {
     }
   }
   return meetings.sort((a, b) => b.strength - a.strength)[0] || null;
+}
+export function mossSoftenedTrail(world) {
+  const moss = forestPathMoss(world?.elapsed);
+  if (!moss.stage) return null;
+  const nearby = PEOPLE.flatMap((_, id) => {
+    const trail = movementTrail(world, id);
+    if (!trail) return [];
+    return [0.28, 0.55, 0.82].map((distance) => {
+      const x = trail.x - trail.dx * distance,
+        y = trail.y - trail.dy * distance,
+        stoneDistance = Math.hypot(x - MOSS_STONE[0], y - MOSS_STONE[1]),
+        proximity = Math.max(0, Math.min(1, (0.92 - stoneDistance) / 0.27));
+      return {
+        id,
+        x,
+        y,
+        dx: trail.dx,
+        dy: trail.dy,
+        strength: proximity * moss.coverage,
+      };
+    });
+  }).filter(({ strength }) => strength > 0);
+  const softened = nearby.sort((a, b) => b.strength - a.strength)[0];
+  if (!softened) return null;
+  return {
+    ...softened,
+    stage: moss.stage,
+    label: MOSS_TRAIL.labels[moss.stage].replace(
+      "{name}",
+      `${PEOPLE[softened.id].name}n`,
+    ),
+  };
 }
 export function addEvent(world, text) {
   world.events.unshift({ at: world.elapsed, text });

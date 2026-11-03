@@ -126,9 +126,13 @@ Every walking resident now presses three faint pairs of marks into the path imme
 
 When two residents' current pale trails overlap on the same path, a small woven mark appears at the shared patch of pressed grass. The mark follows the path, names both residents in the canvas description and vanishes as soon as the short traces separate or either resident stops. The overlap is derived from current position, direction and movement, so it adds no event, memory, shared state or save migration.
 
+## Moss softens a passing trace — v0.31.0
+
+When a current movement trail brushes the moss-covered path stone, its nearest pair of marks briefly broadens and takes on a muted moss tint. The readable description follows the moss's three stages, and the effect grows softer as the stone ages. It is derived from current movement and elapsed time, so it vanishes with the trail and adds no event, memory, shared state or save migration.
+
 ## Next question
 
-**How could a passing trace briefly soften beside the moss-covered path stone, linking fast and slow time without adding an event or memory?** Keep the relationship subtle, transient and derived from current movement and moss stage.
+**How could the forest's small night lights drift differently around the mature moss stone, giving the night a quiet sense of age without adding an event or saved state?** Keep the change restrained, accessible and derived from existing night, weather and moss stages.
 
 ## Later possibilities
 
