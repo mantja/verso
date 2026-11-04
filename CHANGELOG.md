@@ -1,5 +1,18 @@
 # Verso — development diary
 
+## 0.32.0 · 2026-11-04 · Sateen jälkeen värit palaavat
+
+**Choice:** make a visible landscape-scale change after Jani observed that recent details were hard to notice without the report. The roadmap's moss/night-light suggestion is deferred.
+
+- A broad six-color rainbow arches behind the island on clearing days. It fades in between 07:00 and 09:00, holds through the day and fades out between 16:00 and 18:00 (world time).
+- The renderer separates the sea backdrop from the island layer so land naturally occludes the rainbow. Its shape is still; opacity follows world time, pause and speed, including reduced-motion mode.
+- The accessible canvas description and weather tooltip name the rainbow. No save fields, events, dependencies, services or hosting settings changed; personal v3 saves remain compatible.
+
+Validation: npm ci, 44/44 tests, check:deploy and build passed. The new test covers weather exclusion, daylight boundaries, fading, cycle repetition and save round-trip. Browser QA inspected the rainbow in 1200px and 390px iframe viewports, plus pause, speed and accessible text. The temporary QA fixture is removed before publication. Production verification is reported separately after main updates.
+
+Limitations: the rainbow belongs to clearing days (every fourth world day), not every visit. It intentionally adds no resident reaction.
+
+
 ## 0.31.0 · 2026-11-03 · Sammal pehmentää ohikiitävän jäljen
 
 **Choice:** answer the visible next question by letting the existing moss stone touch one current movement mark, rather than recording another event or history item.

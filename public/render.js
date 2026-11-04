@@ -12,6 +12,7 @@ import {
   tide,
   activeEncounter,
   weather,
+  clearingRainbow,
   shoreTrace,
   lowTideTrace,
   forestPathMoss,
@@ -861,6 +862,20 @@ function drawTide(c, elapsed) {
   }
   c.restore();
 }
+function drawRainbow(c, elapsed) {
+  const rainbow = clearingRainbow(elapsed);
+  if (!rainbow) return;
+  c.save();
+  c.globalAlpha = rainbow.strength * 0.48;
+  c.lineWidth = 9;
+  ["#d88b83", "#e7b579", "#edda94", "#94ba96", "#83b6c6", "#a49bc4"].forEach((color, i) => {
+    c.strokeStyle = color;
+    c.beginPath();
+    c.ellipse(550, 345, 430 - i * 9, 290 - i * 9, 0, Math.PI, Math.PI * 2);
+    c.stroke();
+  });
+  c.restore();
+}
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     base = document.createElement("canvas");
@@ -872,6 +887,11 @@ export function createRenderer(canvas) {
   bg.addColorStop(1, "#aecfc8");
   c.fillStyle = bg;
   c.fillRect(0, 0, W, H);
+  const backdrop = document.createElement("canvas");
+  backdrop.width = W;
+  backdrop.height = H;
+  backdrop.getContext("2d").drawImage(base, 0, 0);
+  c.clearRect(0, 0, W, H);
   // Shoals follow the coastline, with a deeper offset below the island.
   for (let sum = 0; sum < SIZE * 2; sum++)
     for (let x = 0; x < SIZE; x++) {
@@ -997,6 +1017,8 @@ export function createRenderer(canvas) {
       pixelRatio = dpr;
     }
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+    ctx.drawImage(backdrop, 0, 0);
+    drawRainbow(ctx, world.elapsed);
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,
       currentWeather = weather(world.elapsed),

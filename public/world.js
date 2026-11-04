@@ -386,6 +386,13 @@ export function phase(elapsed) {
 export function weather(elapsed) {
   return WEATHER_CYCLE[(clock(elapsed).day - 1) % WEATHER_CYCLE.length];
 }
+// The clearing day's broad rainbow follows world time, including pause.
+export function clearingRainbow(elapsed) {
+  const h = clock(elapsed).hour;
+  if (weather(elapsed).key !== "clearing" || h <= 7 || h >= 18) return null;
+  const strength = Math.min(1, (h - 7) / 2, (18 - h) / 2);
+  return { strength, label: "Sateen jälkeen saaren taakse kaartuu sateenkaari." };
+}
 export function homeWeather(elapsed) {
   return HOME_WEATHER[weather(elapsed).key];
 }

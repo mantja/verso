@@ -130,9 +130,13 @@ When two residents' current pale trails overlap on the same path, a small woven 
 
 When a current movement trail brushes the moss-covered path stone, its nearest pair of marks briefly broadens and takes on a muted moss tint. The readable description follows the moss's three stages, and the effect grows softer as the stone ages. It is derived from current movement and elapsed time, so it vanishes with the trail and adds no event, memory, shared state or save migration.
 
+## The landscape opens up — v0.32.0
+
+A broad six-color rainbow appears behind the island during the clearing day, fading in from 07:00 to 09:00 and out from 16:00 to 18:00 in world time. It follows pause and speed without decorative motion and is named in the accessible canvas description. The sea backdrop and island layer are separated so the rainbow stays behind the land. Saves remain v3.
+
 ## Next question
 
-**How could the forest's small night lights drift differently around the mature moss stone, giving the night a quiet sense of age without adding an event or saved state?** Keep the change restrained, accessible and derived from existing night, weather and moss stages.
+What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
 
 ## Later possibilities
 

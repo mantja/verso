@@ -30,6 +30,7 @@ import {
   memoryVisit,
   phase,
   weather,
+  clearingRainbow,
   tide,
   tideObservation,
   attentionWeather,
@@ -1064,4 +1065,21 @@ test('frame-sized time steps produce one meeting per evening and pause does not 
   for (let i = 0; i < 35 * 60; i++) step(w, 1 / 60);
   assert.deepEqual(w.lastEncounter, meeting);
   assert.equal(w.events.filter(e => e.at === meeting.at && e.text === encounterText(meeting)).length, 1);
+});
+
+
+test("clearing rainbow follows daylight and weather without changing saves", () => {
+  const at = (day, hour) => (day - 1) * DAY + hour / 24 * DAY - DAY / 3;
+  for (const day of [1, 2, 3, 5]) assert.equal(clearingRainbow(at(day, 12)), null);
+  for (const hour of [0, 6, 7, 18, 21, 23]) assert.equal(clearingRainbow(at(4, hour)), null);
+  assert.equal(clearingRainbow(at(4, 8)).strength, 0.5);
+  assert.equal(clearingRainbow(at(4, 12)).strength, 1);
+  assert.equal(clearingRainbow(at(4, 17)).strength, 0.5);
+  assert.deepEqual(clearingRainbow(at(4, 12)), clearingRainbow(at(8, 12)));
+  const world = newWorld();
+  world.elapsed = at(4, 12);
+  const saved = serialize(world);
+  assert.match(clearingRainbow(world.elapsed).label, /sateenkaari/);
+  assert.equal(serialize(world), saved);
+  assert.deepEqual(clearingRainbow(restore(saved).elapsed), clearingRainbow(world.elapsed));
 });
