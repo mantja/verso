@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.33.0 · 2026-11-05 · Punainen purje merellä
+
+A red-sailed wooden boat crosses the water in front of the island on clear and clearing days from 06:00 to 18:00. The open water gives visitors somewhere new to look. Position follows existing world time, including pauses and restored sessions. Reduced motion shows a stationary boat. Its presence is included in the canvas description.
+
+Verification: clean install, all 45 tests, Wrangler dry-run from public/, build and diff check passed. Inspected canvas renders at 1100 and 390 pixels, including reduced motion. The local browser could not open the preview. Public version and browser checks are reported separately.
+
 ## 0.32.0 · 2026-11-04 · Sateen jälkeen värit palaavat
 
 **Choice:** make a visible landscape-scale change after Jani observed that recent details were hard to notice without the report. The roadmap's moss/night-light suggestion is deferred.

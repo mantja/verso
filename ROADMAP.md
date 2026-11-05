@@ -134,6 +134,10 @@ When a current movement trail brushes the moss-covered path stone, its nearest p
 
 A broad six-color rainbow appears behind the island during the clearing day, fading in from 07:00 to 09:00 and out from 16:00 to 18:00 in world time. It follows pause and speed without decorative motion and is named in the accessible canvas description. The sea backdrop and island layer are separated so the rainbow stays behind the land. Saves remain v3.
 
+## Beyond the shore — v0.33.0
+
+A red-sailed wooden boat crosses the foreground channel on clear and clearing days. Its passage is inferred from the clock. Reduced motion holds the boat in one place.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

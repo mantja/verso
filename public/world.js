@@ -393,6 +393,14 @@ export function clearingRainbow(elapsed) {
   const strength = Math.min(1, (h - 7) / 2, (18 - h) / 2);
   return { strength, label: "Sateen jälkeen saaren taakse kaartuu sateenkaari." };
 }
+// One crossing on fair-weather days. Position comes from the island clock.
+export function sailPassage(elapsed) {
+  const sky = weather(elapsed).key;
+  const hour = clock(elapsed).hour;
+  if ((sky !== "clear" && sky !== "clearing") || hour < 6 || hour >= 18)
+    return null;
+  return { progress: (hour - 6) / 12, label: "Saaren edustalla kulkee punapurjeinen vene." };
+}
 export function homeWeather(elapsed) {
   return HOME_WEATHER[weather(elapsed).key];
 }

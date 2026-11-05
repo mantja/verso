@@ -31,6 +31,7 @@ import {
   phase,
   weather,
   clearingRainbow,
+  sailPassage,
   tide,
   tideObservation,
   attentionWeather,
@@ -1082,4 +1083,18 @@ test("clearing rainbow follows daylight and weather without changing saves", () 
   assert.match(clearingRainbow(world.elapsed).label, /sateenkaari/);
   assert.equal(serialize(world), saved);
   assert.deepEqual(clearingRainbow(restore(saved).elapsed), clearingRainbow(world.elapsed));
+});
+
+test("the sailboat crosses only in fair daylight and resumes from saved time", () => {
+  const at = (day, hour) => (day - 1) * DAY + (hour - 8) * DAY / 24;
+  for (const day of [2, 3]) assert.equal(sailPassage(at(day, 12)), null);
+  for (const day of [4, 5]) {
+    assert.equal(sailPassage(at(day, 5)), null);
+    assert.equal(sailPassage(at(day, 6)).progress, 0);
+    assert.equal(sailPassage(at(day, 12)).progress, 0.5);
+    assert.equal(sailPassage(at(day, 18)), null);
+  }
+  const world = newWorld();
+  world.elapsed = at(4, 14);
+  assert.deepEqual(sailPassage(restore(serialize(world)).elapsed), sailPassage(world.elapsed));
 });

@@ -12,6 +12,8 @@ An original, procedurally drawn isometric island with three inhabitants: Aava, O
 
 When two current movement trails overlap on the same path, a small woven mark briefly reveals the shared patch before disappearing with the movement. Beside the forest path stone, growing moss softly tints the nearest passing mark before it vanishes.
 
+A red-sailed wooden boat crosses the water offshore on clear and clearing days between 06:00 and 18:00 island time.
+
 The interface is in Finnish and adapts to mobile screens. All artwork is drawn in code; no external fonts, image services, runtime AI calls or API keys are needed.
 
 **This first version is a personal world in each browser.** It uses localStorage, not a shared server database. One world day takes four visible minutes at 1× speed. Time stops when the tab is hidden or closed. Clearing browser data removes that browser's world. If storage is unavailable the simulation still works, with a visible notice.

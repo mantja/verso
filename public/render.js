@@ -13,6 +13,7 @@ import {
   activeEncounter,
   weather,
   clearingRainbow,
+  sailPassage,
   shoreTrace,
   lowTideTrace,
   forestPathMoss,
@@ -862,6 +863,23 @@ function drawTide(c, elapsed) {
   }
   c.restore();
 }
+function drawSailboat(c, passage, reducedMotion) {
+  if (!passage) return;
+  // The foreground channel stays seaward of the shallows for the entire crossing.
+  const progress = reducedMotion ? 0.76 : passage.progress;
+  c.save();
+  c.translate(-65 + (W + 130) * progress, 684 + 12 * Math.sin(progress * Math.PI));
+  oval(c, 0, 7, 51, 5, "#67998f66");
+  polygon(c, [[-7, 10], [-39, 15], [-9, 32]], "#bc76633b");
+  c.fillStyle = "#70503d";
+  c.fillRect(-7, -76, 3, 76);
+  polygon(c, [[-9, -73], [-11, -13], [-47, -17], [-34, -33]], "#ac5140");
+  polygon(c, [[-9, -73], [-34, -33], [-21, -36]], "#d78967");
+  polygon(c, [[-2, -66], [30, -15], [0, -17]], "#fff0ca");
+  polygon(c, [[-52, -9], [1, -5], [54, -13], [34, 3], [-35, 5]], "#72523d");
+  polygon(c, [[-52, -9], [1, -5], [54, -13], [44, -7], [0, -1], [-46, -5]], "#deb780");
+  c.restore();
+}
 function drawRainbow(c, elapsed) {
   const rainbow = clearingRainbow(elapsed);
   if (!rainbow) return;
@@ -1044,6 +1062,7 @@ export function createRenderer(canvas) {
       ctx.quadraticCurveTo(x + 10, y + Math.sin(t * 0.8 + i) * 2, x + 22, y);
       ctx.stroke();
     }
+    drawSailboat(ctx, sailPassage(world.elapsed), reducedMotion);
     const trace = shoreTrace(world.elapsed),
       lowTideDetail = lowTideTrace(world.elapsed),
       moss = forestPathMoss(world.elapsed),
