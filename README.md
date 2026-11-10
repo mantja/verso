@@ -14,6 +14,8 @@ When two current movement trails overlap on the same path, a small woven mark br
 
 A red-sailed wooden boat crosses the water offshore on clear and clearing days between 06:00 and 18:00 island time.
 
+On clear and clearing evenings, moonlight forms a pale path across the water from 18:00 until midnight island time.
+
 The interface is in Finnish and adapts to mobile screens. All artwork is drawn in code; no external fonts, image services, runtime AI calls or API keys are needed.
 
 **This first version is a personal world in each browser.** It uses localStorage, not a shared server database. One world day takes four visible minutes at 1× speed. Time stops when the tab is hidden or closed. Clearing browser data removes that browser's world. If storage is unavailable the simulation still works, with a visible notice.

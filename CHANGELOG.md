@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.34.0 · 2026-11-10 · Kuunsilta
+
+A pale moon and its broken reflection appear over the water on clear and clearing evenings. The light grows from 18:00 to 19:00 and fades during the last hour before midnight. The shore offers something to watch after the residents return home. The canvas description names the moonlit path. Its strength follows existing island time, including after restoring a personal save.
+
+Verification: clean install, 46 tests, build, Wrangler dry-run from public/ and diff check passed. Inspected the application renderer at 1100 and 390 pixels (reduced motion at 390). Local Chromium could not open its process socket. Production verification is reported separately.
+
 ## 0.33.0 · 2026-11-05 · Punainen purje merellä
 
 A red-sailed wooden boat crosses the water in front of the island on clear and clearing days from 06:00 to 18:00. The open water gives visitors somewhere new to look. Position follows existing world time, including pauses and restored sessions. Reduced motion shows a stationary boat. Its presence is included in the canvas description.

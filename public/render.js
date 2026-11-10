@@ -12,6 +12,7 @@ import {
   tide,
   activeEncounter,
   weather,
+  eveningMoon,
   clearingRainbow,
   sailPassage,
   shoreTrace,
@@ -880,6 +881,26 @@ function drawSailboat(c, passage, reducedMotion) {
   polygon(c, [[-52, -9], [1, -5], [54, -13], [44, -7], [0, -1], [-46, -5]], "#deb780");
   c.restore();
 }
+function drawMoon(c, moon) {
+  if (!moon) return;
+  c.save();
+  c.translate(206, 107);
+  c.globalAlpha = moon.strength;
+  const halo = c.createRadialGradient(0, 0, 25, 0, 0, 67);
+  halo.addColorStop(0, "#fff4ce70");
+  halo.addColorStop(1, "#fff4ce00");
+  oval(c, 0, 0, 67, 67, halo);
+  oval(c, 0, 0, 28, 28, "#fff2cc");
+  oval(c, -9, -6, 5, 3, "#e7dcb955");
+  oval(c, 5, 10, 7, 4, "#e7dcb955");
+  for (let i = 0; i < 19; i++) {
+    const spread = 6 + i * 2.1;
+    const x = (noise(i, 37) - 0.5) * spread;
+    c.globalAlpha = moon.strength * (0.76 - i * 0.027);
+    oval(c, x, 43 + i * 9, spread, 1.6 + i * 0.11, "#fff2ce");
+  }
+  c.restore();
+}
 function drawRainbow(c, elapsed) {
   const rainbow = clearingRainbow(elapsed);
   if (!rainbow) return;
@@ -1036,6 +1057,7 @@ export function createRenderer(canvas) {
     }
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
     ctx.drawImage(backdrop, 0, 0);
+    drawMoon(ctx, eveningMoon(world.elapsed));
     drawRainbow(ctx, world.elapsed);
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,

@@ -30,6 +30,7 @@ import {
   memoryVisit,
   phase,
   weather,
+  eveningMoon,
   clearingRainbow,
   sailPassage,
   tide,
@@ -1097,4 +1098,19 @@ test("the sailboat crosses only in fair daylight and resumes from saved time", (
   const world = newWorld();
   world.elapsed = at(4, 14);
   assert.deepEqual(sailPassage(restore(serialize(world)).elapsed), sailPassage(world.elapsed));
+});
+
+test("evening moon fades at both boundaries and returns with a personal save", () => {
+  const at = (day, hour) => (day - 1) * DAY + (hour - 8) * DAY / 24;
+  for (const day of [2, 3]) assert.equal(eveningMoon(at(day, 21)), null);
+  for (const day of [1, 4]) {
+    assert.equal(eveningMoon(at(day, 18)), null);
+    assert.equal(eveningMoon(at(day, 18.5)).strength, 0.5);
+    assert.equal(eveningMoon(at(day, 21)).strength, 1);
+    assert.equal(eveningMoon(at(day, 23.5)).strength, 0.5);
+    assert.equal(eveningMoon(at(day + 1, 0)), null);
+  }
+  const world = newWorld();
+  world.elapsed = at(4, 21);
+  assert.deepEqual(eveningMoon(restore(serialize(world)).elapsed), eveningMoon(world.elapsed));
 });
