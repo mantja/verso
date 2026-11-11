@@ -45,17 +45,20 @@
         </div>
         <div class="edition">
           <span>ENSIMMÄINEN LUKU</span><strong>Saapuminen</strong
-          ><span>VERSIO 0.34.0 · 10.11.2026</span>
+          ><span>VERSIO 0.35.0 · 11.11.2026</span>
         </div>
       </section>
       <section class="world-layout" aria-label="Verso-maailma">
         <div class="world-card" id="world">
           <div class="world-top">
             <span class="live-label"><span class="dot"></span> OMA SAARESI</span
-            ><span class="world-time"
-              ><span id="weather">Tyyni pouta</span
-              ><span id="clock">Päivä 1 · 08.00</span></span
-            >
+            ><div class="world-time">
+              <details id="weather-panel">
+                <summary id="weather">Tyyni pouta</summary>
+                <p id="weather-note"></p>
+              </details>
+              <span id="clock">Päivä 1 · 08.00</span>
+            </div>
           </div>
           <canvas
             id="island"
@@ -143,6 +146,12 @@
         </div>
         <div class="journal">
           <p class="eyebrow">KEHITYSPÄIVÄKIRJA</p>
+          <article>
+            <div class="journal-meta"><time datetime="2026-11-11">11.11.2026</time><span>v0.35.0</span></div>
+            <h3>Katse rannalta.</h3>
+            <p>Avaa kartan yläkulman säämerkki. Näet sanoin, kuinka korkealla vesi on ja mitä saarella voi juuri nyt huomata.</p>
+            <p class="reason"><strong>Miksi tämä askel?</strong> Punainen purje voi jäädä pieneltä näytöltä huomaamatta. Säämerkistä saa vihjeen siihen, mihin katsoa.</p>
+          </article>
           <article>
             <div class="journal-meta"><time datetime="2026-11-10">10.11.2026</time><span>v0.34.0</span></div>
             <h3>Kuunsilta.</h3>

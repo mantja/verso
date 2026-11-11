@@ -122,7 +122,16 @@ function updateUI() {
     attention = selected === null ? null : ATTENTION_DETAILS[selected],
     attentionMood = attention ? attentionWeather(world.elapsed) : "";
   $("weather").textContent = currentWeather.label;
-  $("weather").title = `${currentWeather.description}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}`;
+  const observations = [
+    currentWeather.description, currentTide.label, boat?.label, moon?.label, rainbow?.label,
+    trace && `Rannalla näkyy ${trace.label}.`, lowTideDetail?.label,
+    butterflies && "Puutarhassa lepattaa perhosia.",
+    sparks && "Nuotion yllä kohoaa pieniä kipinöitä.",
+    lights && "Metsän hämärässä leijuu pieniä valoja.",
+    keepsake && `Puutarhan kivellä on ${keepsake.label.toLowerCase()}.`,
+  ].filter(Boolean).join(" ");
+  if ($("weather-note").textContent !== observations)
+    $("weather-note").textContent = observations;
   canvas.setAttribute(
     "aria-label",
     `${canvasLabel}${moon ? ` ${moon.label}` : ""}${boat ? ` ${boat.label}` : ""}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label} ${moss.label}${homePresence.length ? ` ${homePresence.map(({ homeLabel }) => homeLabel).join(" ")} ${homeMood}` : ""}${movementTrails.length ? ` ${movementTrails.map(({ label }) => label).join(" ")}` : ""}${trailMeeting ? ` ${trailMeeting.label}` : ""}${softenedTrail ? ` ${softenedTrail.label}` : ""}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
@@ -170,6 +179,16 @@ function updateUI() {
   $("plant").disabled = world.planted.length >= 24;
   if (world.planted.length >= 24) $("plant").textContent = "Saari on istutettu";
 }
+const weatherPanel = $("weather-panel");
+document.addEventListener("pointerdown", (event) => {
+  if (weatherPanel.open && !weatherPanel.contains(event.target)) weatherPanel.open = false;
+});
+weatherPanel.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && weatherPanel.open) {
+    weatherPanel.open = false;
+    $("weather").focus();
+  }
+});
 $("pause").addEventListener("click", () => {
   paused = !paused;
   $("pause").textContent = paused ? "▶" : "Ⅱ";

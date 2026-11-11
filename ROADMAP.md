@@ -142,6 +142,10 @@ A red-sailed wooden boat crosses the foreground channel on clear and clearing da
 
 On clear and clearing evenings the moon casts a broken path of light across the water. Its light fades before the day and weather roll over.
 
+## A view from the shore — v0.35.0
+
+The weather badge opens a short description of the current island, including offshore sights. The same disclosure works by touch and keyboard.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

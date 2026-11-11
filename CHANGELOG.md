@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.35.0 · 2026-11-11 · Katse rannalta
+
+The weather badge opens a Finnish description of the present weather, tide and visible sights. It makes the former hover hint available on touchscreens and keyboards and includes the boat and moon when visible. The description follows island time and can be closed with the same badge, Escape or a tap outside.
+
+Verification: clean npm install (npm ci), all 46 tests, build, Wrangler dry-run from public/ and diff check passed. A DOM integration check exercised the app with morning, evening and rainy-day saves, including Escape and pointer dismissal. Local Chromium could not open its process socket. Public browser verification follows deployment.
+
 ## 0.34.0 · 2026-11-10 · Kuunsilta
 
 A pale moon and its broken reflection appear over the water on clear and clearing evenings. The light grows from 18:00 to 19:00 and fades during the last hour before midnight. The shore offers something to watch after the residents return home. The canvas description names the moonlit path. Its strength follows existing island time, including after restoring a personal save.
