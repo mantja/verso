@@ -45,7 +45,7 @@
         </div>
         <div class="edition">
           <span>ENSIMMÄINEN LUKU</span><strong>Saapuminen</strong
-          ><span>VERSIO 0.35.0 · 11.11.2026</span>
+          ><span>VERSIO 0.36.0 · 12.11.2026</span>
         </div>
       </section>
       <section class="world-layout" aria-label="Verso-maailma">
@@ -112,6 +112,10 @@
               <span aria-hidden="true">↗</span>
             </div>
             <ol id="events" aria-live="off"></ol>
+            <details id="event-history" hidden>
+              <summary>Aiemmat tapahtumat</summary>
+              <ol id="earlier-events" start="5"></ol>
+            </details>
           </section>
         </aside>
       </section>
@@ -146,6 +150,12 @@
         </div>
         <div class="journal">
           <p class="eyebrow">KEHITYSPÄIVÄKIRJA</p>
+          <article>
+            <div class="journal-meta"><time datetime="2026-11-12">12.11.2026</time><span>v0.36.0</span></div>
+            <h3>Saaren lähimuisti.</h3>
+            <p>Neljän tuoreimman tapahtuman alta voit avata aiemmat merkinnät. Oma saaresi muistaa kaksitoista viimeisintä hetkeä myös käyntien välillä.</p>
+            <p class="reason"><strong>Miksi tämä askel?</strong> Jos iltanuotiolla muistellaan aamun sattumusta, aamun merkintään voi nyt palata vielä myöhemmin.</p>
+          </article>
           <article>
             <div class="journal-meta"><time datetime="2026-11-11">11.11.2026</time><span>v0.35.0</span></div>
             <h3>Katse rannalta.</h3>

@@ -146,6 +146,10 @@ On clear and clearing evenings the moon casts a broken path of light across the 
 
 The weather badge opens a short description of the current island, including offshore sights. The same disclosure works by touch and keyboard.
 
+## Revisiting island events — v0.36.0
+
+Visitors can unfold the earlier entries beneath the four latest events. The personal island already retains twelve entries across visits.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

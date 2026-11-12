@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.36.0 · 2026-11-12 · Saaren lähimuisti
+
+Visitors can revisit up to eight older events below the four latest entries. The native disclosure appears when the fifth entry arrives. It reads the existing personal event log, including restored saves.
+
+Verification: npm ci, 46 tests, Wrangler dry-run from public/, build and diff check passed. Chromium at 1200 and 390 pixels exercised planting past the twelve-entry limit, keyboard and touch disclosure, closing, and restoring the entries after a reload.
+
 ## 0.35.0 · 2026-11-11 · Katse rannalta
 
 The weather badge opens a Finnish description of the present weather, tide and visible sights. It makes the former hover hint available on touchscreens and keyboards and includes the boat and moon when visible. The description follows island time and can be closed with the same badge, Escape or a tap outside.

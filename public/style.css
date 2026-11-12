@@ -412,6 +412,16 @@ canvas {
   left: -3px;
   top: 5px;
 }
+.events summary {
+  cursor: pointer;
+  width: fit-content;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #46563f;
+}
+.events details[open] summary {
+  margin-bottom: 6px;
+}
 .events time {
   display: block;
   font-size: 9px;

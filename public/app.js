@@ -162,19 +162,20 @@ function updateUI() {
       : meeting
         ? encounterText(world.lastEncounter)
         : memoryText(selected, memory) || PEOPLE[selected].thought;
-  const key = JSON.stringify(world.events.slice(0, 4));
+  const key = JSON.stringify(world.events);
   if (key !== renderedEvents) {
     renderedEvents = key;
-    $("events").replaceChildren(
-      ...world.events.slice(0, 4).map((e) => {
-        const li = document.createElement("li"),
-          time = document.createElement("time");
-        const c = clock(e.at);
-        time.textContent = `Päivä ${c.day} · ${c.label}`;
-        li.append(time, document.createTextNode(e.text));
-        return li;
-      }),
-    );
+    const entries = world.events.map((event) => {
+      const li = document.createElement("li");
+      const time = document.createElement("time");
+      const c = clock(event.at);
+      time.textContent = `Päivä ${c.day} · ${c.label}`;
+      li.append(time, document.createTextNode(event.text));
+      return li;
+    });
+    $("events").replaceChildren(...entries.slice(0, 4));
+    $("earlier-events").replaceChildren(...entries.slice(4));
+    $("event-history").hidden = entries.length <= 4;
   }
   $("plant").disabled = world.planted.length >= 24;
   if (world.planted.length >= 24) $("plant").textContent = "Saari on istutettu";
