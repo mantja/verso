@@ -7,6 +7,7 @@ import {
   plantTree,
   serialize,
   restore,
+  markedSapling,
   PEOPLE,
   HOME_DETAILS,
   ATTENTION_DETAILS,
@@ -59,6 +60,17 @@ import {
   passingTrailMeeting,
   mossSoftenedTrail,
 } from "../public/world.js";
+
+test("the newest sapling keeps its marker for two island hours across visits", () => {
+  const world = newWorld();
+  assert.equal(markedSapling(world), null);
+  plantTree(world);
+  plantTree(world); // Two plantings can share a timestamp while paused.
+  world.elapsed += DAY / 12 - 0.1;
+  assert.deepEqual(markedSapling(restore(serialize(world))), world.planted[1]);
+  world.elapsed += 0.1;
+  assert.equal(markedSapling(world), null);
+});
 
 test("the browser app imports dynamically described world details", () => {
   const app = readFileSync(new URL("../public/app.js", import.meta.url), "utf8"),

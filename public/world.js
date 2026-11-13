@@ -905,6 +905,11 @@ export function step(world, dt) {
     }
   });
 }
+export function markedSapling(world) {
+  const latest = world.planted.at(-1);
+  return latest && world.elapsed - latest.at < DAY / 12 ? latest : null;
+}
+
 export function plantTree(world) {
   if (world.planted.length >= 24)
     return {

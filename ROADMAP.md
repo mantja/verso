@@ -150,6 +150,10 @@ The weather badge opens a short description of the current island, including off
 
 Visitors can unfold the earlier entries beneath the four latest events. The personal island already retains twelve entries across visits.
 
+## Finding a new planting — v0.37.0
+
+An “Oma taimi” sign points to the latest planting for two island hours. Its position and lifetime come from the existing personal tree record.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

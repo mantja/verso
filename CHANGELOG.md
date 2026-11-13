@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.37.0 · 2026-11-13 · Oma taimi
+
+A wooden sign points to the most recently planted sapling, making it easier to find among older trees. The sign lasts two island hours, follows pause and speed, and returns after a reload for its remaining time. It uses the existing personal planting record. The canvas description also names it.
+
+Verification: npm ci, all 47 tests, Wrangler dry-run from public/, build and diff check passed. Inspected the actual renderer at 1100 and 390 pixels, including reduced motion. A regression test covers simultaneous plantings while paused, save restoration and expiry. Local Chromium could not open its process socket.
+
 ## 0.36.0 · 2026-11-12 · Saaren lähimuisti
 
 Visitors can revisit up to eight older events below the four latest entries. The native disclosure appears when the fifth entry arrives. It reads the existing personal event log, including restored saves.

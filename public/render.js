@@ -1,5 +1,6 @@
 import {
   SIZE,
+  markedSapling,
   PEOPLE,
   HOME_DETAILS,
   ATTENTION_DETAILS,
@@ -1265,6 +1266,28 @@ export function createRenderer(canvas) {
       drawNightLights(ctx, x, ground - height(...PLACES.lookout), t);
     }
     weatherDetails(ctx, currentWeather.key, t);
+    const sapling = markedSapling(world);
+    if (sapling) {
+      const [x, ground] = project(sapling.x, sapling.y);
+      const y = ground - height(sapling.x, sapling.y);
+      ctx.save();
+      ctx.strokeStyle = "#755638";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(x + 8, y);
+      ctx.lineTo(x + 23, y - 50);
+      ctx.stroke();
+      ctx.fillStyle = "#fff0cb";
+      ctx.beginPath();
+      ctx.roundRect(x - 29, y - 82, 106, 34, 6);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#384b38";
+      ctx.font = "bold 20px Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Oma taimi", x + 24, y - 58);
+      ctx.restore();
+    }
     // A quiet compass, drawn as part of the map.
     ctx.save();
     ctx.translate(1000, 110);
