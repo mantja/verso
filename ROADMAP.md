@@ -154,6 +154,10 @@ Visitors can unfold the earlier entries beneath the four latest events. The pers
 
 An “Oma taimi” sign points to the latest planting for two island hours. Its position and lifetime come from the existing personal tree record.
 
+## Returning to a paused island — v0.38.0
+
+An explicit pause lasts across visits. An optional boolean in the existing personal save records the choice. Earlier saves start in play as before.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

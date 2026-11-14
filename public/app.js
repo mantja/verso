@@ -48,8 +48,7 @@ try {
   world = newWorld();
   canSave = false;
 }
-let paused = false,
-  speed = 1,
+let speed = 1,
   selected = null,
   last = 0,
   lastUI = -1,
@@ -191,16 +190,19 @@ weatherPanel.addEventListener("keydown", (event) => {
     $("weather").focus();
   }
 });
-$("pause").addEventListener("click", () => {
-  paused = !paused;
-  $("pause").textContent = paused ? "▶" : "Ⅱ";
+function showPlaybackState() {
+  $("pause").textContent = world.paused ? "▶" : "Ⅱ";
   $("pause").setAttribute(
     "aria-label",
-    paused ? "Jatka maailmaa" : "Pysäytä maailma",
+    world.paused ? "Jatka maailmaa" : "Pysäytä maailma",
   );
-  $("world-status").textContent = paused
+  $("world-status").textContent = world.paused
     ? "Maailma odottaa sinua."
     : "Pieni maailma hengittää.";
+}
+$("pause").addEventListener("click", () => {
+  world.paused = !world.paused;
+  showPlaybackState();
   save();
 });
 $("speed").addEventListener("click", () => {
@@ -244,7 +246,7 @@ function frame(now) {
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
   if (!document.hidden) {
-    if (!paused) step(world, dt * speed);
+    if (!world.paused) step(world, dt * speed);
     draw(world, selected, reducedMotion);
     if (now - lastUI > 500) {
       updateUI();
@@ -260,5 +262,6 @@ function frame(now) {
 if (!canSave)
   $("save-status").textContent =
     "Tallennus ei ole käytettävissä. Maailma säilyy vain tämän käynnin ajan.";
+showPlaybackState();
 updateUI();
 requestAnimationFrame(frame);

@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.38.0 · 2026-11-14 · Hetki jää odottamaan
+
+Visitors can pause the island clock and return to the same time on their next visit. Previously the clock restarted on every reload. The existing local save records an optional boolean, and old saves without the field open in play.
+
+Verification: npm ci, all 48 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels exercised keyboard and touch pause, reloading, a stationary clock, resuming and reloading in play. The save test also covers older versions and an invalid pause value.
+
 ## 0.37.0 · 2026-11-13 · Oma taimi
 
 A wooden sign points to the most recently planted sapling, making it easier to find among older trees. The sign lasts two island hours, follows pause and speed, and returns after a reload for its remaining time. It uses the existing personal planting record. The canvas description also names it.

@@ -61,6 +61,21 @@ import {
   mossSoftenedTrail,
 } from "../public/world.js";
 
+test("a personal island restores its pause and resumes after saving play", () => {
+  const world = newWorld();
+  world.elapsed = 77;
+  world.paused = true;
+  const paused = restore(serialize(world));
+  assert.equal(paused.paused, true);
+  assert.equal(paused.elapsed, 77);
+  paused.paused = false;
+  assert.equal(restore(serialize(paused)).paused, false);
+  for (const version of [1, 2, 3]) {
+    assert.equal(restore(JSON.stringify({ version, elapsed: 77 })).paused, false);
+  }
+  assert.equal(restore('{"version":3,"elapsed":77,"paused":"false"}').paused, false);
+});
+
 test("the newest sapling keeps its marker for two island hours across visits", () => {
   const world = newWorld();
   assert.equal(markedSapling(world), null);
