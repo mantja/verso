@@ -158,6 +158,10 @@ An “Oma taimi” sign points to the latest planting for two island hours. Its 
 
 An explicit pause lasts across visits. An optional boolean in the existing personal save records the choice. Earlier saves start in play as before.
 
+## Lamps after the evening fire — v0.39.0
+
+At night, a resident reaching home lights the window and casts a patch of light on the ground. The weather notes name those already home.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

@@ -89,12 +89,13 @@ function save() {
 function updateUI() {
   const time = clock(world.elapsed);
   $("clock").textContent = `Päivä ${time.day} · ${time.label}`;
+  const currentPhase = phase(world.elapsed);
   $("phase").textContent = {
     night: "Saaren yö",
     morning: "Aamun valo",
     day: "Päivän pienet puuhat",
     evening: "Ilta saapuu",
-  }[phase(world.elapsed)];
+  }[currentPhase];
   const currentWeather = weather(world.elapsed),
     boat = sailPassage(world.elapsed),
     moon = eveningMoon(world.elapsed),
@@ -113,6 +114,11 @@ function updateUI() {
     sharedWeather = sharedEveningWeather(world),
     sharedTransition = sharedEveningTransition(world),
     homePresence = HOME_DETAILS.filter((_, id) => residentAtHome(world, id)),
+    litWindows = currentPhase === "night"
+      ? PEOPLE.filter((_, id) => residentAtHome(world, id))
+          .map(({ name }) => `${name} on kotona. Ikkunasta lankeaa valoa pihalle.`)
+          .join(" ")
+      : "",
     homeMood = homePresence.length ? homeWeather(world.elapsed) : "",
     movementTrails = PEOPLE.map((_, id) => movementTrail(world, id)).filter(
       Boolean,
@@ -123,7 +129,7 @@ function updateUI() {
     attentionMood = attention ? attentionWeather(world.elapsed) : "";
   $("weather").textContent = currentWeather.label;
   const observations = [
-    currentWeather.description, currentTide.label, boat?.label, moon?.label, rainbow?.label,
+    currentWeather.description, currentTide.label, litWindows, boat?.label, moon?.label, rainbow?.label,
     trace && `Rannalla näkyy ${trace.label}.`, lowTideDetail?.label,
     butterflies && "Puutarhassa lepattaa perhosia.",
     sparks && "Nuotion yllä kohoaa pieniä kipinöitä.",
@@ -134,7 +140,7 @@ function updateUI() {
     $("weather-note").textContent = observations;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${markedSapling(world) ? " Uusimman taimen paikan näyttää kyltti, jossa lukee Oma taimi." : ""}${moon ? ` ${moon.label}` : ""}${boat ? ` ${boat.label}` : ""}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label} ${moss.label}${homePresence.length ? ` ${homePresence.map(({ homeLabel }) => homeLabel).join(" ")} ${homeMood}` : ""}${movementTrails.length ? ` ${movementTrails.map(({ label }) => label).join(" ")}` : ""}${trailMeeting ? ` ${trailMeeting.label}` : ""}${softenedTrail ? ` ${softenedTrail.label}` : ""}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
+    `${canvasLabel}${litWindows ? ` ${litWindows}` : ""}${markedSapling(world) ? " Uusimman taimen paikan näyttää kyltti, jossa lukee Oma taimi." : ""}${moon ? ` ${moon.label}` : ""}${boat ? ` ${boat.label}` : ""}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label} ${moss.label}${homePresence.length ? ` ${homePresence.map(({ homeLabel }) => homeLabel).join(" ")} ${homeMood}` : ""}${movementTrails.length ? ` ${movementTrails.map(({ label }) => label).join(" ")}` : ""}${trailMeeting ? ` ${trailMeeting.label}` : ""}${softenedTrail ? ` ${softenedTrail.label}` : ""}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
   );
   $("reflection").hidden = !reflection;
   $("reflection").textContent = reflection

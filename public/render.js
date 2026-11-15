@@ -10,6 +10,7 @@ import {
   noise,
   forest,
   clock,
+  phase,
   tide,
   activeEncounter,
   weather,
@@ -219,7 +220,7 @@ function homeDetail(c, x, y, detail, isHome, weatherKey) {
   }
   if (isHome) homeWeatherAccent(c, x, y, detail, weatherKey);
 }
-function house(c, x, y, color, detail, isHome, weatherKey) {
+function house(c, x, y, color, detail, isHome, weatherKey, isNight) {
   oval(c, x + 7, y + 4, 32, 12, "#355e3e30");
   polygon(
     c,
@@ -280,6 +281,15 @@ function house(c, x, y, color, detail, isHome, weatherKey) {
     ],
     "#7b684c",
   );
+  const lamp = isHome && isNight;
+  if (lamp) {
+    const glow = c.createRadialGradient(x + 13, y - 19, 2, x + 13, y - 19, 34);
+    glow.addColorStop(0, "#ffd675dc");
+    glow.addColorStop(1, "#ffd67500");
+    c.fillStyle = glow;
+    c.fillRect(x - 21, y - 53, 68, 68);
+    polygon(c, [[x + 14, y + 1], [x + 24, y - 4], [x + 48, y + 7], [x + 33, y + 15]], "#ffdd8c80");
+  }
   polygon(
     c,
     [
@@ -288,7 +298,7 @@ function house(c, x, y, color, detail, isHome, weatherKey) {
       [x + 17, y - 27],
       [x + 8, y - 22],
     ],
-    "#f7d994",
+    lamp ? "#fff4c1" : isNight ? "#596563" : "#f7d994",
   );
   c.fillStyle = "#7d7a64";
   c.fillRect(x + 10, y - 64, 7, 18);
@@ -1063,6 +1073,7 @@ export function createRenderer(canvas) {
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,
       currentWeather = weather(world.elapsed),
+      isNight = phase(world.elapsed) === "night",
       reflection = dayReflection(world),
       sharedDetail = sharedEveningDetail(world),
       sharedFade = sharedEveningFade(world);
@@ -1129,6 +1140,7 @@ export function createRenderer(canvas) {
           o.detail,
           residentAtHome(world, o.id),
           currentWeather.key,
+          isNight,
         );
       if (o.kind === "person") {
         person(

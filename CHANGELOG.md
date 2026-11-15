@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.39.0 · 2026-11-15 · Valo ikkunassa
+
+After 21:00, a resident reaching home lights the window and casts a warm patch of light onto the yard. Empty homes keep dark windows until morning. The lamps let visitors follow the walk back from the fire. The map description and weather notes name the residents whose lamps are lit. Light follows the existing night phase and home positions in personal saves.
+
+Verification: npm ci, 48 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels showed one occupied house at 22:00, the next lamp after a resident arrived, and no lamp at 06:00. Checked the weather disclosure by keyboard and touch, paused restoration and reduced-motion rendering.
+
 ## 0.38.0 · 2026-11-14 · Hetki jää odottamaan
 
 Visitors can pause the island clock and return to the same time on their next visit. Previously the clock restarted on every reload. The existing local save records an optional boolean, and old saves without the field open in play.
