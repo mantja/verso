@@ -17,6 +17,7 @@ import {
   eveningMoon,
   clearingRainbow,
   sailPassage,
+  morningCranes,
   shoreTrace,
   lowTideTrace,
   forestPathMoss,
@@ -892,6 +893,23 @@ function drawSailboat(c, passage, reducedMotion) {
   polygon(c, [[-52, -9], [1, -5], [54, -13], [44, -7], [0, -1], [-46, -5]], "#deb780");
   c.restore();
 }
+function drawCranes(c, passage, reducedMotion) {
+  if (!passage) return;
+  const progress = reducedMotion ? 0.55 : passage.progress;
+  c.save();
+  c.translate(138 + 820 * progress, 155 - 55 * progress);
+  // The lead bird is at the tip, with two birds on either side behind it.
+  for (const [dx, dy] of [[0, 0], [-37, -15], [-74, -30], [-36, 17], [-72, 34]]) {
+    c.save();
+    c.translate(dx, dy);
+    const wing = reducedMotion ? 10 : 8 + 6 * Math.sin(progress * 95 + dx);
+    polygon(c, [[-13, 3], [-4, 0], [-12, -wing], [-4, -wing + 2], [3, -2],
+      [14, -5], [19, -4], [6, 0], [-2, 4], [-12, 5]], "#465758");
+    polygon(c, [[0, 0], [-4, 3], [-10, wing], [-3, wing - 2], [4, 1]], "#697979");
+    c.restore();
+  }
+  c.restore();
+}
 function drawMoon(c, moon) {
   if (!moon) return;
   c.save();
@@ -1070,6 +1088,7 @@ export function createRenderer(canvas) {
     ctx.drawImage(backdrop, 0, 0);
     drawMoon(ctx, eveningMoon(world.elapsed));
     drawRainbow(ctx, world.elapsed);
+    drawCranes(ctx, morningCranes(world.elapsed), reducedMotion);
     ctx.drawImage(base, 0, 0);
     const t = reducedMotion ? 0 : world.elapsed,
       currentWeather = weather(world.elapsed),

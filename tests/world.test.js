@@ -34,6 +34,7 @@ import {
   eveningMoon,
   clearingRainbow,
   sailPassage,
+  morningCranes,
   tide,
   tideObservation,
   attentionWeather,
@@ -74,6 +75,17 @@ test("a personal island restores its pause and resumes after saving play", () =>
     assert.equal(restore(JSON.stringify({ version, elapsed: 77 })).paused, false);
   }
   assert.equal(restore('{"version":3,"elapsed":77,"paused":"false"}').paused, false);
+});
+
+test("cranes cross on misty mornings by the personal island clock", () => {
+  const at = (day, hour) => (day - 1) * DAY + (hour - 8) * DAY / 24;
+  for (const day of [2, 6]) {
+    assert.equal(morningCranes(at(day, 6.9)), null);
+    assert.equal(morningCranes(at(day, 7)).progress, 0);
+    assert.equal(morningCranes(at(day, 9)).progress, 0.5);
+    assert.equal(morningCranes(at(day, 11)), null);
+  }
+  for (const day of [1, 3, 4]) assert.equal(morningCranes(at(day, 9)), null);
 });
 
 test("the newest sapling keeps its marker for two island hours across visits", () => {

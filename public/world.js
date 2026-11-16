@@ -410,6 +410,11 @@ export function sailPassage(elapsed) {
     return null;
   return { progress: (hour - 6) / 12, label: "Saaren edustalla kulkee punapurjeinen vene." };
 }
+export function morningCranes(elapsed) {
+  const hour = clock(elapsed).hour;
+  if (weather(elapsed).key !== "mist" || hour < 7 || hour >= 11) return null;
+  return { progress: (hour - 7) / 4, label: "Viisi kurkea lentää aurassa saaren yllä." };
+}
 export function homeWeather(elapsed) {
   return HOME_WEATHER[weather(elapsed).key];
 }

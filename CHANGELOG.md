@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.40.0 · 2026-11-16 · Kurjet udussa
+
+A formation of five cranes crosses behind the treetops from 07:00 to 11:00 on misty days. It gives the mist a passing sight of its own. Flight follows island time, including pauses. Reduced motion holds the formation and wings still. The weather note and map description name the birds. The feature uses the existing local clock and save format.
+
+Verification: npm ci, all 49 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium exercised the weather note, pause, resume and the end of the crossing at 1200 and 390 pixels, with reduced motion on mobile. The new test covers weather exclusion, start, midpoint, end and the next misty day.
+
 ## 0.39.0 · 2026-11-15 · Valo ikkunassa
 
 After 21:00, a resident reaching home lights the window and casts a warm patch of light onto the yard. Empty homes keep dark windows until morning. The lamps let visitors follow the walk back from the fire. The map description and weather notes name the residents whose lamps are lit. Light follows the existing night phase and home positions in personal saves.

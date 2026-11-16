@@ -162,6 +162,10 @@ An explicit pause lasts across visits. An optional boolean in the existing perso
 
 At night, a resident reaching home lights the window and casts a patch of light on the ground. The weather notes name those already home.
 
+## Cranes in the mist — v0.40.0
+
+Five cranes cross above the island on misty mornings, following the existing clock. Reduced motion keeps the formation still.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
