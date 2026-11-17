@@ -234,12 +234,6 @@ canvas {
   font-size: 9px;
   letter-spacing: 2px;
 }
-.map-caption .reflection {
-  color: #6f6544;
-  font-size: 8px;
-  letter-spacing: 1px;
-  text-align: center;
-}
 .world-controls {
   min-height: 68px;
   background: #eff2e9;
@@ -387,6 +381,22 @@ canvas {
 }
 .events h2 {
   font-size: 19px;
+}
+.fire-note {
+  margin: 0 0 18px;
+  padding: 12px 15px;
+  border-left: 3px solid #b5814c;
+  background: #f2eadb;
+  color: #554632;
+}
+.fire-note h3 {
+  margin: 0 0 4px;
+  font: normal 17px Georgia, serif;
+}
+.fire-note p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
 }
 .events ol {
   list-style: none;
@@ -662,11 +672,6 @@ footer > span {
   }
   .map-caption span:last-child {
     font-size: 7px;
-  }
-  .map-caption .reflection {
-    max-width: 44%;
-    font-size: 6px;
-    letter-spacing: 0.6px;
   }
   .world-note {
     flex-direction: column;

@@ -166,6 +166,10 @@ At night, a resident reaching home lights the window and casts a patch of light 
 
 Five cranes cross above the island on misty mornings, following the existing clock. Reduced motion keeps the formation still.
 
+## Reading by the fire — v0.41.0
+
+The full evening recollection appears above the event list when the island has a relevant observation from that day. Visitors can read the speaker and story directly on touchscreens.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

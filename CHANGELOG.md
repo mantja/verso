@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.41.0 · 2026-11-17 · Kertomus nuotiolta
+
+The evening fire's recollection now appears in full above the event log. The previous map caption showed the topic and put the story in a hover hint. The same personal event history determines the speaker and observation.
+
+Verification: npm ci, 49 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels showed Aava's butterfly recollection from a paused save after reload. Verified that an uneventful evening leaves the note hidden, and that resuming by keyboard or touch removes the note at nightfall.
+
 ## 0.40.0 · 2026-11-16 · Kurjet udussa
 
 A formation of five cranes crosses behind the treetops from 07:00 to 11:00 on misty days. It gives the mist a passing sight of its own. Flight follows island time, including pauses. Reduced motion holds the formation and wings still. The weather note and map description name the birds. The feature uses the existing local clock and save format.
