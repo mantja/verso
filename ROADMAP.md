@@ -170,6 +170,10 @@ Five cranes cross above the island on misty mornings, following the existing clo
 
 The full evening recollection appears above the event list when the island has a relevant observation from that day. Visitors can read the speaker and story directly on touchscreens.
 
+## Motion preferences during a visit — v0.42.0
+
+The existing reduced-motion rendering responds to system preference changes while the page is open.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

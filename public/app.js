@@ -55,9 +55,11 @@ let speed = 1,
   lastUI = -1,
   lastSave = 0,
   renderedEvents = "";
-const reducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)",
-).matches;
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+let reducedMotion = motionPreference.matches;
+motionPreference.addEventListener("change", (event) => {
+  reducedMotion = event.matches;
+});
 const canvas = $("island"),
   canvasLabel = canvas.getAttribute("aria-label"),
   draw = createRenderer(canvas);

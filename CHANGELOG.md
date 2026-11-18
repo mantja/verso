@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.42.0 · 2026-11-18 · Liike rauhoittuu heti
+
+Changing the system reduced-motion preference during a visit now updates the existing motion treatment immediately. Previously it was read only at startup. Visitors can switch either way without reloading their island.
+
+Verification: npm ci, 49 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels switched the media preference in both directions on a paused misty morning. Canvas images changed for reduced motion and matched the original after switching back, while the island clock and pause stayed intact.
+
 ## 0.41.0 · 2026-11-17 · Kertomus nuotiolta
 
 The evening fire's recollection now appears in full above the event log. The previous map caption showed the topic and put the story in a hover hint. The same personal event history determines the speaker and observation.
