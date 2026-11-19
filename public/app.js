@@ -215,11 +215,13 @@ $("pause").addEventListener("click", () => {
   save();
 });
 $("speed").addEventListener("click", () => {
-  speed = speed === 1 ? 3 : 1;
-  $("speed").textContent = speed + "×";
+  const speeds = [1, 3, 0.5];
+  speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length];
+  const speedLabel = String(speed).replace(".", ",");
+  $("speed").textContent = speedLabel + "×";
   $("speed").setAttribute(
     "aria-label",
-    `Vaihda nopeutta, nykyinen nopeus ${speed}-kertainen`,
+    `Vaihda nopeutta, nykyinen nopeus ${speedLabel}-kertainen`,
   );
 });
 $("plant").addEventListener("click", () => {

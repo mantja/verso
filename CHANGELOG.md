@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.43.0 · 2026-11-19 · Viivy vähän pidempään
+
+The existing speed button now cycles through 1×, 3× and 0.5×. Half speed gives visitors eight minutes per day to follow the island's passing sights. The Finnish label uses a decimal comma and the page explains that four minutes is the normal-speed day.
+
+Verification: npm ci, all 49 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels exercised the entire speed cycle with keyboard and touch, checked the accessible half-speed label, and measured the running clock at half speed between pause actions.
+
 ## 0.42.0 · 2026-11-18 · Liike rauhoittuu heti
 
 Changing the system reduced-motion preference during a visit now updates the existing motion treatment immediately. Previously it was read only at startup. Visitors can switch either way without reloading their island.

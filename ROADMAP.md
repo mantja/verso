@@ -174,6 +174,10 @@ The full evening recollection appears above the event list when the island has a
 
 The existing reduced-motion rendering responds to system preference changes while the page is open.
 
+## A slower visit — v0.43.0
+
+The existing speed control cycles through 1×, 3× and 0.5×. Half speed gives visitors eight minutes per island day.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
