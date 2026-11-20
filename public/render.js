@@ -15,6 +15,7 @@ import {
   activeEncounter,
   weather,
   eveningMoon,
+  eveningStars,
   clearingRainbow,
   sailPassage,
   morningCranes,
@@ -910,6 +911,23 @@ function drawCranes(c, passage, reducedMotion) {
   }
   c.restore();
 }
+function drawStars(c, stars) {
+  if (!stars) return;
+  c.save();
+  c.globalAlpha = stars.strength;
+  for (const [x, y, radius] of [[300, 100, 3], [345, 65, 4], [395, 43, 3],
+    [450, 35, 5], [505, 43, 3], [555, 65, 4], [600, 100, 3]]) {
+    const halo = c.createRadialGradient(x, y, 0, x, y, radius * 4);
+    halo.addColorStop(0, "#fff5dba0");
+    halo.addColorStop(1, "#fff5db00");
+    oval(c, x, y, radius * 4, radius * 4, halo);
+    polygon(c, [[x, y - radius * 2], [x + radius * 0.5, y - radius * 0.5],
+      [x + radius * 2, y], [x + radius * 0.5, y + radius * 0.5],
+      [x, y + radius * 2], [x - radius * 0.5, y + radius * 0.5],
+      [x - radius * 2, y], [x - radius * 0.5, y - radius * 0.5]], "#fff6dc");
+  }
+  c.restore();
+}
 function drawMoon(c, moon) {
   if (!moon) return;
   c.save();
@@ -1086,6 +1104,7 @@ export function createRenderer(canvas) {
     }
     ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
     ctx.drawImage(backdrop, 0, 0);
+    drawStars(ctx, eveningStars(world.elapsed));
     drawMoon(ctx, eveningMoon(world.elapsed));
     drawRainbow(ctx, world.elapsed);
     drawCranes(ctx, morningCranes(world.elapsed), reducedMotion);

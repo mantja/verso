@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.44.0 · 2026-11-20 · Seitsemän tähden ilta
+
+Seven still stars form an arc above the island on clear and clearing evenings. They fade in between 20:00 and 21:00 and out between 23:00 and midnight. The evening gains a visible detail beside the moonlit sea and home windows. The weather note and canvas description name the stars; the existing personal clock determines them without new save fields.
+
+Verification: npm ci, all 50 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels exercised the weather note by keyboard and touch, paused rendering, reload with a planted tree, weather/daylight exclusions and disappearance at midnight. Mobile also used reduced motion. Both layouts were visually inspected.
+
 ## 0.43.0 · 2026-11-19 · Viivy vähän pidempään
 
 The existing speed button now cycles through 1×, 3× and 0.5×. Half speed gives visitors eight minutes per day to follow the island's passing sights. The Finnish label uses a decimal comma and the page explains that four minutes is the normal-speed day.

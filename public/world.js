@@ -402,6 +402,15 @@ export function eveningMoon(elapsed) {
     label: "Kuu piirtää vaalean valosillan saaren viereen merelle.",
   };
 }
+export function eveningStars(elapsed) {
+  const sky = weather(elapsed).key;
+  const hour = clock(elapsed).hour;
+  if ((sky !== "clear" && sky !== "clearing") || hour <= 20) return null;
+  return {
+    strength: Math.min(1, hour - 20, 24 - hour),
+    label: "Seitsemän tähteä kaartuu saaren ylle.",
+  };
+}
 // One crossing on fair-weather days. Position comes from the island clock.
 export function sailPassage(elapsed) {
   const sky = weather(elapsed).key;

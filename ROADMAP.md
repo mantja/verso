@@ -178,6 +178,10 @@ The existing reduced-motion rendering responds to system preference changes whil
 
 The existing speed control cycles through 1×, 3× and 0.5×. Half speed gives visitors eight minutes per island day.
 
+## Seven stars above the island — v0.44.0
+
+A still arc of seven stars appears on clear and clearing evenings, fading in after 20:00 and out before midnight. It follows the personal clock and is named in the weather note.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

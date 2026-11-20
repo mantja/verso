@@ -14,6 +14,8 @@ When two current movement trails overlap on the same path, a small woven mark br
 
 A red-sailed wooden boat crosses the water offshore on clear and clearing days between 06:00 and 18:00 island time.
 
+On clear and clearing evenings, seven still stars form an arc above the island after 20:00, fading before midnight.
+
 On clear and clearing evenings, moonlight forms a pale path across the water from 18:00 until midnight island time.
 
 The interface is in Finnish and adapts to mobile screens. All artwork is drawn in code; no external fonts, image services, runtime AI calls or API keys are needed.

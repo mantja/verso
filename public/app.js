@@ -8,6 +8,7 @@ import {
   phase,
   weather,
   eveningMoon,
+  eveningStars,
   clearingRainbow,
   sailPassage,
   morningCranes,
@@ -103,6 +104,7 @@ function updateUI() {
     cranes = morningCranes(world.elapsed),
     boat = sailPassage(world.elapsed),
     moon = eveningMoon(world.elapsed),
+    stars = eveningStars(world.elapsed),
     rainbow = clearingRainbow(world.elapsed),
     currentTide = tide(world.elapsed),
     trace = shoreTrace(world.elapsed),
@@ -133,7 +135,7 @@ function updateUI() {
     attentionMood = attention ? attentionWeather(world.elapsed) : "";
   $("weather").textContent = currentWeather.label;
   const observations = [
-    currentWeather.description, currentTide.label, litWindows, cranes?.label, boat?.label, moon?.label, rainbow?.label,
+    currentWeather.description, currentTide.label, litWindows, cranes?.label, boat?.label, moon?.label, stars?.label, rainbow?.label,
     trace && `Rannalla näkyy ${trace.label}.`, lowTideDetail?.label,
     butterflies && "Puutarhassa lepattaa perhosia.",
     sparks && "Nuotion yllä kohoaa pieniä kipinöitä.",
@@ -144,7 +146,7 @@ function updateUI() {
     $("weather-note").textContent = observations;
   canvas.setAttribute(
     "aria-label",
-    `${canvasLabel}${cranes ? ` ${cranes.label}` : ""}${litWindows ? ` ${litWindows}` : ""}${markedSapling(world) ? " Uusimman taimen paikan näyttää kyltti, jossa lukee Oma taimi." : ""}${moon ? ` ${moon.label}` : ""}${boat ? ` ${boat.label}` : ""}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label} ${moss.label}${homePresence.length ? ` ${homePresence.map(({ homeLabel }) => homeLabel).join(" ")} ${homeMood}` : ""}${movementTrails.length ? ` ${movementTrails.map(({ label }) => label).join(" ")}` : ""}${trailMeeting ? ` ${trailMeeting.label}` : ""}${softenedTrail ? ` ${softenedTrail.label}` : ""}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
+    `${canvasLabel}${stars ? ` ${stars.label}` : ""}${cranes ? ` ${cranes.label}` : ""}${litWindows ? ` ${litWindows}` : ""}${markedSapling(world) ? " Uusimman taimen paikan näyttää kyltti, jossa lukee Oma taimi." : ""}${moon ? ` ${moon.label}` : ""}${boat ? ` ${boat.label}` : ""}${rainbow ? ` ${rainbow.label}` : ""} ${currentTide.label} ${moss.label}${homePresence.length ? ` ${homePresence.map(({ homeLabel }) => homeLabel).join(" ")} ${homeMood}` : ""}${movementTrails.length ? ` ${movementTrails.map(({ label }) => label).join(" ")}` : ""}${trailMeeting ? ` ${trailMeeting.label}` : ""}${softenedTrail ? ` ${softenedTrail.label}` : ""}${trace ? ` Rannalla näkyy ${trace.label}.` : ""}${lowTideDetail ? ` ${lowTideDetail.label}` : ""}${butterflies ? " Puutarhassa lepattaa perhosia." : ""}${sparks ? " Nuotion yllä kohoaa pieniä kipinöitä." : ""}${lights ? " Metsän hämärässä leijuu pieniä valoja." : ""}${keepsake ? ` Puutarhan kivellä on ${keepsake.label.toLowerCase()}.` : ""}${reflection ? ` Nuotiolla kaikuu päivän havainto. ${reflection.text}` : ""}${sharedDetail ? ` Nuotion laidalle on jäänyt kahden asukkaan yhteinen iltajälki. ${sharedDetail.label} ${sharedWeather}` : ""}${sharedTransition ? ` ${sharedTransition}` : ""}${sharedPerspective ? ` ${sharedPerspective}` : ""}${attention ? ` Valitun asukkaan katseen jälki näkyy kartalla. ${attention.label} ${attentionMood}` : ""}`,
   );
   $("reflection").hidden = !reflection;
   const story = reflection?.text || "";

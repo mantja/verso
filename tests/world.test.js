@@ -32,6 +32,7 @@ import {
   phase,
   weather,
   eveningMoon,
+  eveningStars,
   clearingRainbow,
   sailPassage,
   morningCranes,
@@ -1152,4 +1153,20 @@ test("evening moon fades at both boundaries and returns with a personal save", (
   const world = newWorld();
   world.elapsed = at(4, 21);
   assert.deepEqual(eveningMoon(restore(serialize(world)).elapsed), eveningMoon(world.elapsed));
+});
+
+test("evening stars fade at both boundaries and survive a personal save", () => {
+  const at = (day, hour) => (day - 1) * DAY + (hour - 8) * DAY / 24;
+  for (const day of [2, 3]) assert.equal(eveningStars(at(day, 22)), null);
+  for (const day of [1, 4, 5, 8]) {
+    assert.equal(eveningStars(at(day, 20)), null);
+    assert.equal(eveningStars(at(day, 20.5)).strength, 0.5);
+    assert.equal(eveningStars(at(day, 22)).strength, 1);
+    assert.equal(eveningStars(at(day, 23.5)).strength, 0.5);
+    assert.equal(eveningStars(at(day + 1, 0)), null);
+    assert.equal(eveningStars(at(day + 1, 6)), null);
+  }
+  const world = newWorld();
+  world.elapsed = at(4, 22);
+  assert.deepEqual(eveningStars(restore(serialize(world)).elapsed), eveningStars(world.elapsed));
 });
