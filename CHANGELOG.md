@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.44.1 · 2026-11-21 · Tauko myös laitteelle
+
+Paused islands no longer redraw an unchanged canvas on every animation frame. This removes unnecessary rendering while a visitor leaves a moment on screen. Selection and planting still draw immediately; viewport size, pixel density and reduced-motion changes invalidate the paused view. Resuming continues the normal animation loop. Personal saves are unchanged.
+
+Verification: npm ci, all 50 tests, build, Wrangler dry-run from public/ and diff check passed. Instrumented Chromium at 1200 and 390 pixels confirmed zero additional canvas drawImage calls during an unchanged pause, and new draws for selection, planting, motion preference, resize and resume. Reload retained the pause and planted tree. Both layouts were visually inspected, with no page errors.
+
 ## 0.44.0 · 2026-11-20 · Seitsemän tähden ilta
 
 Seven still stars form an arc above the island on clear and clearing evenings. They fade in between 20:00 and 21:00 and out between 23:00 and midnight. The evening gains a visible detail beside the moonlit sea and home windows. The weather note and canvas description name the stars; the existing personal clock determines them without new save fields.

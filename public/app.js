@@ -55,11 +55,15 @@ let speed = 1,
   last = 0,
   lastUI = -1,
   lastSave = 0,
-  renderedEvents = "";
+  renderedEvents = "",
+  needsDraw = true,
+  renderedWidth = 0,
+  renderedDpr = 0;
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 let reducedMotion = motionPreference.matches;
 motionPreference.addEventListener("change", (event) => {
   reducedMotion = event.matches;
+  needsDraw = true;
 });
 const canvas = $("island"),
   canvasLabel = canvas.getAttribute("aria-label"),
@@ -260,7 +264,14 @@ function frame(now) {
   last = now;
   if (!document.hidden) {
     if (!world.paused) step(world, dt * speed);
-    draw(world, selected, reducedMotion);
+    // A paused island needs a new picture only when its view changes.
+    const width = canvas.clientWidth, dpr = window.devicePixelRatio || 1;
+    if (!world.paused || needsDraw || width !== renderedWidth || dpr !== renderedDpr) {
+      draw(world, selected, reducedMotion);
+      needsDraw = false;
+      renderedWidth = width;
+      renderedDpr = dpr;
+    }
     if (now - lastUI > 500) {
       updateUI();
       lastUI = now;
