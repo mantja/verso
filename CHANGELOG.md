@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.45.0 · 2026-11-22 · Löydä tuttu saarelta
+
+Selecting a resident now draws their name above the foreground trees, following their current position. The label scales up on narrow canvases so the selected person is easier to locate on a phone. Deselecting removes it. Existing resident buttons provide keyboard and touch selection; no save fields or simulation behavior change.
+
+Verification: npm ci, all 50 tests, build, Wrangler dry-run from public/ and diff check passed. Instrumented Chromium at 1200 and 390 pixels checked all three drawn names, switching and clearing selection, movement, paused rendering and reload with a planted tree. Mobile used reduced motion. Both layouts were visually inspected, with no page errors or horizontal overflow.
+
 ## 0.44.1 · 2026-11-21 · Tauko myös laitteelle
 
 Paused islands no longer redraw an unchanged canvas on every animation frame. This removes unnecessary rendering while a visitor leaves a moment on screen. Selection and planting still draw immediately; viewport size, pixel density and reduced-motion changes invalidate the paused view. Resuming continues the normal animation loop. Personal saves are unchanged.

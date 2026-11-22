@@ -1338,6 +1338,26 @@ export function createRenderer(canvas) {
       ctx.fillText("Oma taimi", x + 24, y - 58);
       ctx.restore();
     }
+    // Keep the selected resident identifiable even behind the trees.
+    if (selected !== null && world.people[selected]) {
+      const person = world.people[selected];
+      const [x, ground] = project(person.x, person.y);
+      const y = ground - height(person.x, person.y) - 68;
+      const scale = Math.max(1, W / canvas.clientWidth * 0.6);
+      ctx.save();
+      ctx.font = `bold ${20 * scale}px Arial, sans-serif`;
+      const labelWidth = ctx.measureText(PEOPLE[selected].name).width + 24 * scale;
+      ctx.fillStyle = "#294c3e";
+      ctx.beginPath();
+      ctx.roundRect(x - labelWidth / 2, y - 32 * scale, labelWidth, 32 * scale, 7 * scale);
+      ctx.fill();
+      polygon(ctx, [[x - 6, y - 1], [x + 6, y - 1], [x, y + 8]], "#294c3e");
+      ctx.fillStyle = "#fff5dc";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(PEOPLE[selected].name, x, y - 16 * scale);
+      ctx.restore();
+    }
     // A quiet compass, drawn as part of the map.
     ctx.save();
     ctx.translate(1000, 110);

@@ -186,6 +186,10 @@ A still arc of seven stars appears on clear and clearing evenings, fading in aft
 
 Paused islands skip unchanged canvas frames. Selection, planting, size, pixel density and reduced-motion changes still redraw; resuming restarts normal rendering. Save data is unchanged.
 
+## Finding a familiar face — v0.45.0
+
+The selected resident carries a name label above the foreground trees. Its text scales for narrow canvases, and it follows the existing selection without new state.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
