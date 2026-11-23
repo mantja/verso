@@ -190,6 +190,10 @@ Paused islands skip unchanged canvas frames. Selection, planting, size, pixel de
 
 The selected resident carries a name label above the foreground trees. Its text scales for narrow canvases, and it follows the existing selection without new state.
 
+## Returning at your own pace — v0.46.0
+
+The personal save retains the selected 0.5×, 1× or 3× speed. Older saves and invalid preference values use 1× without losing island history.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

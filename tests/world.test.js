@@ -1170,3 +1170,31 @@ test("evening stars fade at both boundaries and survive a personal save", () => 
   world.elapsed = at(4, 22);
   assert.deepEqual(eveningStars(restore(serialize(world)).elapsed), eveningStars(world.elapsed));
 });
+
+test("personal speed survives saving while old or invalid preferences use normal speed", () => {
+  const world = newWorld();
+  plantTree(world);
+  world.elapsed = 77;
+  world.paused = true;
+  for (const speed of [0.5, 1, 3]) {
+    world.speed = speed;
+    const restored = restore(serialize(world));
+    assert.equal(restored.speed, speed);
+    assert.equal(restored.paused, true);
+    assert.equal(restored.elapsed, 77);
+    assert.deepEqual(restored.planted, world.planted);
+  }
+  for (const version of [1, 2, 3]) {
+    const old = JSON.parse(serialize(world));
+    old.version = version;
+    delete old.speed;
+    assert.equal(restore(JSON.stringify(old)).speed, 1);
+    assert.deepEqual(restore(JSON.stringify(old)).planted, world.planted);
+  }
+  for (const speed of [0, -1, 2, 100, "0.5", null, true]) {
+    const invalid = JSON.parse(serialize(world));
+    invalid.speed = speed;
+    assert.equal(restore(JSON.stringify(invalid)).speed, 1);
+    assert.equal(restore(JSON.stringify(invalid)).elapsed, 77);
+  }
+});

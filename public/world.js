@@ -716,6 +716,7 @@ export function newWorld() {
     version: 3,
     elapsed: 0,
     paused: false,
+    speed: 1,
     lastEncounter: null,
     memories: PEOPLE.map(() => null),
     planted: [],
@@ -963,6 +964,7 @@ export function serialize(world) {
     version: 3,
     elapsed: world.elapsed,
     paused: world.paused,
+    speed: world.speed,
     lastEncounter: world.lastEncounter,
     memories: world.memories,
     planted: world.planted,
@@ -984,6 +986,7 @@ export function restore(raw) {
       return fresh;
     fresh.elapsed = w.elapsed;
     fresh.paused = w.paused === true;
+    fresh.speed = [0.5, 1, 3].includes(w.speed) ? w.speed : 1;
     // v1 islands keep their time, trees, residents and events under the same key.
     const validEncounter = (meeting) =>
       meeting && Number.isFinite(meeting.at) &&

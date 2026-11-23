@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.46.0 · 2026-11-23 · Oma tahti säilyy
+
+The chosen 0.5×, 1× or 3× speed now persists with the personal island and is restored in both the control label and simulation clock. Speed changes save immediately. An optional field in the existing v3 format defaults to 1× for older saves or invalid values, preserving island history. This lets visitors return to their preferred pace.
+
+Verification: npm ci, all 51 tests, build, Wrangler dry-run from public/ and diff check passed. The new save test covers every supported speed, older versions and invalid values. Chromium at 1200 and 390 pixels exercised keyboard/touch speed changes and reloads, accessible labels, preserved pause and planted tree, measured half-speed clock progression after reload, and checked that a denied storage write leaves the control usable with a warning. Both layouts were inspected and no page errors occurred.
+
 ## 0.45.0 · 2026-11-22 · Löydä tuttu saarelta
 
 Selecting a resident now draws their name above the foreground trees, following their current position. The label scales up on narrow canvases so the selected person is easier to locate on a phone. Deselecting removes it. Existing resident buttons provide keyboard and touch selection; no save fields or simulation behavior change.

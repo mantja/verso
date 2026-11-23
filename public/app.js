@@ -50,8 +50,7 @@ try {
   world = newWorld();
   canSave = false;
 }
-let speed = 1,
-  selected = null,
+let selected = null,
   last = 0,
   lastUI = -1,
   lastSave = 0,
@@ -220,15 +219,19 @@ $("pause").addEventListener("click", () => {
   showPlaybackState();
   save();
 });
-$("speed").addEventListener("click", () => {
-  const speeds = [1, 3, 0.5];
-  speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length];
-  const speedLabel = String(speed).replace(".", ",");
+function showSpeed() {
+  const speedLabel = String(world.speed).replace(".", ",");
   $("speed").textContent = speedLabel + "×";
   $("speed").setAttribute(
     "aria-label",
     `Vaihda nopeutta, nykyinen nopeus ${speedLabel}-kertainen`,
   );
+}
+$("speed").addEventListener("click", () => {
+  const speeds = [1, 3, 0.5];
+  world.speed = speeds[(speeds.indexOf(world.speed) + 1) % speeds.length];
+  showSpeed();
+  save();
 });
 $("plant").addEventListener("click", () => {
   const result = plantTree(world);
@@ -263,7 +266,7 @@ function frame(now) {
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
   if (!document.hidden) {
-    if (!world.paused) step(world, dt * speed);
+    if (!world.paused) step(world, dt * world.speed);
     // A paused island needs a new picture only when its view changes.
     const width = canvas.clientWidth, dpr = window.devicePixelRatio || 1;
     if (!world.paused || needsDraw || width !== renderedWidth || dpr !== renderedDpr) {
@@ -287,5 +290,6 @@ if (!canSave)
   $("save-status").textContent =
     "Tallennus ei ole käytettävissä. Maailma säilyy vain tämän käynnin ajan.";
 showPlaybackState();
+showSpeed();
 updateUI();
 requestAnimationFrame(frame);
