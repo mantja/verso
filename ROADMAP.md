@@ -194,6 +194,10 @@ The selected resident carries a name label above the foreground trees. Its text 
 
 The personal save retains the selected 0.5×, 1× or 3× speed. Older saves and invalid preference values use 1× without losing island history.
 
+## Describing the saved moment — v0.46.1
+
+Restored residents immediately describe their current routine or active conversation, including while paused. Restoration adds no time or events and keeps the existing save format.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

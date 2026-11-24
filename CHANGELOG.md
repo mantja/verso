@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.46.1 · 2026-11-24 · Paluu samaan hetkeen
+
+Restoring a paused island now derives resident action labels from the saved time, position, memories, trees and active conversation. Previously every card said “Aloittaa päivän” until time resumed, even at night or during a conversation. Restoration does not advance time, create events or change the save format.
+
+Verification: npm ci, all 52 tests, build, Wrangler dry-run from public/ and diff check passed. The regression test covers several saved routines and an active conversation while preserving events, time and memories. Chromium at 1200 and 390 pixels checked paused night and conversation restoration, unchanged event history/time, remembered speed, resident details and resuming by keyboard/touch. Both layouts were visually inspected with no page errors.
+
 ## 0.46.0 · 2026-11-23 · Oma tahti säilyy
 
 The chosen 0.5×, 1× or 3× speed now persists with the personal island and is restored in both the control label and simulation clock. Speed changes save immediately. An optional field in the existing v3 format defaults to 1× for older saves or invalid values, preserving island history. This lets visitors return to their preferred pace.

@@ -1198,3 +1198,25 @@ test("personal speed survives saving while old or invalid preferences use normal
     assert.equal(restore(JSON.stringify(invalid)).elapsed, 77);
   }
 });
+
+
+test("restored paused residents describe the saved moment without new events", () => {
+  for (const elapsed of [20, 80, 120, 145, 500]) {
+    const world = newWorld();
+    for (let t = 0; t < elapsed; t++) step(world, 1);
+    world.paused = true;
+    const restored = restore(serialize(world));
+    assert.deepEqual(restored.people.map(p => p.action), world.people.map(p => p.action));
+    assert.deepEqual(restored.events, world.events);
+    assert.deepEqual(restored.memories, world.memories);
+    assert.equal(restored.elapsed, world.elapsed);
+    assert.equal(restored.paused, true);
+  }
+  const world = newWorld();
+  while (!world.lastEncounter) step(world, 0.1);
+  world.paused = true;
+  const restored = restore(serialize(world));
+  assert.deepEqual(restored.people.map(p => p.action), world.people.map(p => p.action));
+  assert.deepEqual(restored.events, world.events);
+  assert.deepEqual(restored.lastEncounter, world.lastEncounter);
+});
