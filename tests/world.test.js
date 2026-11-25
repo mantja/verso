@@ -1220,3 +1220,28 @@ test("restored paused residents describe the saved moment without new events", (
   assert.deepEqual(restored.events, world.events);
   assert.deepEqual(restored.lastEncounter, world.lastEncounter);
 });
+
+test("paused walkers keep exact positions across repeated visits and resume on land", () => {
+  const world = newWorld();
+  step(world, 0.4);
+  world.paused = true;
+  const positions = world.people.map(({x, y}) => ({x, y}));
+  assert.ok(positions.some(p => !Number.isInteger(p.x) || !Number.isInteger(p.y)));
+  let restored = world;
+  for (let visit = 0; visit < 5; visit++) {
+    restored = restore(serialize(restored));
+    assert.deepEqual(restored.people.map(({x, y}) => ({x, y})), positions);
+    assert.deepEqual(restored.events, world.events);
+    assert.equal(restored.elapsed, world.elapsed);
+    assert.ok(restored.people.every(p => p.action === "Kulkee polulla"));
+  }
+  restored.paused = false;
+  step(restored, 0.1);
+  restored.people.forEach((p, id) => {
+    assert.ok(Math.hypot(p.x - positions[id].x, p.y - positions[id].y) <= 0.081);
+  });
+  for (let t = 0; t < 300; t++) {
+    step(restored, 0.1);
+    assert.ok(restored.people.every(p => terrain(Math.round(p.x), Math.round(p.y))));
+  }
+});

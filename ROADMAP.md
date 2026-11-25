@@ -198,6 +198,10 @@ The personal save retains the selected 0.5×, 1× or 3× speed. Older saves and 
 
 Restored residents immediately describe their current routine or active conversation, including while paused. Restoration adds no time or events and keeps the existing save format.
 
+## Keeping the paused step — v0.46.2
+
+Restoration retains valid fractional resident positions instead of rounding them to tiles. Existing land validation remains, and the normal route planner handles resuming. Saves keep their current format.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.46.2 · 2026-11-25 · Askel jää paikalleen
+
+Saved resident positions retain their fractional coordinates when restored. Previously opening a paused island snapped walkers to the nearest tile, visibly changing the saved moment. Land validation and the existing save format remain unchanged; restored action labels also handle positions between tiles.
+
+Verification: npm ci, all 53 tests, build, Wrangler dry-run from public/ and diff check passed. The regression test checks five exact position roundtrips, unchanged time/events, bounded movement on resume and continued walking on land. Chromium at 1200 and 390 pixels checked three reloads with identical saved positions, time and events, remembered pause/speed, keyboard/touch resuming, both layouts and no page errors or horizontal overflow.
+
 ## 0.46.1 · 2026-11-24 · Paluu samaan hetkeen
 
 Restoring a paused island now derives resident action labels from the saved time, position, memories, trees and active conversation. Previously every card said “Aloittaa päivän” until time resumed, even at night or during a conversation. Restoration does not advance time, create events or change the save format.

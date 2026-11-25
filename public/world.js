@@ -1050,14 +1050,15 @@ export function restore(raw) {
           Number.isFinite(p.y) &&
           terrain(Math.round(p.x), Math.round(p.y))
         ) {
-          fresh.people[i].x = Math.round(p.x);
-          fresh.people[i].y = Math.round(p.y);
+          fresh.people[i].x = p.x;
+          fresh.people[i].y = p.y;
         }
       });
     // Restore descriptions without advancing time or recording new events.
     fresh.people.forEach((p, id) => {
       const plan = routine(id, fresh.elapsed, fresh.memories[id], fresh.planted);
-      p.action = pathTo([p.x, p.y], plan.target).length ? "Kulkee polulla" : plan.action;
+      p.action = Math.hypot(p.x - plan.target[0], p.y - plan.target[1]) > 0.001
+        ? "Kulkee polulla" : plan.action;
       const meeting = activeEncounter(fresh, id);
       if (meeting) {
         const other = EVENING_PAIRS[meeting.pair].find((member) => member !== id);
