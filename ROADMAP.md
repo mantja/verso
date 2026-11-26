@@ -202,6 +202,10 @@ Restored residents immediately describe their current routine or active conversa
 
 Restoration retains valid fractional resident positions instead of rounding them to tiles. Existing land validation remains, and the normal route planner handles resuming. Saves keep their current format.
 
+## Room for recent steps — v0.47.0
+
+The site diary shows its three newest entries and keeps the complete earlier history in a native disclosure. When adding a release, move the previous third entry into the archive. Opening and closing works without JavaScript, including by keyboard and touch. Personal island data is untouched.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.

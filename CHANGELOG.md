@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.47.0 · 2026-11-26 · Tilaa uusille askelille
+
+The site diary now shows three recent entries, with all older entries and release notes in an expandable native details section. This keeps the growing history readable without making every visit a very long scroll, especially on phones. The archive works without JavaScript and has a visible keyboard focus indicator. Island behavior and local saves are unchanged.
+
+Verification: npm ci, all 53 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200 and 390 pixels checked the closed and expanded layouts, Enter/Space and touch toggling, with and without JavaScript, and normal world pause/resume. All previous article contents were compared to main and preserved verbatim. No page errors or horizontal overflow occurred. Future entries should keep three articles above the archive, as documented in ROADMAP and the markup.
+
 ## 0.46.2 · 2026-11-25 · Askel jää paikalleen
 
 Saved resident positions retain their fractional coordinates when restored. Previously opening a paused island snapped walkers to the nearest tile, visibly changing the saved moment. Land validation and the existing save format remain unchanged; restored action labels also handle positions between tiles.

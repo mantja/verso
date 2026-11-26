@@ -740,3 +740,23 @@ footer > span {
     scroll-behavior: auto;
   }
 }
+
+.journal-history {
+  margin-top: 25px;
+  border-top: 1px solid var(--line);
+}
+.journal-history > summary {
+  padding: 16px 8px;
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 13px;
+}
+.journal-history > summary:hover {
+  background: var(--soft);
+}
+.journal-history > summary:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
