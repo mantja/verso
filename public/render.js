@@ -45,6 +45,24 @@ export function project(x, y) {
 function height(x, y) {
   return terrain(Math.round(x), Math.round(y)) === 2 ? 13 : 5;
 }
+// Compare in CSS pixels so a small canvas still offers a usable touch target.
+export function pickResident(people, x, y, width, heightPx) {
+  if (!(width > 0 && heightPx > 0)) return null;
+  let best = null;
+  let distance = Math.max(22, 34 * width / W);
+  people.forEach((p, id) => {
+    const [px, py] = project(p.x, p.y);
+    const d = Math.hypot(
+      x - px * width / W,
+      y - (py - height(p.x, p.y) - 28) * heightPx / H,
+    );
+    if (d < distance) {
+      best = id;
+      distance = d;
+    }
+  });
+  return best;
+}
 function polygon(c, points, color) {
   c.fillStyle = color;
   c.beginPath();

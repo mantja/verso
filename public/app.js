@@ -40,7 +40,7 @@ import {
   encounterText,
   memoryText,
 } from "./world.js";
-import { createRenderer, portrait, project } from "./render.js";
+import { createRenderer, portrait, pickResident } from "./render.js";
 const $ = (id) => document.getElementById(id);
 let world,
   canSave = true;
@@ -241,19 +241,8 @@ $("plant").addEventListener("click", () => {
   save();
 });
 canvas.addEventListener("click", (e) => {
-  const r = canvas.getBoundingClientRect(),
-    x = ((e.clientX - r.left) / r.width) * 1100,
-    y = ((e.clientY - r.top) / r.height) * 760;
-  let best = null,
-    distance = 34;
-  world.people.forEach((p, id) => {
-    const [px, py] = project(p.x, p.y),
-      d = Math.hypot(x - px, y - (py - 28));
-    if (d < distance) {
-      best = id;
-      distance = d;
-    }
-  });
+  const r = canvas.getBoundingClientRect();
+  const best = pickResident(world.people, e.clientX - r.left, e.clientY - r.top, r.width, r.height);
   if (best !== null) select(best);
 });
 document.addEventListener("visibilitychange", () => {

@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.47.1 · 2026-11-27 · Asukas löytyy kosketuksella
+
+Selecting residents directly on the canvas now uses a minimum 22 CSS-pixel radius, so the target no longer shrinks to roughly 11 pixels on a phone. Hit centers account for terrain elevation and overlapping targets choose the nearest resident. Existing cards remain the keyboard alternative. Personal saves and simulation are unchanged.
+
+Verification: npm ci, all 55 tests, build, Wrangler dry-run from public/ and diff check passed. New unit tests cover four canvas widths, offsets from the visible center, overlapping targets, empty areas and zero-sized canvases. Chromium at 1200 and 390 pixels checked all three residents with offset mouse/touch input, empty-water clicks, keyboard selection/deselection and unchanged paused saves after reload. Both layouts were visually inspected, with no page errors or horizontal overflow.
+
 ## 0.47.0 · 2026-11-26 · Tilaa uusille askelille
 
 The site diary now shows three recent entries, with all older entries and release notes in an expandable native details section. This keeps the growing history readable without making every visit a very long scroll, especially on phones. The archive works without JavaScript and has a visible keyboard focus indicator. Island behavior and local saves are unchanged.

@@ -206,6 +206,10 @@ Restoration retains valid fractional resident positions instead of rounding them
 
 The site diary shows its three newest entries and keeps the complete earlier history in a native disclosure. When adding a release, move the previous third entry into the archive. Opening and closing works without JavaScript, including by keyboard and touch. Personal island data is untouched.
 
+## Selecting on a small island — v0.47.1
+
+Canvas resident selection uses CSS-pixel distances with a minimum 22-pixel radius and accounts for terrain elevation. Overlapping targets select the closest resident; the existing resident cards remain the keyboard alternative. No save or simulation changes.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
