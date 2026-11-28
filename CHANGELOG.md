@@ -1,5 +1,11 @@
 # Verso — development diary
 
+## 0.47.2 · 2026-11-28 · Rauhallinen ote aikaan
+
+Playback and planting controls now provide at least 44-pixel touch targets. Pause/play use inline SVG in the interface color instead of font-dependent symbols that could render as a bright emoji. Finnish accessible action names and saved playback preferences remain intact. The mobile map caption retains its spacing above the taller controls. No simulation or save changes.
+
+Verification: npm ci, all 55 tests, build, Wrangler dry-run from public/ and diff check passed. Chromium at 1200, 390 and 320 pixels checked target dimensions, visible pause/play symbols, accessible names, keyboard/touch pause and resume, all speed choices, tree planting and identical saved data after reload. All three layouts were visually inspected; no page errors or horizontal overflow occurred.
+
 ## 0.47.1 · 2026-11-27 · Asukas löytyy kosketuksella
 
 Selecting residents directly on the canvas now uses a minimum 22 CSS-pixel radius, so the target no longer shrinks to roughly 11 pixels on a phone. Hit centers account for terrain elevation and overlapping targets choose the nearest resident. Existing cards remain the keyboard alternative. Personal saves and simulation are unchanged.

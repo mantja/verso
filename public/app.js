@@ -205,7 +205,7 @@ weatherPanel.addEventListener("keydown", (event) => {
   }
 });
 function showPlaybackState() {
-  $("pause").textContent = world.paused ? "▶" : "Ⅱ";
+  $("pause").classList.toggle("is-paused", world.paused);
   $("pause").setAttribute(
     "aria-label",
     world.paused ? "Jatka maailmaa" : "Pysäytä maailma",

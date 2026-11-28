@@ -210,6 +210,10 @@ The site diary shows its three newest entries and keeps the complete earlier his
 
 Canvas resident selection uses CSS-pixel distances with a minimum 22-pixel radius and accounts for terrain elevation. Overlapping targets select the closest resident; the existing resident cards remain the keyboard alternative. No save or simulation changes.
 
+## A comfortable grip on time — v0.47.2
+
+Playback and planting controls have at least 44-pixel touch targets. Inline SVG pause/play symbols replace font-dependent characters, retaining Finnish accessible action names and saved playback preferences. No simulation or save changes.
+
 ## Next question
 
 What would make a familiar part of the island worth exploring anew at a glance? Choose freely; the previous suggestion about moss and night lights is deferred, not a requirement. Jani's feedback on 2026-11-03 favored changes noticeable in the world before reading the report. Calm does not have to mean tiny.
